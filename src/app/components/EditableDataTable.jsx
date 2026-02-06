@@ -141,15 +141,15 @@ export default function EditableDataTable({ columns, data, itemsPerPage = 10 }) 
       {/* Table Container with Horizontal Scroll */}
       <div className="overflow-x-auto">
         <table className="w-full">
-          <thead className="bg-gray-50/80 border-b border-gray-200/80">
+          <thead className="bg-gray-100 border-b border-gray-200">
             <tr>
               {columns.map((column) => (
                 <th
                   key={column.key}
                   onClick={() => handleSort(column.key, column.sortable)}
                   className={`
-                    px-6 py-4 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider
-                    ${column.sortable ? 'cursor-pointer hover:bg-gray-100/80 select-none' : ''}
+                    px-6 py-4 text-left text-sm font-bold text-gray-700 uppercase tracking-wider
+                    ${column.sortable ? 'cursor-pointer hover:bg-gray-200 select-none' : ''}
                     transition-colors duration-150
                   `}
                 >
@@ -161,11 +161,11 @@ export default function EditableDataTable({ columns, data, itemsPerPage = 10 }) 
               ))}
             </tr>
           </thead>
-          <tbody className="bg-white divide-y divide-gray-100">
+          <tbody className="bg-white divide-y divide-gray-200">
             {currentData.map((row, rowIndex) => (
               <tr
                 key={rowIndex}
-                className="hover:bg-gray-50/50 transition-colors duration-150"
+                className="odd:bg-white even:bg-gray-50 hover:bg-gray-100 transition-colors duration-150"
               >
                 {columns.map((column) => (
                   <td
@@ -174,8 +174,8 @@ export default function EditableDataTable({ columns, data, itemsPerPage = 10 }) 
                     onBlur={(e) => handleCellEdit(e, startIndex + rowIndex, column.key)}
                     onKeyDown={handleKeyDown}
                     suppressContentEditableWarning={true}
-                    className={`px-6 py-4 whitespace-nowrap text-sm text-gray-900 ${
-                      column.editable ? '' : ''
+                    className={`px-6 py-4 whitespace-nowrap text-sm text-gray-800 ${
+                      column.editable ? 'outline-none focus:ring-2 focus:ring-red-500' : ''
                     }`}
                   >
                     {row[column.key]}
