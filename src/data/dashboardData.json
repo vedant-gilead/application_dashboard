@@ -1,0 +1,39 @@
+{
+  "columns": [
+    { "key": "category", "label": "Category", "sortable": true },
+    { "key": "total", "label": "Total", "sortable": true },
+    { "key": "completed", "label": "Completed", "sortable": true },
+    { "key": "pending", "label": "Pending", "sortable": true },
+    { "key": "progress", "label": "Progress", "sortable": true }
+  ],
+  "data": [
+    {
+      "category": "Orders",
+      "total": "1,245",
+      "completed": "1,089",
+      "pending": "156",
+      "progress": "87.5%"
+    },
+    {
+      "category": "Products",
+      "total": "432",
+      "completed": "398",
+      "pending": "34",
+      "progress": "92.1%"
+    },
+    {
+      "category": "Users",
+      "total": "3,892",
+      "completed": "3,745",
+      "pending": "147",
+      "progress": "96.2%"
+    },
+    {
+      "category": "Reports",
+      "total": "87",
+      "completed": "73",
+      "pending": "14",
+      "progress": "83.9%"
+    }
+  ]
+}

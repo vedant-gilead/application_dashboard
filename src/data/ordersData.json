@@ -1,0 +1,76 @@
+{
+  "columns": [
+    { "key": "orderId", "label": "Order ID", "sortable": true },
+    { "key": "customer", "label": "Customer", "sortable": true },
+    { "key": "product", "label": "Product", "sortable": true },
+    { "key": "amount", "label": "Amount", "sortable": true },
+    { "key": "date", "label": "Order Date", "sortable": true },
+    { "key": "status", "label": "Status", "sortable": true }
+  ],
+  "data": [
+    {
+      "orderId": "ORD-1001",
+      "customer": "John Anderson",
+      "product": "Wireless Headphones",
+      "amount": "$129.99",
+      "date": "2026-02-01",
+      "status": "Delivered"
+    },
+    {
+      "orderId": "ORD-1002",
+      "customer": "Sarah Mitchell",
+      "product": "Smart Watch Series 5",
+      "amount": "$299.99",
+      "date": "2026-02-02",
+      "status": "Shipped"
+    },
+    {
+      "orderId": "ORD-1003",
+      "customer": "Michael Chen",
+      "product": "Mechanical Keyboard",
+      "amount": "$89.99",
+      "date": "2026-02-03",
+      "status": "Processing"
+    },
+    {
+      "orderId": "ORD-1004",
+      "customer": "Emily Rodriguez",
+      "product": "Monitor 27 inch 4K",
+      "amount": "$449.99",
+      "date": "2026-02-03",
+      "status": "Delivered"
+    },
+    {
+      "orderId": "ORD-1005",
+      "customer": "David Thompson",
+      "product": "Office Chair Premium",
+      "amount": "$349.99",
+      "date": "2026-02-04",
+      "status": "Shipped"
+    },
+    {
+      "orderId": "ORD-1006",
+      "customer": "Jessica Parker",
+      "product": "USB-C Hub",
+      "amount": "$39.99",
+      "date": "2026-02-04",
+      "status": "Delivered"
+    },
+    {
+      "orderId": "ORD-1007",
+      "customer": "Robert Wilson",
+      "product": "Ergonomic Mouse",
+      "amount": "$34.99",
+      "date": "2026-02-05",
+      "status": "Processing"
+    },
+    {
+      "orderId": "ORD-1008",
+      "customer": "Amanda Lee",
+      "product": "Desk Lamp LED",
+      "amount": "$24.99",
+      "date": "2026-02-05",
+      "status": "Cancelled"
+    }
+  ]
+}

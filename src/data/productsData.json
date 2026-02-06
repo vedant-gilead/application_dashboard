@@ -1,0 +1,92 @@
+{
+  "columns": [
+    { "key": "id", "label": "Product ID", "sortable": true },
+    { "key": "name", "label": "Product Name", "sortable": true },
+    { "key": "category", "label": "Category", "sortable": true },
+    { "key": "price", "label": "Price", "sortable": true },
+    { "key": "stock", "label": "Stock", "sortable": true },
+    { "key": "status", "label": "Status", "sortable": true }
+  ],
+  "data": [
+    {
+      "id": "PRD001",
+      "name": "Wireless Headphones",
+      "category": "Electronics",
+      "price": "$129.99",
+      "stock": 245,
+      "status": "In Stock"
+    },
+    {
+      "id": "PRD002",
+      "name": "Smart Watch Series 5",
+      "category": "Electronics",
+      "price": "$299.99",
+      "stock": 89,
+      "status": "In Stock"
+    },
+    {
+      "id": "PRD003",
+      "name": "Laptop Backpack",
+      "category": "Accessories",
+      "price": "$49.99",
+      "stock": 0,
+      "status": "Out of Stock"
+    },
+    {
+      "id": "PRD004",
+      "name": "USB-C Hub",
+      "category": "Electronics",
+      "price": "$39.99",
+      "stock": 156,
+      "status": "In Stock"
+    },
+    {
+      "id": "PRD005",
+      "name": "Mechanical Keyboard",
+      "category": "Electronics",
+      "price": "$89.99",
+      "stock": 72,
+      "status": "In Stock"
+    },
+    {
+      "id": "PRD006",
+      "name": "Ergonomic Mouse",
+      "category": "Electronics",
+      "price": "$34.99",
+      "stock": 198,
+      "status": "In Stock"
+    },
+    {
+      "id": "PRD007",
+      "name": "Desk Lamp LED",
+      "category": "Furniture",
+      "price": "$24.99",
+      "stock": 12,
+      "status": "Low Stock"
+    },
+    {
+      "id": "PRD008",
+      "name": "Office Chair Premium",
+      "category": "Furniture",
+      "price": "$349.99",
+      "stock": 34,
+      "status": "In Stock"
+    },
+    {
+      "id": "PRD009",
+      "name": "Monitor 27 inch 4K",
+      "category": "Electronics",
+      "price": "$449.99",
+      "stock": 56,
+      "status": "In Stock"
+    },
+    {
+      "id": "PRD010",
+      "name": "Webcam HD Pro",
+      "category": "Electronics",
+      "price": "$79.99",
+      "stock": 0,
+      "status": "Out of Stock"
+    }
+  ]
+}

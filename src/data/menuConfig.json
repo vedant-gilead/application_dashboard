@@ -1,0 +1,44 @@
+[
+  {
+    "id": "program_details",
+    "label": "Program Details",
+    "path": "/",
+    "icon": "LayoutDashboard"
+  },
+  {
+    "id": "demand_forecast",
+    "label": "Demand Forecast",
+    "path": "/demand_forecast",
+    "icon": "Users"
+  },
+  {
+    "id": "program_flow_map",
+    "label": "Program Flow Map",
+    "path": "/program_flow_map",
+    "icon": "Package"
+  },
+  {
+    "id": "capacity",
+    "label": "Capacity",
+    "path": "/capacity",
+    "icon": "ShoppingCart"
+  },
+  {
+    "id": "expiry_summary",
+    "label": "Expiry Summary",
+    "path": "/expiry_summary",
+    "icon": "BarChart"
+  },
+  {
+    "id": "heatmaps",
+    "label": "Heatmaps",
+    "path": "/heatmaps",
+    "icon": "FileText"
+  },
+  {
+    "id": "monthly_demand_supply",
+    "label": "Monthly Demand Supply",
+    "path": "/monthly_demand_supply",
+    "icon": "FileText"
+  }
+]

@@ -1,0 +1,46 @@
+{
+  "columns": [
+    { "key": "metric", "label": "Metric", "sortable": true },
+    { "key": "value", "label": "Value", "sortable": true },
+    { "key": "change", "label": "Change", "sortable": true },
+    { "key": "period", "label": "Period", "sortable": false }
+  ],
+  "data": [
+    {
+      "metric": "Total Revenue",
+      "value": "$127,450",
+      "change": "+12.5%",
+      "period": "Last 30 days"
+    },
+    {
+      "metric": "Total Orders",
+      "value": "1,245",
+      "change": "+8.3%",
+      "period": "Last 30 days"
+    },
+    {
+      "metric": "Active Users",
+      "value": "3,892",
+      "change": "+5.7%",
+      "period": "Last 30 days"
+    },
+    {
+      "metric": "Conversion Rate",
+      "value": "3.2%",
+      "change": "-0.4%",
+      "period": "Last 30 days"
+    },
+    {
+      "metric": "Average Order Value",
+      "value": "$102.37",
+      "change": "+3.9%",
+      "period": "Last 30 days"
+    },
+    {
+      "metric": "Customer Satisfaction",
+      "value": "4.7/5.0",
+      "change": "+0.2",
+      "period": "Last 30 days"
+    }
+  ]
+}
