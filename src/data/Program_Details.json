@@ -1,12 +1,12 @@
 {
   "columns": [
-    { "key": "program", "label": "Program", "sortable": true, "filterable": true },
-    { "key": "programType", "label": "Program Type", "sortable": true, "filterable": true },
-    { "key": "newProgram", "label": "New Program (Y/N)", "sortable": true, "filterable": true },
+    { "key": "program", "label": "Program", "sortable": true},
+    { "key": "programType", "label": "Program Type", "sortable": true},
+    { "key": "newProgram", "label": "New Program (Y/N)", "sortable": true},
     { "key": "launchMonth", "label": "Launch Month #", "sortable": true },
-    { "key": "apiSite", "label": "API Site", "sortable": true, "filterable": true },
-    { "key": "dsSite", "label": "DS Site", "sortable": true, "filterable": true },
-    { "key": "dpSite", "label": "DP Site", "sortable": true, "filterable": true },
+    { "key": "apiSite", "label": "API Site", "sortable": true},
+    { "key": "dsSite", "label": "DS Site", "sortable": true},
+    { "key": "dpSite", "label": "DP Site", "sortable": true},
     { "key": "labelSite", "label": "Label Site", "sortable": true },
     { "key": "apiToDsYield", "label": "API → DS Yield", "sortable": true },
     { "key": "dsToDpYield", "label": "DS → DP Yield", "sortable": true },

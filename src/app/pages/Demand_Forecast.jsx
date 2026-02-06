@@ -1,4 +1,4 @@
-import DataTable from '../components/DataTable';
+import EditableDataTable from '../components/EditableDataTable';
 import demandData from '../../data/Demand_Forecast.json';
 
 export default function Users() {
@@ -11,7 +11,7 @@ export default function Users() {
       </div>
 
       {/* Table Card */}
-      <DataTable columns={demandData.columns} data={demandData.data} />
+      <EditableDataTable columns={demandData.columns} data={demandData.data} />
     </div>
   );
 }
