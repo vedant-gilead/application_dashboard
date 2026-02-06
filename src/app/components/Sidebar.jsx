@@ -69,16 +69,16 @@ export default function Sidebar({ isOpen, onClose }) {
           </ul>
           
           {/* Sidebar footer with subtle branding */}
-          {/* <div className="absolute bottom-6 left-3 right-3">
+          <div className="absolute bottom-6 left-3 right-3">
             <div className="px-3.5 py-3 bg-white/50 rounded-xl border border-gray-200/50">
               <p className="text-xs text-gray-500">
                 Dashboard v1.0
               </p>
               <p className="text-xs text-gray-400 mt-0.5">
-                © 2026 Company
+                © Gilead Confidential
               </p>
             </div>
-          </div> */}
+          </div>
         </nav>
       </aside>
     </>
