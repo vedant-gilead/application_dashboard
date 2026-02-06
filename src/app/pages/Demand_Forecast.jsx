@@ -1,9 +1,9 @@
 import DataTable from '../components/DataTable';
-import usersData from '../../data/usersData.json';
+import demandData from '../../data/Demand_Forecast.json';
 
 export default function Users() {
   return (
-    <div className="max-w-7xl">
+    <div className="w-full">
       {/* Page Header */}
       <div className="mb-8">
         <h1 className="text-3xl font-semibold text-gray-900 tracking-tight">Demand Forecast</h1>
@@ -11,7 +11,7 @@ export default function Users() {
       </div>
 
       {/* Table Card */}
-      <DataTable columns={usersData.columns} data={usersData.data} />
+      <DataTable columns={demandData.columns} data={demandData.data} />
     </div>
   );
 }

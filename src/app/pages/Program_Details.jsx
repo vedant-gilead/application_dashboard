@@ -1,9 +1,9 @@
 import DataTable from '../components/DataTable';
-import dashboardData from '../../data/dashboardData.json';
+import programData from '../../data/Program_Details.json';
 
 export default function Dashboard() {
   return (
-    <div className="max-w-7xl">
+    <div className="w-full">
       {/* Page Header */}
       <div className="mb-8">
         <h1 className="text-3xl font-semibold text-gray-900 tracking-tight">Program Details</h1>
@@ -11,7 +11,7 @@ export default function Dashboard() {
       </div>
 
       {/* Table Card */}
-      <DataTable columns={dashboardData.columns} data={dashboardData.data} />
+      <DataTable columns={programData.columns} data={programData.data} />
     </div>
   );
 }

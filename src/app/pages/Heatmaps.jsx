@@ -3,7 +3,7 @@ import reportsData from '../../data/reportsData.json';
 
 export default function Reports() {
   return (
-    <div className="max-w-7xl">
+    <div className="w-full">
       {/* Page Header */}
       <div className="mb-8">
         <h1 className="text-3xl font-semibold text-gray-900 tracking-tight">Heatmaps</h1>
