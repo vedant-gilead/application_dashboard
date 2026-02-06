@@ -123,14 +123,14 @@ export default function DataTable({ columns, data, itemsPerPage = 10 }) {
       {/* Table Container with Horizontal Scroll */}
       <div className="overflow-x-auto">
         <table className="w-full">
-          <thead className="bg-gray-100 border-b border-gray-200">
+          <thead className="bg-[#306e9a] border-b border-gray-200">
             <tr>
               {columns.map((column) => (
                 <th
                   key={column.key}
                   onClick={() => handleSort(column.key, column.sortable)}
                   className={`
-                    px-6 py-4 text-left text-sm font-bold text-gray-700 uppercase tracking-wider
+                    px-6 py-4 text-left text-sm font-bold text-white uppercase tracking-wider whitespace-nowrap
                     ${column.sortable ? 'cursor-pointer hover:bg-gray-200 select-none' : ''}
                     transition-colors duration-150
                   `}
