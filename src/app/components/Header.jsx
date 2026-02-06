@@ -1,9 +1,10 @@
 import { useState, useRef, useEffect } from 'react';
-import { Menu, Bell, HelpCircle, User, Settings, LogOut } from 'lucide-react';
+import { Menu, Bell, HelpCircle, User, Settings, LogOut, Clock } from 'lucide-react';
 import logo from './../../assets/Gilead_Sciences-Logo.svg';
 
 export default function Header({ onMenuToggle }) {
   const [showProfileMenu, setShowProfileMenu] = useState(false);
+  const [currentTime, setCurrentTime] = useState('');
   const dropdownRef = useRef(null);
 
   useEffect(() => {
@@ -15,6 +16,14 @@ export default function Header({ onMenuToggle }) {
 
     document.addEventListener('mousedown', handleClickOutside);
     return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      const date = new Date();
+      setCurrentTime(date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }));
+    }, 1000);
+    return () => clearInterval(timer);
   }, []);
 
   return (
@@ -76,9 +85,15 @@ export default function Header({ onMenuToggle }) {
               <div className="w-8 h-8 bg-gradient-to-br from-[#c5203f] to-[#a01a34] rounded-lg flex items-center justify-center shadow-sm">
                 <User className="w-4 h-4 text-white" />
               </div>
-              <span className="text-sm font-medium text-gray-700 hidden md:block group-hover:text-gray-900 transition-colors">
-                Abhishek
-              </span>
+              <div className="hidden md:block">
+                <span className="text-sm font-medium text-gray-700 group-hover:text-gray-900 transition-colors">
+                  Abhishek
+                </span>
+                <div className="flex items-center gap-1 mt-1 border rounded-full px-2 py-0.5">
+                  <Clock className="w-3 h-3 text-gray-400" />
+                  <p className="text-xs text-gray-500">{currentTime}</p>
+                </div>
+              </div>
             </button>
 
             {/* Dropdown Menu */}
