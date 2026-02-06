@@ -7,7 +7,7 @@ export default function Dashboard() {
       {/* Page Header */}
       <div className="mb-8">
         <h1 className="text-3xl font-semibold text-gray-900 tracking-tight">Program Details</h1>
-        <p className="text-gray-600 mt-2 text-base">Description of the Page if needed</p>
+        <p className="text-gray-600 mt-2 text-base">Programs: Manages clinical programs, studies, and associated materials with their site execution details.</p>
       </div>
 
       {/* Table Card */}
