@@ -52,7 +52,7 @@ export default function Header({ onMenuToggle }) {
         {/* Center Section */}
         <div className="hidden lg:flex flex-1 justify-center">
           <h1 className="text-4xl font-semibold text-gray-800 tracking-tight">
-            Master Production Plan
+            Clinical Master Production Plan
           </h1>
         </div>
 
