@@ -4,23 +4,23 @@ import { ChevronUp, ChevronDown, ChevronsUpDown } from 'lucide-react';
 export default function EditableDataTable({ columns, data, itemsPerPage = 10 }) {
   const [currentPage, setCurrentPage] = useState(1);
   const [sortConfig, setSortConfig] = useState({ key: null, direction: 'asc' });
-  const [tableData, setTableData] = useState(data);
+  const [tableData, setTableData] = useState([]);
 
   useEffect(() => {
-    const storedData = localStorage.getItem('demandForecastData');
-    if (storedData) {
-      setTableData(JSON.parse(storedData));
-    }
-  }, []);
-
-  useEffect(() => {
-    localStorage.setItem('demandForecastData', JSON.stringify(tableData));
-  }, [tableData]);
+    setTableData(data);
+  }, [data]);
 
   const handleCellEdit = (e, rowIndex, columnKey) => {
     const newData = [...tableData];
     newData[rowIndex][columnKey] = e.target.innerText;
     setTableData(newData);
+  };
+
+  const handleKeyDown = (e) => {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      e.target.blur();
+    }
   };
 
   // Sort data
@@ -172,6 +172,7 @@ export default function EditableDataTable({ columns, data, itemsPerPage = 10 }) 
                     key={column.key}
                     contentEditable={column.editable}
                     onBlur={(e) => handleCellEdit(e, startIndex + rowIndex, column.key)}
+                    onKeyDown={handleKeyDown}
                     suppressContentEditableWarning={true}
                     className={`px-6 py-4 whitespace-nowrap text-sm text-gray-900 ${
                       column.editable ? '' : ''
