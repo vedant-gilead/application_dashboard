@@ -1,0 +1,19 @@
+
+{
+  "GS-6791": {
+    "program": "GS-6791",
+    "therapeuticArea": "Oncology",
+    "study": "GS-US-XXX",
+    "materialNumber": "IP-XXXX",
+    "lot": "XXXXX",
+    "siteExecution": "LV, GSIUC, Alberta"
+  },
+  "GS-1234": {
+    "program": "GS-1234",
+    "therapeuticArea": "Oncology",
+    "study": "GS-US-XXX",
+    "materialNumber": "IP-XXXX",
+    "lot": "XXXXX",
+    "siteExecution": "LV, GSIUC, Alberta"
+  }
+}

@@ -1,0 +1,32 @@
+
+{
+  "columns": [
+    { "key": "metric", "label": "Metric" },
+    { "key": "jan", "label": "Jan" },
+    { "key": "feb", "label": "Feb" },
+    { "key": "mar", "label": "Mar" },
+    { "key": "apr", "label": "Apr" },
+    { "key": "may", "label": "May" },
+    { "key": "jun", "label": "Jun" },
+    { "key": "jul", "label": "Jul" },
+    { "key": "aug", "label": "Aug" },
+    { "key": "sep", "label": "Sep" },
+    { "key": "oct", "label": "Oct" },
+    { "key": "nov", "label": "Nov" },
+    { "key": "dec", "label": "Dec" }
+  ],
+  "data": {
+    "GS-6791": [
+      { "metric": "Starting Inventory", "jan": 200, "feb": 210, "mar": 220, "apr": 230, "may": 240, "jun": 250, "jul": 260, "aug": 270, "sep": 280, "oct": 290, "nov": 300, "dec": 310 },
+      { "metric": "Expiry", "jan": -20, "feb": -20, "mar": -20, "apr": -20, "may": -20, "jun": -20, "jul": -20, "aug": -20, "sep": -20, "oct": -20, "nov": -20, "dec": -20 },
+      { "metric": "Demand", "jan": -30, "feb": -35, "mar": -40, "apr": -45, "may": -50, "jun": -55, "jul": -60, "aug": -65, "sep": -70, "oct": -75, "nov": -80, "dec": -85 },
+      { "metric": "Supply", "jan": 60, "feb": 65, "mar": 70, "apr": 75, "may": 80, "jun": 85, "jul": 90, "aug": 95, "sep": 100, "oct": 105, "nov": 110, "dec": 115 }
+    ],
+    "GS-1234": [
+        { "metric": "Starting Inventory", "jan": 300, "feb": 310, "mar": 320, "apr": 330, "may": 340, "jun": 350, "jul": 360, "aug": 370, "sep": 380, "oct": 390, "nov": 400, "dec": 410 },
+        { "metric": "Expiry", "jan": -30, "feb": -30, "mar": -30, "apr": -30, "may": -30, "jun": -30, "jul": -30, "aug": -30, "sep": -30, "oct": -30, "nov": -30, "dec": -30 },
+        { "metric": "Demand", "jan": -40, "feb": -45, "mar": -50, "apr": -55, "may": -60, "jun": -65, "jul": -70, "aug": -75, "sep": -80, "oct": -85, "nov": -90, "dec": -95 },
+        { "metric": "Supply", "jan": 70, "feb": 75, "mar": 80, "apr": 85, "may": 90, "jun": 95, "jul": 100, "aug": 105, "sep": 110, "oct": 115, "nov": 120, "dec": 125 }
+    ]
+  }
+}

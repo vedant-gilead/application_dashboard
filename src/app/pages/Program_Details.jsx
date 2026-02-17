@@ -1,8 +1,23 @@
+import { Link } from 'react-router-dom';
 import DataTable from '../components/DataTable';
 import programData from '../../data/Program_Details.json';
 import { Plus } from 'lucide-react';
 
 export default function Dashboard() {
+  const columns = [
+    {
+      key: "program",
+      label: "Program",
+      sortable: true,
+      render: (row) => (
+        <Link to={`/programs/${row.program}`} className="text-blue-600 hover:underline">
+          {row.program}
+        </Link>
+      ),
+    },
+    ...programData.columns.filter((col) => col.key !== "program"),
+  ];
+
   return (
     <div className="w-full">
       {/* Page Header */}
@@ -18,7 +33,7 @@ export default function Dashboard() {
       </div>
 
       {/* Table Card */}
-      <DataTable columns={programData.columns} data={programData.data} />
+      <DataTable columns={columns} data={programData.data} />
     </div>
   );
 }

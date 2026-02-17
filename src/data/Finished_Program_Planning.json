@@ -1,0 +1,40 @@
+
+{
+  "columns": [
+    { "key": "metric", "label": "Metric" },
+    { "key": "jan", "label": "Jan" },
+    { "key": "feb", "label": "Feb" },
+    { "key": "mar", "label": "Mar" },
+    { "key": "apr", "label": "Apr" },
+    { "key": "may", "label": "May" },
+    { "key": "jun", "label": "Jun" },
+    { "key": "jul", "label": "Jul" },
+    { "key": "aug", "label": "Aug" },
+    { "key": "sep", "label": "Sep" },
+    { "key": "oct", "label": "Oct" },
+    { "key": "nov", "label": "Nov" },
+    { "key": "dec", "label": "Dec" }
+  ],
+  "data": {
+    "GS-6791": [
+      { "metric": "Starting Inventory", "jan": "-", "feb": "-", "mar": "-", "apr": 130, "may": 140, "jun": 150, "jul": 160, "aug": 170, "sep": 180, "oct": 190, "nov": 200, "dec": 210 },
+      { "metric": "Expiry", "jan": "-", "feb": "-", "mar": "-", "apr": -10, "may": -10, "jun": -10, "jul": -10, "aug": -10, "sep": -10, "oct": -10, "nov": -10, "dec": -10 },
+      { "metric": "Demand", "jan": "-", "feb": "-", "mar": "-", "apr": -35, "may": -40, "jun": -45, "jul": -50, "aug": -55, "sep": -60, "oct": -65, "nov": -70, "dec": -75 },
+      { "metric": "Supply", "jan": "-", "feb": "-", "mar": "-", "apr": 65, "may": 70, "jun": 75, "jul": 80, "aug": 85, "sep": 90, "oct": 95, "nov": 100, "dec": 105 },
+      { "metric": "Release Lead Time", "jan": "-", "feb": "-", "mar": "-", "apr": 1, "may": 1, "jun": 1, "jul": 1, "aug": 1, "sep": 1, "oct": 1, "nov": 1, "dec": 1 },
+      { "metric": "Execution Lead Time", "jan": "-", "feb": "-", "mar": "-", "apr": 2, "may": 2, "jun": 2, "jul": 2, "aug": 2, "sep": 2, "oct": 2, "nov": 2, "dec": 2 },
+      { "metric": "Supply (Execution Planned Start)", "jan": "-", "feb": "-", "mar": "-", "apr": 55, "may": 60, "jun": 65, "jul": 70, "aug": 75, "sep": 80, "oct": 85, "nov": 90, "dec": 95 },
+      { "metric": "MOH", "jan": "-", "feb": "-", "mar": "-", "apr": 150, "may": 160, "jun": 170, "jul": 180, "aug": 190, "sep": 200, "oct": 210, "nov": 220, "dec": 230 }
+    ],
+    "GS-1234": [
+        { "metric": "Starting Inventory", "jan": 200, "feb": 210, "mar": 220, "apr": 230, "may": 240, "jun": 250, "jul": 260, "aug": 270, "sep": 280, "oct": 290, "nov": 300, "dec": 310 },
+        { "metric": "Expiry", "jan": -20, "feb": -20, "mar": -20, "apr": -20, "may": -20, "jun": -20, "jul": -20, "aug": -20, "sep": -20, "oct": -20, "nov": -20, "dec": -20 },
+        { "metric": "Demand", "jan": -30, "feb": -35, "mar": -40, "apr": -45, "may": -50, "jun": -55, "jul": -60, "aug": -65, "sep": -70, "oct": -75, "nov": -80, "dec": -85 },
+        { "metric": "Supply", "jan": 60, "feb": 65, "mar": 70, "apr": 75, "may": 80, "jun": 85, "jul": 90, "aug": 95, "sep": 100, "oct": 105, "nov": 110, "dec": 115 },
+        { "metric": "Release Lead Time", "jan": 1, "feb": 1, "mar": 1, "apr": 1, "may": 1, "jun": 1, "jul": 1, "aug": 1, "sep": 1, "oct": 1, "nov": 1, "dec": 1 },
+        { "metric": "Execution Lead Time", "jan": 2, "feb": 2, "mar": 2, "apr": 2, "may": 2, "jun": 2, "jul": 2, "aug": 2, "sep": 2, "oct": 2, "nov": 2, "dec": 2 },
+        { "metric": "Supply (Execution Planned Start)", "jan": 50, "feb": 55, "mar": 60, "apr": 65, "may": 70, "jun": 75, "jul": 80, "aug": 85, "sep": 90, "oct": 95, "nov": 100, "dec": 105 },
+        { "metric": "MOH", "jan": 210, "feb": 220, "mar": 230, "apr": 240, "may": 250, "jun": 260, "jul": 270, "aug": 280, "sep": 290, "oct": 300, "nov": 310, "dec": 320 }
+    ]
+  }
+}

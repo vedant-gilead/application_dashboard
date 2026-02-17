@@ -154,7 +154,7 @@ export default function DataTable({ columns, data, itemsPerPage = 10 }) {
                     key={column.key}
                     className="px-6 py-4 whitespace-nowrap text-sm text-gray-800"
                   >
-                    {row[column.key]}
+                    {column.render ? column.render(row) : row[column.key]}
                   </td>
                 ))}
               </tr>
