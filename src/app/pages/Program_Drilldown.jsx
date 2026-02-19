@@ -1,4 +1,3 @@
-
 import { useParams, Link } from "react-router-dom";
 import { Home, ChevronRight } from "lucide-react";
 
@@ -9,6 +8,7 @@ import finishedProgramData from "../../data/Finished_Program_Planning.json";
 import level1MaterialsData from "../../data/Level_1_Materials.json";
 import level2MaterialsData from "../../data/Level_2_Materials.json";
 import parametersPoolData from "../../data/Parameters_Pool.json";
+import newImage from '../../assets/image.png'
 
 export default function ProgramDrilldown() {
   const { programId } = useParams();
@@ -149,7 +149,7 @@ export default function ProgramDrilldown() {
                 </label>
                 <p className="mt-1 text-base text-gray-900">
                   {parametersPoolData.FP.siteExecution}
-                </p>
+                </p>.
               </div>
               <div>
                 <label className="block text-sm font-medium text-gray-500">
@@ -333,6 +333,15 @@ export default function ProgramDrilldown() {
         <DataTable
           columns={level2MaterialsData.columns}
           data={level2Data}
+        />
+      </div>
+      
+      {/* Added Image */}
+      <div className="mt-8">
+        <img
+          src={newImage}
+          alt="Placeholder"
+          className="w-full h-auto rounded-lg shadow-sm"
         />
       </div>
     </div>
