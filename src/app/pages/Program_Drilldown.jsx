@@ -98,7 +98,7 @@ export default function ProgramDrilldown() {
           </div>
           <div>
             <label className="block text-sm font-medium text-gray-500">
-              Study
+              Study Numbers
             </label>
             <p className="mt-1 text-base text-gray-900">
               {programSummary.study}
@@ -106,7 +106,7 @@ export default function ProgramDrilldown() {
           </div>
           <div>
             <label className="block text-sm font-medium text-gray-500">
-              Material Number
+              Material Numbers
             </label>
             <p className="mt-1 text-base text-gray-900">
               {programSummary.materialNumber}
@@ -114,7 +114,7 @@ export default function ProgramDrilldown() {
           </div>
           <div>
             <label className="block text-sm font-medium text-gray-500">
-              Lot
+              Lot Numbers
             </label>
             <p className="mt-1 text-base text-gray-900">
               {programSummary.lot}
@@ -134,7 +134,7 @@ export default function ProgramDrilldown() {
       {/* Parameters Pool Card */}
       <div className="bg-white rounded-2xl border border-gray-200/80 shadow-sm p-6 mb-8">
         <h2 className="text-xl font-bold text-gray-800 mb-4">
-          Parameters Pool
+          Program Parameters
         </h2>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {/* Finished Product (FP) */}
@@ -181,7 +181,7 @@ export default function ProgramDrilldown() {
           {/* Drug Product (IP) - Group 1 */}
           <div className="border border-gray-200 rounded-lg p-4 bg-gray-50">
             <h3 className="text-lg font-semibold text-gray-700 mb-3">
-              Drug Product (IP) &ndash; Group 1
+              Drug Product (PC)
             </h3>
             <div className="grid grid-cols-2 gap-4">
               <div>
@@ -194,7 +194,7 @@ export default function ProgramDrilldown() {
               </div>
               <div>
                 <label className="block text-sm font-medium text-gray-500">
-                  Consumption Ratio (PC/FG)
+                  Consumption Ratio (PC/FP)
                 </label>
                 <p className="mt-1 text-base text-gray-900">
                   {parametersPoolData.IP1.consumptionRatio}
@@ -238,7 +238,7 @@ export default function ProgramDrilldown() {
           {/* Drug Product (IP) - Group 2 */}
           <div className="border border-gray-200 rounded-lg p-4 bg-gray-50">
             <h3 className="text-lg font-semibold text-gray-700 mb-3">
-              Drug Product (IP) &ndash; Group 2
+              Drug Substance (IP)
             </h3>
             <div className="grid grid-cols-2 gap-4">
               <div>
@@ -296,9 +296,12 @@ export default function ProgramDrilldown() {
 
       {/* Finished Program Planning Table */}
       <div className="mb-8">
-        <h2 className="text-xl font-bold text-gray-800 mb-4">
-          FP-XXXX
+        <h2 className="text-xl font-bold text-gray-800">
+          Finished Product: FP-14522
         </h2>
+        <p className="text-gray-600 mt-1 text-base mb-4">
+          GS-5423 Injection, 150 mg/mL, 2 mL/vial
+        </p>
         <DataTable
           columns={finishedProgramData.columns}
           data={finishedData}
@@ -307,9 +310,12 @@ export default function ProgramDrilldown() {
 
       {/* Level 1 Materials Table */}
       <div className="mb-8">
-        <h2 className="text-xl font-bold text-gray-800 mb-4">
-          PC-XXX
+        <h2 className="text-xl font-bold text-gray-800">
+          Drug Product: PC-12723
         </h2>
+        <p className="text-gray-600 mt-1 text-base mb-4">
+          DP -GS-5423 Injection, 150 mg/mL,  2 mL /via
+        </p>
         <DataTable
           columns={level1MaterialsData.columns}
           data={level1Data}
@@ -318,9 +324,12 @@ export default function ProgramDrilldown() {
 
       {/* Level 2 Raw Materials Table */}
       <div>
-        <h2 className="text-xl font-bold text-gray-800 mb-4">
-          IP-XXX
+        <h2 className="text-xl font-bold text-gray-800">
+          Drug Substance: IP-15699
         </h2>
+        <p className="text-gray-600 mt-1 text-base mb-4">
+          DS - GS-5423 Drug Substance, 85mg/mL
+        </p>
         <DataTable
           columns={level2MaterialsData.columns}
           data={level2Data}

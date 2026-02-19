@@ -16,6 +16,12 @@
     { "key": "dec", "label": "Dec" }
   ],
   "data": {
+    "GS-5423": [
+      { "metric": "Demand", "jan": "-", "feb": "-", "mar": "-", "apr": -35, "may": -40, "jun": -45, "jul": -50, "aug": -55, "sep": -60, "oct": -65, "nov": -70, "dec": -75 },
+      { "metric": "Inventory", "jan": "-", "feb": "-", "mar": "-", "apr": 130, "may": 140, "jun": 150, "jul": 160, "aug": 170, "sep": 180, "oct": 190, "nov": 200, "dec": 210 },
+      { "metric": "Expiry/Obsolescence", "jan": "-", "feb": "-", "mar": "-", "apr": -10, "may": -10, "jun": -10, "jul": -10, "aug": -10, "sep": -10, "oct": -10, "nov": -10, "dec": -10 },
+      { "metric": "Supply/Release", "jan": "-", "feb": "-", "mar": "-", "apr": 65, "may": 70, "jun": 75, "jul": 80, "aug": 85, "sep": 90, "oct": 95, "nov": 100, "dec": 105 }
+    ],
     "GS-6791": [
       { "metric": "Starting Inventory", "jan": 200, "feb": 210, "mar": 220, "apr": 230, "may": 240, "jun": 250, "jul": 260, "aug": 270, "sep": 280, "oct": 290, "nov": 300, "dec": 310 },
       { "metric": "Expiry", "jan": -20, "feb": -20, "mar": -20, "apr": -20, "may": -20, "jun": -20, "jul": -20, "aug": -20, "sep": -20, "oct": -20, "nov": -20, "dec": -20 },

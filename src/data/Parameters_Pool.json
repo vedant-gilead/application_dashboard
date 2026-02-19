@@ -1,24 +1,24 @@
 {
   "FP": {
-    "siteExecution": "Site A",
-    "moq": 1000,
+    "siteExecution": "La Verne",
+    "moq": "1000 vials",
     "releaseLeadTime": "10 days",
-    "executionLeadTime": "5 days"
+    "executionLeadTime": "3 months"
   },
   "IP1": {
-    "safetyStock": 500,
-    "consumptionRatio": "1.2",
-    "siteExecution": "Site B",
-    "moq": 2000,
-    "releaseLeadTime": "15 days",
-    "executionLeadTime": "7 days"
+    "safetyStock": "2000 vials",
+    "consumptionRatio": "1",
+    "siteExecution": "La Verne",
+    "moq": "5000 vials",
+    "releaseLeadTime": "2 months",
+    "executionLeadTime": "4 months"
   },
   "IP2": {
-    "safetyStock": 700,
-    "consumptionRatio": "0.8",
-    "siteExecution": "Site C",
-    "moq": 1500,
-    "releaseLeadTime": "12 days",
-    "executionLeadTime": "6 days"
+    "safetyStock": "10 Kg",
+    "consumptionRatio": "0.0032",
+    "siteExecution": "Wuxi",
+    "moq": "20 Kg",
+    "releaseLeadTime": "3 months",
+    "executionLeadTime": "6 months"
   }
 }
