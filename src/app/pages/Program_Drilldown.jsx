@@ -337,11 +337,14 @@ export default function ProgramDrilldown() {
       </div>
       
       {/* Added Image */}
-      <div className="mt-8">
+      <div className="mt-8 border border-gray-200/80 rounded-2xl shadow-sm p-6 bg-white">
+        <h2 className="text-xl font-bold text-gray-800 mb-4">
+          Onhand Inventory View
+        </h2>
         <img
           src={newImage}
-          alt="Placeholder"
-          className="w-full h-auto rounded-lg shadow-sm"
+          alt="Onhand Inventory"
+          className="w-full h-auto rounded-lg"
         />
       </div>
     </div>
