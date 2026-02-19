@@ -2,25 +2,75 @@
 {
   "columns": [
     { "key": "metric", "label": "Metric" },
-    { "key": "jan", "label": "Jan" },
-    { "key": "feb", "label": "Feb" },
-    { "key": "mar", "label": "Mar" },
-    { "key": "apr", "label": "Apr" },
-    { "key": "may", "label": "May" },
-    { "key": "jun", "label": "Jun" },
-    { "key": "jul", "label": "Jul" },
-    { "key": "aug", "label": "Aug" },
-    { "key": "sep", "label": "Sep" },
-    { "key": "oct", "label": "Oct" },
-    { "key": "nov", "label": "Nov" },
-    { "key": "dec", "label": "Dec" }
+    { "key": "mar-25", "label": "Mar-25" },
+    { "key": "apr-25", "label": "Apr-25" },
+    { "key": "may-25", "label": "May-25" },
+    { "key": "jun-25", "label": "Jun-25" },
+    { "key": "jul-25", "label": "Jul-25" },
+    { "key": "aug-25", "label": "Aug-25" },
+    { "key": "sep-25", "label": "Sep-25" },
+    { "key": "oct-25", "label": "Oct-25" },
+    { "key": "nov-25", "label": "Nov-25" },
+    { "key": "dec-25", "label": "Dec-25" },
+    { "key": "jan-26", "label": "Jan-26" },
+    { "key": "feb-26", "label": "Feb-26" },
+    { "key": "mar-26", "label": "Mar-26" },
+    { "key": "apr-26", "label": "Apr-26" },
+    { "key": "may-26", "label": "May-26" },
+    { "key": "jun-26", "label": "Jun-26" },
+    { "key": "jul-26", "label": "Jul-26" },
+    { "key": "aug-26", "label": "Aug-26" },
+    { "key": "sep-26", "label": "Sep-26" },
+    { "key": "oct-26", "label": "Oct-26" },
+    { "key": "nov-26", "label": "Nov-26" },
+    { "key": "dec-26", "label": "Dec-26" },
+    { "key": "jan-27", "label": "Jan-27" },
+    { "key": "feb-27", "label": "Feb-27" },
+    { "key": "mar-27", "label": "Mar-27" },
+    { "key": "apr-27", "label": "Apr-27" },
+    { "key": "may-27", "label": "May-27" },
+    { "key": "jun-27", "label": "Jun-27" }
   ],
   "data": {
     "GS-5423": [
-      { "metric": "Demand", "jan": "-", "feb": "-", "mar": "-", "apr": -35, "may": -40, "jun": -45, "jul": -50, "aug": -55, "sep": -60, "oct": -65, "nov": -70, "dec": -75 },
-      { "metric": "Inventory", "jan": "-", "feb": "-", "mar": "-", "apr": 130, "may": 140, "jun": 150, "jul": 160, "aug": 170, "sep": 180, "oct": 190, "nov": 200, "dec": 210 },
-      { "metric": "Expiry/Obsolescence", "jan": "-", "feb": "-", "mar": "-", "apr": -10, "may": -10, "jun": -10, "jul": -10, "aug": -10, "sep": -10, "oct": -10, "nov": -10, "dec": -10 },
-      { "metric": "Supply/Release", "jan": "-", "feb": "-", "mar": "-", "apr": 65, "may": 70, "jun": 75, "jul": 80, "aug": 85, "sep": 90, "oct": 95, "nov": 100, "dec": 105 }
+      {
+        "metric": "Demand",
+        "mar-25": 0, "apr-25": 0, "may-25": 0, "jun-25": 0, "jul-25": 0, "aug-25": 0,
+        "sep-25": 0, "oct-25": 0, "nov-25": 0, "dec-25": 0,
+        "jan-26": 0, "feb-26": 0, "mar-26": 0, "apr-26": 0, "may-26": 0, "jun-26": 0,
+        "jul-26": 0, "aug-26": 747, "sep-26": 0, "oct-26": 0,
+        "nov-26": 0, "dec-26": 0,
+        "jan-27": 0, "feb-27": 0, "mar-27": 0, "apr-27": 1500, "may-27": 0, "jun-27": 0
+      },
+      {
+        "metric": "Inventory",
+        "mar-25": 736, "apr-25": 736, "may-25": 736, "jun-25": 736, "jul-25": 736, "aug-25": 736,
+        "sep-25": 736, "oct-25": 736, "nov-25": 736, "dec-25": 736,
+        "jan-26": 736, "feb-26": 736, "mar-26": 736, "apr-26": 736, "may-26": 736,
+        "jun-26": 636, "jul-26": 636,
+        "aug-26": 1383, "sep-26": 1383, "oct-26": 1383, "nov-26": 1383, "dec-26": 1383,
+        "jan-27": 1383, "feb-27": 1383, "mar-27": 1383,
+        "apr-27": 2383, "may-27": 2383, "jun-27": 2383
+      },
+      {
+        "metric": "Expiry/Obsolescence",
+        "mar-25": 0, "apr-25": 0, "may-25": 0, "jun-25": 0, "jul-25": 0, "aug-25": 0,
+        "sep-25": 0, "oct-25": 0, "nov-25": 0, "dec-25": 0,
+        "jan-26": 0, "feb-26": 0, "mar-26": 0, "apr-26": 0, "may-26": 0,
+        "jun-26": 103,
+        "jul-26": 0, "aug-26": 0, "sep-26": 0, "oct-26": 0, "nov-26": 0, "dec-26": 0,
+        "jan-27": 0, "feb-27": 0, "mar-27": 0, "apr-27": 0, "may-27": 0, "jun-27": 0
+      },
+      {
+        "metric": "Supply/Release",
+        "mar-25": 0, "apr-25": 0, "may-25": 0, "jun-25": 0, "jul-25": 0, "aug-25": 0,
+        "sep-25": 0, "oct-25": 0, "nov-25": 0, "dec-25": 0,
+        "jan-26": 0, "feb-26": 0, "mar-26": 0, "apr-26": 0, "may-26": 0, "jun-26": 0,
+        "jul-26": 747,
+        "aug-26": 0, "sep-26": 0, "oct-26": 0, "nov-26": 0, "dec-26": 0,
+        "jan-27": 0, "feb-27": 0, "mar-27": 1000,
+        "apr-27": 0, "may-27": 0, "jun-27": 0
+      }
     ],
     "GS-6791": [
       { "metric": "Starting Inventory", "jan": "-", "feb": "-", "mar": "-", "apr": 130, "may": 140, "jun": 150, "jul": 160, "aug": 170, "sep": 180, "oct": 190, "nov": 200, "dec": 210 },
