@@ -1,0 +1,24 @@
+{
+  "FP": {
+    "siteExecution": "Site A",
+    "moq": 1000,
+    "releaseLeadTime": "10 days",
+    "executionLeadTime": "5 days"
+  },
+  "IP1": {
+    "safetyStock": 500,
+    "consumptionRatio": "1.2",
+    "siteExecution": "Site B",
+    "moq": 2000,
+    "releaseLeadTime": "15 days",
+    "executionLeadTime": "7 days"
+  },
+  "IP2": {
+    "safetyStock": 700,
+    "consumptionRatio": "0.8",
+    "siteExecution": "Site C",
+    "moq": 1500,
+    "releaseLeadTime": "12 days",
+    "executionLeadTime": "6 days"
+  }
+}
