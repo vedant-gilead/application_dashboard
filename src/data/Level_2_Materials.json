@@ -34,7 +34,15 @@
   "data": {
     "GS-5423": [
       {
-        "metric": "Demand",
+        "metric": "Demand (Initial)",
+        "mar25": 0, "apr25": 0, "may25": 0, "jun25": 0,
+        "jul25": 0, "aug25": 0, "sep25": 0, "oct25": 0, "nov25": 0, "dec25": 0,
+        "jan26": 0, "feb26": 0, "mar26": 0, "apr26": 0, "may26": 0, "jun26": 0,
+        "jul26": 0, "aug26": 0, "sep26": 0, "oct26": 0, "nov26": 0, "dec26": 0,
+        "jan27": 0, "feb27": 0, "mar27": 0, "apr27": 0, "may27": 0, "jun27": 0
+      },
+      {
+        "metric": "Demand (Re-Supply)",
         "mar25": 0, "apr25": 0, "may25": 0, "jun25": 0,
         "jul25": 0, "aug25": 0, "sep25": 0, "oct25": 0, "nov25": 0, "dec25": 0,
         "jan26": 0, "feb26": 0, "mar26": 0, "apr26": 0, "may26": 0, "jun26": 0,

@@ -1,9 +1,9 @@
-import { useState, useMemo } from 'react';
-import { ChevronUp, ChevronDown, ChevronsUpDown } from 'lucide-react';
+import { useState, useMemo } from "react";
+import { ChevronUp, ChevronDown, ChevronsUpDown } from "lucide-react";
 
 export default function DataTable({ columns, data, itemsPerPage = 10 }) {
   const [currentPage, setCurrentPage] = useState(1);
-  const [sortConfig, setSortConfig] = useState({ key: null, direction: 'asc' });
+  const [sortConfig, setSortConfig] = useState({ key: null, direction: "asc" });
 
   // Sort data
   const sortedData = useMemo(() => {
@@ -14,19 +14,19 @@ export default function DataTable({ columns, data, itemsPerPage = 10 }) {
       const bValue = b[sortConfig.key];
 
       // Handle numeric values (including those with currency symbols)
-      const aNum = parseFloat(String(aValue).replace(/[^0-9.-]/g, ''));
-      const bNum = parseFloat(String(bValue).replace(/[^0-9.-]/g, ''));
+      const aNum = parseFloat(String(aValue).replace(/[^0-9.-]/g, ""));
+      const bNum = parseFloat(String(bValue).replace(/[^0-9.-]/g, ""));
 
       if (!isNaN(aNum) && !isNaN(bNum)) {
-        return sortConfig.direction === 'asc' ? aNum - bNum : bNum - aNum;
+        return sortConfig.direction === "asc" ? aNum - bNum : bNum - aNum;
       }
 
       // Handle string values
       const aStr = String(aValue).toLowerCase();
       const bStr = String(bValue).toLowerCase();
 
-      if (aStr < bStr) return sortConfig.direction === 'asc' ? -1 : 1;
-      if (aStr > bStr) return sortConfig.direction === 'asc' ? 1 : -1;
+      if (aStr < bStr) return sortConfig.direction === "asc" ? -1 : 1;
+      if (aStr > bStr) return sortConfig.direction === "asc" ? 1 : -1;
       return 0;
     });
 
@@ -42,9 +42,9 @@ export default function DataTable({ columns, data, itemsPerPage = 10 }) {
   const handleSort = (key, sortable) => {
     if (!sortable) return;
 
-    let direction = 'asc';
-    if (sortConfig.key === key && sortConfig.direction === 'asc') {
-      direction = 'desc';
+    let direction = "asc";
+    if (sortConfig.key === key && sortConfig.direction === "asc") {
+      direction = "desc";
     }
     setSortConfig({ key, direction });
   };
@@ -53,7 +53,7 @@ export default function DataTable({ columns, data, itemsPerPage = 10 }) {
     if (!sortable) return null;
 
     if (sortConfig.key === columnKey) {
-      return sortConfig.direction === 'asc' ? (
+      return sortConfig.direction === "asc" ? (
         <ChevronUp className="w-4 h-4 text-[#c5203f]" />
       ) : (
         <ChevronDown className="w-4 h-4 text-[#c5203f]" />
@@ -80,21 +80,21 @@ export default function DataTable({ columns, data, itemsPerPage = 10 }) {
         for (let i = 1; i <= 4; i++) {
           pages.push(i);
         }
-        pages.push('...');
+        pages.push("...");
         pages.push(totalPages);
       } else if (currentPage >= totalPages - 2) {
         pages.push(1);
-        pages.push('...');
+        pages.push("...");
         for (let i = totalPages - 3; i <= totalPages; i++) {
           pages.push(i);
         }
       } else {
         pages.push(1);
-        pages.push('...');
+        pages.push("...");
         for (let i = currentPage - 1; i <= currentPage + 1; i++) {
           pages.push(i);
         }
-        pages.push('...');
+        pages.push("...");
         pages.push(totalPages);
       }
     }
@@ -125,14 +125,15 @@ export default function DataTable({ columns, data, itemsPerPage = 10 }) {
         <table className="w-full">
           <thead className="bg-[#306e9a] border-b border-gray-200">
             <tr>
-              {columns.map((column) => (
+              {columns.map((column, index) => (
                 <th
                   key={column.key}
                   onClick={() => handleSort(column.key, column.sortable)}
                   className={`
                     px-6 py-4 text-left text-sm font-bold text-white uppercase tracking-wider whitespace-nowrap
-                    ${column.sortable ? 'cursor-pointer hover:bg-gray-200 select-none' : ''}
+                    ${column.sortable ? "cursor-pointer hover:bg-gray-200 select-none" : ""}
                     transition-colors duration-150
+                    ${index === 0 ? "sticky left-0 bg-[#306e9a] z-10" : ""}
                   `}
                 >
                   <div className="flex items-center gap-2">
@@ -149,10 +150,12 @@ export default function DataTable({ columns, data, itemsPerPage = 10 }) {
                 key={rowIndex}
                 className="odd:bg-white even:bg-gray-50 hover:bg-gray-100 transition-colors duration-150"
               >
-                {columns.map((column) => (
+                {columns.map((column, index) => (
                   <td
                     key={column.key}
-                    className="px-6 py-4 whitespace-nowrap text-sm text-gray-800"
+                    className={`px-6 py-4 whitespace-nowrap text-sm text-gray-800 ${
+                      index === 0 ? "sticky left-0 odd:bg-white even:bg-gray-50 z-10" : ""
+                    }`}
                   >
                     {column.render ? column.render(row) : row[column.key]}
                   </td>
@@ -169,10 +172,10 @@ export default function DataTable({ columns, data, itemsPerPage = 10 }) {
           <div className="flex items-center justify-between flex-wrap gap-4">
             {/* Info */}
             <div className="text-sm text-gray-600">
-              Showing <span className="font-semibold text-gray-900">{startIndex + 1}</span> to{' '}
+              Showing <span className="font-semibold text-gray-900">{startIndex + 1}</span> to{" "}
               <span className="font-semibold text-gray-900">
                 {Math.min(endIndex, sortedData.length)}
-              </span>{' '}
+              </span>{" "}
               of <span className="font-semibold text-gray-900">{sortedData.length}</span> results
             </div>
 
@@ -189,16 +192,16 @@ export default function DataTable({ columns, data, itemsPerPage = 10 }) {
               {getPageNumbers().map((page, index) => (
                 <button
                   key={index}
-                  onClick={() => typeof page === 'number' && goToPage(page)}
-                  disabled={page === '...'}
+                  onClick={() => typeof page === "number" && goToPage(page)}
+                  disabled={page === "..."}
                   className={`
                     min-w-[2.5rem] px-3.5 py-2 text-sm font-medium border rounded-lg transition-all duration-200
                     ${
                       page === currentPage
-                        ? 'bg-[#c5203f] text-white border-[#c5203f] shadow-sm'
-                        : page === '...'
-                        ? 'border-transparent cursor-default text-gray-400'
-                        : 'border-gray-300 hover:bg-gray-50 text-gray-700'
+                        ? "bg-[#c5203f] text-white border-[#c5203f] shadow-sm"
+                        : page === "..."
+                        ? "border-transparent cursor-default text-gray-400"
+                        : "border-gray-300 hover:bg-gray-50 text-gray-700"
                     }
                   `}
                 >

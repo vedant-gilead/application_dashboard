@@ -159,7 +159,7 @@ export default function ProgramDrilldown() {
                   {parametersPoolData.FP.moq}
                 </p>
               </div>
-              <div>
+              {/* <div>
                 <label className="block text-sm font-medium text-gray-500">
                   Release Lead Time
                 </label>
@@ -174,7 +174,7 @@ export default function ProgramDrilldown() {
                 <p className="mt-1 text-base text-gray-900">
                   {parametersPoolData.FP.executionLeadTime}
                 </p>
-              </div>
+              </div> */}
             </div>
           </div>
 
@@ -216,7 +216,7 @@ export default function ProgramDrilldown() {
                   {parametersPoolData.IP1.moq}
                 </p>
               </div>
-              <div>
+              {/* <div>
                 <label className="block text-sm font-medium text-gray-500">
                   Release Lead Time
                 </label>
@@ -231,7 +231,7 @@ export default function ProgramDrilldown() {
                 <p className="mt-1 text-base text-gray-900">
                   {parametersPoolData.IP1.executionLeadTime}
                 </p>
-              </div>
+              </div> */}
             </div>
           </div>
 
@@ -273,7 +273,7 @@ export default function ProgramDrilldown() {
                   {parametersPoolData.IP2.moq}
                 </p>
               </div>
-              <div>
+              {/* <div>
                 <label className="block text-sm font-medium text-gray-500">
                   Release Lead Time
                 </label>
@@ -288,7 +288,7 @@ export default function ProgramDrilldown() {
                 <p className="mt-1 text-base text-gray-900">
                   {parametersPoolData.IP2.executionLeadTime}
                 </p>
-              </div>
+              </div> */}
             </div>
           </div>
         </div>
@@ -296,12 +296,14 @@ export default function ProgramDrilldown() {
 
       {/* Finished Program Planning Table */}
       <div className="mb-8">
-        <h2 className="text-xl font-bold text-gray-800">
-          Finished Product: FP-14522
-        </h2>
-        <p className="text-gray-600 mt-1 text-base mb-4">
-          GS-5423 Injection, 150 mg/mL, 2 mL/vial
-        </p>
+        <div className="flex items-baseline gap-4">
+          <h2 className="text-xl font-bold text-gray-800">
+            Finished Product: FP-14522
+          </h2>
+          <p className="text-gray-600 text-base">
+            GS-5423 Injection, 150 mg/mL, 2 mL/vial
+          </p>
+        </div>
         <DataTable
           columns={finishedProgramData.columns}
           data={finishedData}
@@ -310,12 +312,14 @@ export default function ProgramDrilldown() {
 
       {/* Level 1 Materials Table */}
       <div className="mb-8">
-        <h2 className="text-xl font-bold text-gray-800">
-          Drug Product: PC-12723
-        </h2>
-        <p className="text-gray-600 mt-1 text-base mb-4">
-          DP -GS-5423 Injection, 150 mg/mL,  2 mL /via
-        </p>
+        <div className="flex items-baseline gap-4">
+          <h2 className="text-xl font-bold text-gray-800">
+            Drug Product: PC-12723
+          </h2>
+          <p className="text-gray-600 text-base">
+            DP -GS-5423 Injection, 150 mg/mL,  2 mL /via
+          </p>
+        </div>
         <DataTable
           columns={level1MaterialsData.columns}
           data={level1Data}
@@ -324,12 +328,14 @@ export default function ProgramDrilldown() {
 
       {/* Level 2 Raw Materials Table */}
       <div>
-        <h2 className="text-xl font-bold text-gray-800">
-          Drug Substance: IP-15699
-        </h2>
-        <p className="text-gray-600 mt-1 text-base mb-4">
-          DS - GS-5423 Drug Substance, 85mg/mL
-        </p>
+        <div className="flex items-baseline gap-4">
+          <h2 className="text-xl font-bold text-gray-800">
+            Drug Substance: IP-15699
+          </h2>
+          <p className="text-gray-600 text-base">
+            DS - GS-5423 Drug Substance, 85mg/mL
+          </p>
+        </div>
         <DataTable
           columns={level2MaterialsData.columns}
           data={level2Data}
