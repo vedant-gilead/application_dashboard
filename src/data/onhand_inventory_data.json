@@ -1,0 +1,103 @@
+{
+  "columns": [
+    { "key": "organization_name", "label": "Organization Name" },
+    { "key": "item_code", "label": "Item Code" },
+    { "key": "item_description", "label": "Item Description" },
+    { "key": "lot_number", "label": "Lot Number" },
+    { "key": "creation_date", "label": "Creation Date" },
+    { "key": "lot_expiration_date", "label": "Lot Expiration Date" },
+    { "key": "lot_status_description", "label": "Lot Status" },
+    { "key": "onhand_qty", "label": "Onhand Quantity" },
+    { "key": "uom", "label": "UOM" }
+  ],
+  "data": [
+    {
+      "organization_name": "US-001-CLIN-FMTP",
+      "item_code": "PC-12723",
+      "item_description": "GS-5423 Injection, 150 mg/mL, 2 mL",
+      "lot_number": "0000625519",
+      "creation_date": "2021-04-26 08:59:50.000",
+      "lot_expiration_date": "2024-11-30 22:20:00.000",
+      "lot_status_description": "Quarantine-Expired",
+      "onhand_qty": 1673,
+      "uom": "vl"
+    },
+    {
+      "organization_name": "US-001-CLIN-FMTP",
+      "item_code": "PC-12723",
+      "item_description": "GS-5423 Injection, 150 mg/mL, 2 mL /vial",
+      "lot_number": "0000765462",
+      "creation_date": "2023-09-14 10:25:16.000",
+      "lot_expiration_date": "2027-04-30 03:07:00.000",
+      "lot_status_description": "Release",
+      "onhand_qty": 747,
+      "uom": "vl"
+    },
+    {
+      "organization_name": "US-001-CLIN-FMTP",
+      "item_code": "PC-12723",
+      "item_description": "GS-5423 Injection, 150 mg/mL, 2 mL /vial",
+      "lot_number": "0000913617",
+      "creation_date": "2026-01-12 16:01:47.000",
+      "lot_expiration_date": "2026-07-08 15:22:55.000",
+      "lot_status_description": "Quarantine-Routine",
+      "onhand_qty": 5352,
+      "uom": "vl"
+    },
+    {
+      "organization_name": "US-001-MAIN-LAVE",
+      "item_code": "IP-15699",
+      "item_description": "GS-5423 Drug Substance, 85mg/mL",
+      "lot_number": "1421993",
+      "creation_date": "2026-02-12 11:14:47.000",
+      "lot_expiration_date": "2026-08-03 16:01:58.000",
+      "lot_status_description": "Quarantine-Routine",
+      "onhand_qty": 7,
+      "uom": "kg"
+    },
+    {
+      "organization_name": "US-001-CLIN-LAVE",
+      "item_code": "IP-15699",
+      "item_description": "GS-5423 Drug Substance, 85mg/mL",
+      "lot_number": "1421993",
+      "creation_date": "2026-02-11 08:23:26.000",
+      "lot_expiration_date": "2026-08-03 16:01:58.000",
+      "lot_status_description": "Quarantine-Routine",
+      "onhand_qty": 8,
+      "uom": "kg"
+    },
+    {
+      "organization_name": "US-001-CLIN-LAVE",
+      "item_code": "FP-14522",
+      "item_description": "GS-5423 Injection, 150 mg/mL, 2 mL/vial",
+      "lot_number": "536-5939/12",
+      "creation_date": "2024-08-21 10:43:59.000",
+      "lot_expiration_date": "2027-04-30 11:22:00.000",
+      "lot_status_description": "Release",
+      "onhand_qty": 513,
+      "uom": "ca"
+    },
+    {
+      "organization_name": "US-001-CLIN-FISHAUS",
+      "item_code": "FP-14522",
+      "item_description": "GS-5423 Injection, 150 mg/mL, 2 mL/vial",
+      "lot_number": "536-5939/12",
+      "creation_date": "2025-11-04 10:50:27.000",
+      "lot_expiration_date": "2027-04-30 11:22:00.000",
+      "lot_status_description": "Release",
+      "onhand_qty": 120,
+      "uom": "ca"
+    },
+    {
+      "organization_name": "US-001-CLIN-FISHAUS",
+      "item_code": "FP-14522",
+      "item_description": "GS-5423 Injection, 150 mg/mL, 2 mL/vial",
+      "lot_number": "536-5939/06",
+      "creation_date": "2023-11-15 10:43:32.000",
+      "lot_expiration_date": "2026-04-30 13:47:00.000",
+      "lot_status_description": "Release",
+      "onhand_qty": 103,
+      "uom": "ca"
+    }
+  ]
+}

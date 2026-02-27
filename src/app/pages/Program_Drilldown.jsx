@@ -8,7 +8,7 @@ import finishedProgramData from "../../data/Finished_Program_Planning.json";
 import level1MaterialsData from "../../data/Level_1_Materials.json";
 import level2MaterialsData from "../../data/Level_2_Materials.json";
 import parametersPoolData from "../../data/Parameters_Pool.json";
-import newImage from '../../assets/image.png'
+import onhandInventoryData from "../../data/onhand_inventory_data.json";
 
 export default function ProgramDrilldown() {
   const { programId } = useParams();
@@ -149,7 +149,7 @@ export default function ProgramDrilldown() {
                 </label>
                 <p className="mt-1 text-base text-gray-900">
                   {parametersPoolData.FP.siteExecution}
-                </p>.
+                </p>
               </div>
               <div>
                 <label className="block text-sm font-medium text-gray-500">
@@ -296,14 +296,12 @@ export default function ProgramDrilldown() {
 
       {/* Finished Program Planning Table */}
       <div className="mb-8">
-        <div className="flex items-baseline gap-4">
-          <h2 className="text-xl font-bold text-gray-800">
-            Finished Product: FP-14522
-          </h2>
-          <p className="text-gray-600 text-base">
-            GS-5423 Injection, 150 mg/mL, 2 mL/vial
-          </p>
-        </div>
+        <h2 className="text-xl font-bold text-gray-800">
+          Finished Product: FP-14522
+        </h2>
+        <p className="text-gray-600 mt-1 text-base mb-4">
+          GS-5423 Injection, 150 mg/mL, 2 mL/vial
+        </p>
         <DataTable
           columns={finishedProgramData.columns}
           data={finishedData}
@@ -312,14 +310,12 @@ export default function ProgramDrilldown() {
 
       {/* Level 1 Materials Table */}
       <div className="mb-8">
-        <div className="flex items-baseline gap-4">
-          <h2 className="text-xl font-bold text-gray-800">
-            Drug Product: PC-12723
-          </h2>
-          <p className="text-gray-600 text-base">
-            DP -GS-5423 Injection, 150 mg/mL,  2 mL /via
-          </p>
-        </div>
+        <h2 className="text-xl font-bold text-gray-800">
+          Drug Product: PC-12723
+        </h2>
+        <p className="text-gray-600 mt-1 text-base mb-4">
+          DP -GS-5423 Injection, 150 mg/mL,  2 mL /via
+        </p>
         <DataTable
           columns={level1MaterialsData.columns}
           data={level1Data}
@@ -328,29 +324,26 @@ export default function ProgramDrilldown() {
 
       {/* Level 2 Raw Materials Table */}
       <div>
-        <div className="flex items-baseline gap-4">
-          <h2 className="text-xl font-bold text-gray-800">
-            Drug Substance: IP-15699
-          </h2>
-          <p className="text-gray-600 text-base">
-            DS - GS-5423 Drug Substance, 85mg/mL
-          </p>
-        </div>
+        <h2 className="text-xl font-bold text-gray-800">
+          Drug Substance: IP-15699
+        </h2>
+        <p className="text-gray-600 mt-1 text-base mb-4">
+          DS - GS-5423 Drug Substance, 85mg/mL
+        </p>
         <DataTable
           columns={level2MaterialsData.columns}
           data={level2Data}
         />
       </div>
       
-      {/* Added Image */}
-      <div className="mt-8 border border-gray-200/80 rounded-2xl shadow-sm p-6 bg-white">
+      {/* Onhand Inventory Table */}
+      <div className="mt-8">
         <h2 className="text-xl font-bold text-gray-800 mb-4">
-          Onhand Inventory View
+          Onhand Inventory
         </h2>
-        <img
-          src={newImage}
-          alt="Onhand Inventory"
-          className="w-full h-auto rounded-lg"
+        <DataTable
+          columns={onhandInventoryData.columns}
+          data={onhandInventoryData.data}
         />
       </div>
     </div>
