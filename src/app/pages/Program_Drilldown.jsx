@@ -1,21 +1,73 @@
+import React, { useState, useMemo } from 'react';
 import { useParams, Link } from "react-router-dom";
 import { Home, ChevronRight } from "lucide-react";
 
 import DataTable from "../components/DataTable";
+import StudySelector from '../components/StudySelector';
+import ViewModeToggle from '../components/ViewModeToggle';
+import { programData } from '../../data/programData';
+import { calculateCumulativeData } from '../utils/cumulativeCalculations';
 
 import summaryData from "../../data/Program_Summary.json";
-import finishedProgramData from "../../data/Finished_Program_Planning.json";
-import level1MaterialsData from "../../data/Level_1_Materials.json";
-import level2MaterialsData from "../../data/Level_2_Materials.json";
 import parametersPoolData from "../../data/Parameters_Pool.json";
 import onhandInventoryData from "../../data/onhand_inventory_data.json";
 
 export default function ProgramDrilldown() {
   const { programId } = useParams();
+  const [selectedStudyId, setSelectedStudyId] = useState("ALL");
+  const [viewMode, setViewMode] = useState("PER_STUDY");
+
   const programSummary = summaryData[programId];
-  const finishedData = finishedProgramData.data[programId];
-  const level1Data = level1MaterialsData.data[programId];
-  const level2Data = level2MaterialsData.data[programId];
+  const program = programData;
+
+  const { data: cumulativeData, columns: cumulativeColumns } = useMemo(() => {
+    return calculateCumulativeData(program.studies);
+  }, [program]);
+
+  const renderTables = () => {
+    if (viewMode === 'CUMULATIVE') {
+      return (
+        <div className="mb-8">
+          <h2 className="text-xl font-bold text-gray-800">
+            Cumulative Program View
+          </h2>
+          <DataTable columns={cumulativeColumns} data={cumulativeData} />
+        </div>
+      );
+    }
+
+
+
+    if (selectedStudyId !== 'ALL') {
+      const study = program.studies.find(s => s.id === selectedStudyId);
+      return study.materials.map(material => (
+        <div key={material.id} className="mb-8">
+          <h2 className="text-xl font-bold text-gray-800">
+            {material.type}: {material.id}
+          </h2>
+          {material.description && <p className="text-gray-600 mt-1 text-base mb-4">{material.description}</p>}
+          <DataTable columns={material.columns} data={material.data} />
+        </div>
+      ));
+    }
+
+    // "ALL" + "PER_STUDY"
+    return program.studies.map(study => (
+      <div key={study.id}>
+        <h2 className="text-2xl font-bold text-gray-800 mb-4 mt-8">{study.name}</h2>
+        {study.materials.map(material => (
+          <div key={material.id} className="mb-8">
+            <h3 className="text-xl font-bold text-gray-800">
+              {material.type}: {material.id}
+            </h3>
+            {material.description && <p className="text-gray-600 mt-1 text-base mb-4">{material.description}</p>}
+            <DataTable columns={material.columns} data={material.data} />
+          </div>
+        ))}
+      </div>
+    ));
+  };
+
 
   if (!programSummary) {
     return (
@@ -159,22 +211,6 @@ export default function ProgramDrilldown() {
                   {parametersPoolData.FP.moq}
                 </p>
               </div>
-              {/* <div>
-                <label className="block text-sm font-medium text-gray-500">
-                  Release Lead Time
-                </label>
-                <p className="mt-1 text-base text-gray-900">
-                  {parametersPoolData.FP.releaseLeadTime}
-                </p>
-              </div>
-              <div>
-                <label className="block text-sm font-medium text-gray-500">
-                  Execution Lead Time
-                </label>
-                <p className="mt-1 text-base text-gray-900">
-                  {parametersPoolData.FP.executionLeadTime}
-                </p>
-              </div> */}
             </div>
           </div>
 
@@ -216,22 +252,6 @@ export default function ProgramDrilldown() {
                   {parametersPoolData.IP1.moq}
                 </p>
               </div>
-              {/* <div>
-                <label className="block text-sm font-medium text-gray-500">
-                  Release Lead Time
-                </label>
-                <p className="mt-1 text-base text-gray-900">
-                  {parametersPoolData.IP1.releaseLeadTime}
-                </p>
-              </div>
-              <div>
-                <label className="block text-sm font-medium text-gray-500">
-                  Execution Lead Time
-                </label>
-                <p className="mt-1 text-base text-gray-900">
-                  {parametersPoolData.IP1.executionLeadTime}
-                </p>
-              </div> */}
             </div>
           </div>
 
@@ -273,69 +293,25 @@ export default function ProgramDrilldown() {
                   {parametersPoolData.IP2.moq}
                 </p>
               </div>
-              {/* <div>
-                <label className="block text-sm font-medium text-gray-500">
-                  Release Lead Time
-                </label>
-                <p className="mt-1 text-base text-gray-900">
-                  {parametersPoolData.IP2.releaseLeadTime}
-                </p>
-              </div>
-              <div>
-                <label className="block text-sm font-medium text-gray-500">
-                  Execution Lead Time
-                </label>
-                <p className="mt-1 text-base text-gray-900">
-                  {parametersPoolData.IP2.executionLeadTime}
-                </p>
-              </div> */}
             </div>
           </div>
         </div>
       </div>
-
-      {/* Finished Program Planning Table */}
-      <div className="mb-8">
-        <h2 className="text-xl font-bold text-gray-800">
-          Finished Product: FP-14522
-        </h2>
-        <p className="text-gray-600 mt-1 text-base mb-4">
-          GS-5423 Injection, 150 mg/mL, 2 mL/vial
-        </p>
-        <DataTable
-          columns={finishedProgramData.columns}
-          data={finishedData}
-        />
-      </div>
-
-      {/* Level 1 Materials Table */}
-      <div className="mb-8">
-        <h2 className="text-xl font-bold text-gray-800">
-          Drug Product: PC-12723
-        </h2>
-        <p className="text-gray-600 mt-1 text-base mb-4">
-          DP -GS-5423 Injection, 150 mg/mL,  2 mL /via
-        </p>
-        <DataTable
-          columns={level1MaterialsData.columns}
-          data={level1Data}
-        />
-      </div>
-
-      {/* Level 2 Raw Materials Table */}
-      <div>
-        <h2 className="text-xl font-bold text-gray-800">
-          Drug Substance: IP-15699
-        </h2>
-        <p className="text-gray-600 mt-1 text-base mb-4">
-          DS - GS-5423 Drug Substance, 85mg/mL
-        </p>
-        <DataTable
-          columns={level2MaterialsData.columns}
-          data={level2Data}
-        />
-      </div>
       
+      <div className="flex justify-between items-center mb-4">
+        <StudySelector
+            studies={program.studies}
+            selectedStudyId={selectedStudyId}
+            onChange={setSelectedStudyId}
+            disabled={viewMode === 'CUMULATIVE'}
+        />
+        <ViewModeToggle viewMode={viewMode} onChange={setViewMode} />
+      </div>
+
+
+      {renderTables()}
+
+
       {/* Onhand Inventory Table */}
       <div className="mt-8">
         <h2 className="text-xl font-bold text-gray-800 mb-4">
