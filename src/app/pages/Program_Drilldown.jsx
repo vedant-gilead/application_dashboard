@@ -5,7 +5,7 @@ import { Home, ChevronRight } from "lucide-react";
 import DataTable from "../components/DataTable";
 import StudySelector from '../components/StudySelector';
 import ViewModeToggle from '../components/ViewModeToggle';
-import { programData } from '../../data/programData';
+import { programs } from '../../data/programData';
 import { calculateCumulativeData } from '../utils/cumulativeCalculations';
 
 import summaryData from "../../data/Program_Summary.json";
@@ -19,13 +19,16 @@ export default function ProgramDrilldown() {
 
   const programSummary = summaryData[programId];
   const programParameters = parametersPoolData[programId];
-  const program = programData;
+  const program = programs[programId];
 
   const { data: cumulativeData, columns: cumulativeColumns } = useMemo(() => {
+    if (!program) return { data: [], columns: [] };
     return calculateCumulativeData(program.studies);
   }, [program]);
 
   const renderTables = () => {
+    if (!program) return null;
+
     if (viewMode === 'CUMULATIVE') {
       return (
         <div className="mb-8">
@@ -41,6 +44,7 @@ export default function ProgramDrilldown() {
 
     if (selectedStudyId !== 'ALL') {
       const study = program.studies.find(s => s.id === selectedStudyId);
+      if (!study) return null;
       return study.materials.map(material => (
         <div key={material.id} className="mb-8">
           <h2 className="text-xl font-bold text-gray-800">
@@ -70,7 +74,7 @@ export default function ProgramDrilldown() {
   };
 
 
-  if (!programSummary || !programParameters) {
+  if (!programSummary || !programParameters || !program) {
     return (
       <div className="bg-white rounded-2xl border border-gray-200/80 p-12 shadow-sm text-center">
         <div className="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-4">
