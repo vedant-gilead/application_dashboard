@@ -18,6 +18,7 @@ export default function ProgramDrilldown() {
   const [viewMode, setViewMode] = useState("PER_STUDY");
 
   const programSummary = summaryData[programId];
+  const programParameters = parametersPoolData[programId];
   const program = programData;
 
   const { data: cumulativeData, columns: cumulativeColumns } = useMemo(() => {
@@ -69,7 +70,7 @@ export default function ProgramDrilldown() {
   };
 
 
-  if (!programSummary) {
+  if (!programSummary || !programParameters) {
     return (
       <div className="bg-white rounded-2xl border border-gray-200/80 p-12 shadow-sm text-center">
         <div className="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-4">
@@ -200,7 +201,7 @@ export default function ProgramDrilldown() {
                   Site Execution
                 </label>
                 <p className="mt-1 text-base text-gray-900">
-                  {parametersPoolData.FP.siteExecution}
+                  {programParameters.FP.siteExecution}
                 </p>
               </div>
               <div>
@@ -208,7 +209,7 @@ export default function ProgramDrilldown() {
                   MOQ
                 </label>
                 <p className="mt-1 text-base text-gray-900">
-                  {parametersPoolData.FP.moq}
+                  {programParameters.FP.moq}
                 </p>
               </div>
             </div>
@@ -225,7 +226,7 @@ export default function ProgramDrilldown() {
                   Safety Stock
                 </label>
                 <p className="mt-1 text-base text-gray-900">
-                  {parametersPoolData.IP1.safetyStock}
+                  {programParameters.IP1.safetyStock}
                 </p>
               </div>
               <div>
@@ -233,7 +234,7 @@ export default function ProgramDrilldown() {
                   Consumption Ratio (PC/FP)
                 </label>
                 <p className="mt-1 text-base text-gray-900">
-                  {parametersPoolData.IP1.consumptionRatio}
+                  {programParameters.IP1.consumptionRatio}
                 </p>
               </div>
               <div>
@@ -241,7 +242,7 @@ export default function ProgramDrilldown() {
                   Site Execution
                 </label>
                 <p className="mt-1 text-base text-gray-900">
-                  {parametersPoolData.IP1.siteExecution}
+                  {programParameters.IP1.siteExecution}
                 </p>
               </div>
               <div>
@@ -249,7 +250,7 @@ export default function ProgramDrilldown() {
                   MOQ
                 </label>
                 <p className="mt-1 text-base text-gray-900">
-                  {parametersPoolData.IP1.moq}
+                  {programParameters.IP1.moq}
                 </p>
               </div>
             </div>
@@ -266,7 +267,7 @@ export default function ProgramDrilldown() {
                   Safety Stock
                 </label>
                 <p className="mt-1 text-base text-gray-900">
-                  {parametersPoolData.IP2.safetyStock}
+                  {programParameters.IP2.safetyStock}
                 </p>
               </div>
               <div>
@@ -274,7 +275,7 @@ export default function ProgramDrilldown() {
                   Consumption Ratio (IP/PC)
                 </label>
                 <p className="mt-1 text-base text-gray-900">
-                  {parametersPoolData.IP2.consumptionRatio}
+                  {programParameters.IP2.consumptionRatio}
                 </p>
               </div>
               <div>
@@ -282,7 +283,7 @@ export default function ProgramDrilldown() {
                   Site Execution
                 </label>
                 <p className="mt-1 text-base text-gray-900">
-                  {parametersPoolData.IP2.siteExecution}
+                  {programParameters.IP2.siteExecution}
                 </p>
               </div>
               <div>
@@ -290,7 +291,7 @@ export default function ProgramDrilldown() {
                   MOQ
                 </label>
                 <p className="mt-1 text-base text-gray-900">
-                  {parametersPoolData.IP2.moq}
+                  {programParameters.IP2.moq}
                 </p>
               </div>
             </div>

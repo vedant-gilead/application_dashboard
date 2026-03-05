@@ -8,20 +8,12 @@
     "lot": "765462, 913617, 625519",
     "siteExecution": "La Verne, Wuxi"
   },
-  "GS-6791": {
-    "program": "GS-6791",
-    "therapeuticArea": "Oncology",
-    "study": "GS-US-XXX",
-    "materialNumber": "IP-XXXX",
-    "lot": "XXXXX",
-    "siteExecution": "LV, GSIUC, Alberta"
-  },
-  "GS-1234": {
-    "program": "GS-1234",
-    "therapeuticArea": "Oncology",
-    "study": "GS-US-XXX",
-    "materialNumber": "IP-XXXX",
-    "lot": "XXXXX",
-    "siteExecution": "LV, GSIUC, Alberta"
+  "GS-2872": {
+    "program": "GS-2872",
+    "therapeuticArea": "TBD",
+    "study": "GS-2872 Phase 3",
+    "materialNumber": "GS-2872 Phase 3 DP Activ 1, GS-2872 Phase 3 DP Placebo 1, GS-2872 Phase 3 DS 1",
+    "lot": "NA",
+    "siteExecution": "La Verne, CDMO 2"
   }
 }

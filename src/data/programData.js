@@ -3,11 +3,11 @@ export const programData = {
   studies: [
     {
       id: "5939",
-      name: "Study 5939",
+      name: "GS-US-536-5939",
       materials: [
         {
           id: "PC-12723",
-          type: "PC",
+          type: "Drug Product",
           description: "DP -GS-5423 Injection, 150 mg/mL,  2 mL /via",
           parentMaterialIds: ["IP-15699"],
           consumptionRatio: 1.2,
@@ -43,41 +43,57 @@ export const programData = {
             { "key": "jun27", "label": "Jun-27" }
           ],
           data: [
-            { "metric": "Demand (Initial)", "mar25": 0, "apr25": 0, "may25": 200, "jun25": 0, "jul25": 0, "aug25": 0,
-            "sep25": 0, "oct25": 0, "nov25": 0, "dec25": 0,
-            "jan26": 0, "feb26": 0, "mar26": 747, "apr26": 0, "may26": 0, "jun26": 0,
-            "jul26": 0, "aug26": 0, "sep26": 0, "oct26": 0,
-            "nov26": 1500, "dec26": 0,
-            "jan27": 0, "feb27": 0, "mar27": 0, "apr27": 0, "may27": 0, "jun27": 0 },
-            { "metric": "Demand (Re-Supply)", "mar25": 0, "apr25": 0, "may25": 200, "jun25": 0, "jul25": 0, "aug25": 0,
-            "sep25": 0, "oct25": 0, "nov25": 0, "dec25": 0,
-            "jan26": 0, "feb26": 0, "mar26": 747, "apr26": 0, "may26": 0, "jun26": 0,
-            "jul26": 0, "aug26": 0, "sep26": 0, "oct26": 0,
-            "nov26": 1500, "dec26": 0,
-            "jan27": 0, "feb27": 0, "mar27": 0, "apr27": 0, "may27": 0, "jun27": 0 },
-            { "metric": "Inventory", "mar25": 747, "apr25": 747, "may25": 747, "jun25": 0, "jul25": 0, "aug25": 0,
-            "sep25": 0, "oct25": 0, "nov25": 0, "dec25": 0,
-            "jan26": 0, "feb26": 0, "mar26": 747, "apr26": 0, "may26": 0, "jun26": 0,
-            "jul26": 0, "aug26": 0, "sep26": 0, "oct26": 0,
-            "nov26": 1500, "dec26": 0,
-            "jan27": 0, "feb27": 0, "mar27": 0, "apr27": 0, "may27": 0, "jun27": 0 },
-            { "metric": "Expiry/Obsolescence", "mar25": 0, "apr25": 0, "may25": 0, "jun25": 0, "jul25": 0, "aug25": 0,
-            "sep25": 0, "oct25": 0, "nov25": 0, "dec25": 0,
-            "jan26": 0, "feb26": 0, "mar26": 747, "apr26": 0, "may26": 0, "jun26": 0,
-            "jul26": 0, "aug26": 0, "sep26": 0, "oct26": 0,
-            "nov26": 1500, "dec26": 0,
-            "jan27": 0, "feb27": 0, "mar27": 0, "apr27": 0, "may27": 0, "jun27": 0 },
-            { "metric": "Supply/Release", "mar25": 0, "apr25": 0, "may25": 0, "jun25": 0, "jul25": 0, "aug25": 0,
-            "sep25": 0, "oct25": 0, "nov25": 0, "dec25": 0,
-            "jan26": 0, "feb26": 0, "mar26": 747, "apr26": 0, "may26": 0, "jun26": 0,
-            "jul26": 0, "aug26": 0, "sep26": 0, "oct26": 0,
-            "nov26": 1500, "dec26": 0,
-            "jan27": 0, "feb27": 0, "mar27": 0, "apr27": 0, "may27": 0, "jun27": 0 }
+            {
+              "metric": "Demand (Initial)",
+              "mar25": 0, "apr25": 0, "may25": 200, "jun25": 0, "jul25": 0, "aug25": 0,
+              "sep25": 0, "oct25": 0, "nov25": 0, "dec25": 0,
+              "jan26": 0, "feb26": 0, "mar26": 747, "apr26": 0, "may26": 0, "jun26": 0,
+              "jul26": 0, "aug26": 0, "sep26": 0, "oct26": 0,
+              "nov26": 1500, "dec26": 0,
+              "jan27": 0, "feb27": 0, "mar27": 0, "apr27": 0, "may27": 0, "jun27": 0
+            },
+            {
+              "metric": "Demand (Re-Supply)",
+              "mar25": 0, "apr25": 0, "may25": 200, "jun25": 0, "jul25": 0, "aug25": 0,
+              "sep25": 0, "oct25": 0, "nov25": 0, "dec25": 0,
+              "jan26": 0, "feb26": 0, "mar26": 747, "apr26": 0, "may26": 0, "jun26": 0,
+              "jul26": 0, "aug26": 0, "sep26": 0, "oct26": 0,
+              "nov26": 1500, "dec26": 0,
+              "jan27": 0, "feb27": 0, "mar27": 0, "apr27": 0, "may27": 0, "jun27": 0
+            },
+            {
+              "metric": "Inventory",
+              "mar25": 747, "apr25": 747, "may25": 747, "jun25": 747, "jul25": 747, "aug25": 747,
+              "sep25": 747, "oct25": 747, "nov25": 747, "dec25": 747,
+              "jan26": 747, "feb26": 747, "mar26": 747,
+              "apr26": 6099, "may26": 6099, "jun26": 6099, "jul26": 6099, "aug26": 6099, "sep26": 6099,
+              "oct26": 6099,
+              "nov26": 4599, "dec26": 4599,
+              "jan27": 4599, "feb27": 4599, "mar27": 4599, "apr27": 4599, "may27": 4599, "jun27": 4599
+            },
+            {
+              "metric": "Expiry/Obsolescence",
+              "mar25": 0, "apr25": 0, "may25": 0, "jun25": 0, "jul25": 0, "aug25": 0,
+              "sep25": 0, "oct25": 0, "nov25": 0, "dec25": 0,
+              "jan26": 0, "feb26": 0, "mar26": 0, "apr26": 0, "may26": 0, "jun26": 0,
+              "jul26": 0, "aug26": 0, "sep26": 0, "oct26": 0,
+              "nov26": 0, "dec26": 0,
+              "jan27": 0, "feb27": 0, "mar27": 0, "apr27": 0, "may27": 0, "jun27": 0
+            },
+            {
+              "metric": "Supply/Release",
+              "mar25": 0, "apr25": 0, "may25": 0, "jun25": 0, "jul25": 0, "aug25": 0,
+              "sep25": 0, "oct25": 0, "nov25": 0, "dec25": 0,
+              "jan26": 0, "feb26": 0, "mar26": 5352, "apr26": 0, "may26": 0, "jun26": 0,
+              "jul26": 0, "aug26": 0, "sep26": 0, "oct26": 0,
+              "nov26": 0, "dec26": 0,
+              "jan27": 0, "feb27": 0, "mar27": 0, "apr27": 0, "may27": 0, "jun27": 0
+            }
           ]
         },
         {
           id: "IP-15699",
-          type: "IP",
+          type: "Drug Substance",
           description: "DP -GS-5423 Injection, 150 mg/mL,  2 mL /via",
           columns: [
             { "key": "metric", "label": "Metric" },
@@ -111,47 +127,60 @@ export const programData = {
             { "key": "jun27", "label": "Jun-27" }
           ],
           data: [
-            { "metric": "Demand (Initial)", "mar25": 0, "apr25": 0, "may25": 0, "jun25": 0, "jul25": 0, "aug25": 0,
-            "sep25": 0, "oct25": 0, "nov25": 0, "dec25": 0,
-            "jan26": 0, "feb26": 0, "mar26": 747, "apr26": 0, "may26": 0, "jun26": 0,
-            "jul26": 0, "aug26": 0, "sep26": 0, "oct26": 0,
-            "nov26": 1500, "dec26": 0,
-            "jan27": 0, "feb27": 0, "mar27": 0, "apr27": 0, "may27": 0, "jun27": 0 },
-            { "metric": "Demand (Re-Supply)", "mar25": 0, "apr25": 0, "may25": 0, "jun25": 0, "jul25": 0, "aug25": 0,
-            "sep25": 0, "oct25": 0, "nov25": 0, "dec25": 0,
-            "jan26": 0, "feb26": 0, "mar26": 747, "apr26": 0, "may26": 0, "jun26": 0,
-            "jul26": 0, "aug26": 0, "sep26": 0, "oct26": 0,
-            "nov26": 1500, "dec26": 0,
-            "jan27": 0, "feb27": 0, "mar27": 0, "apr27": 0, "may27": 0, "jun27": 0 },
-            { "metric": "Inventory", "mar25": 15, "apr25": 15, "may25": 15, "jun25": 0, "jul25": 0, "aug25": 0,
-            "sep25": 0, "oct25": 0, "nov25": 0, "dec25": 0,
-            "jan26": 0, "feb26": 0, "mar26": 747, "apr26": 0, "may26": 0, "jun26": 0,
-            "jul26": 0, "aug26": 0, "sep26": 0, "oct26": 0,
-            "nov26": 1500, "dec26": 0,
-            "jan27": 0, "feb27": 0, "mar27": 0, "apr27": 0, "may27": 0, "jun27": 0 },
-            { "metric": "Expiry/Obsolescence", "mar25": 0, "apr25": 0, "may25": 0, "jun25": 0, "jul25": 0, "aug25": 0,
-            "sep25": 0, "oct25": 0, "nov25": 0, "dec25": 0,
-            "jan26": 0, "feb26": 0, "mar26": 747, "apr26": 0, "may26": 0, "jun26": 0,
-            "jul26": 0, "aug26": 0, "sep26": 0, "oct26": 0,
-            "nov26": 1500, "dec26": 0,
-            "jan27": 0, "feb27": 0, "mar27": 0, "apr27": 0, "may27": 0, "jun27": 0 },
-            { "metric": "Supply/Release", "mar25": 0, "apr25": 0, "may25": 0, "jun25": 0, "jul25": 0, "aug25": 0,
-            "sep25": 0, "oct25": 0, "nov25": 0, "dec25": 0,
-            "jan26": 0, "feb26": 0, "mar26": 747, "apr26": 0, "may26": 0, "jun26": 0,
-            "jul26": 0, "aug26": 0, "sep26": 0, "oct26": 0,
-            "nov26": 1500, "dec26": 0,
-            "jan27": 0, "feb27": 0, "mar27": 0, "apr27": 0, "may27": 0, "jun27": 0 }
+            {
+              "metric": "Demand (Initial)",
+              "mar25": 0, "apr25": 0, "may25": 0, "jun25": 0,
+              "jul25": 0, "aug25": 0, "sep25": 0, "oct25": 0, "nov25": 0, "dec25": 0,
+              "jan26": 0, "feb26": 0, "mar26": 0, "apr26": 0, "may26": 0, "jun26": 0,
+              "jul26": 0, "aug26": 0, "sep26": 0, "oct26": 0, "nov26": 0, "dec26": 0,
+              "jan27": 0, "feb27": 0, "mar27": 0, "apr27": 0, "may27": 0, "jun27": 0
+            },
+            {
+              "metric": "Demand (Re-Supply)",
+              "mar25": 0, "apr25": 0, "may25": 0, "jun25": 0,
+              "jul25": 0, "aug25": 0, "sep25": 0, "oct25": 0, "nov25": 0, "dec25": 0,
+              "jan26": 0, "feb26": 0, "mar26": 0, "apr26": 0, "may26": 0, "jun26": 0,
+              "jul26": 0, "aug26": 0, "sep26": 0, "oct26": 0, "nov26": 0, "dec26": 0,
+              "jan27": 0, "feb27": 0, "mar27": 0, "apr27": 0, "may27": 0, "jun27": 0
+            },
+            {
+              "metric": "Inventory",
+              "mar25": 15, "apr25": 15, "may25": 15, "jun25": 15,
+              "jul25": 15, "aug25": 15, "sep25": 15, "oct25": 15, "nov25": 15, "dec25": 15,
+              "jan26": 15, "feb26": 15, "mar26": 15, "apr26": 15, "may26": 15, "jun26": 15,
+              "jul26": 15, "aug26": 15, "sep26": 15,
+              "oct26": 0, "nov26": 0, "dec26": 0,
+              "jan27": 0, "feb27": 0, "mar27": 0, "apr27": 0, "may27": 0, "jun27": 0
+            },
+            {
+              "metric": "Expiry/Obsolescence",
+              "mar25": 0, "apr25": 0, "may25": 0, "jun25": 0,
+              "jul25": 0, "aug25": 0, "sep25": 0, "oct25": 0, "nov25": 0, "dec25": 0,
+              "jan26": 0, "feb26": 0, "mar26": 0, "apr26": 0, "may26": 0, "jun26": 0,
+              "jul26": 0, "aug26": 0, "sep26": 0,
+              "oct26": 15,
+              "nov26": 0, "dec26": 0,
+              "jan27": 0, "feb27": 0, "mar27": 0, "apr27": 0, "may27": 0, "jun27": 0
+            },
+            {
+              "metric": "Supply/Release",
+              "mar25": 0, "apr25": 0, "may25": 0, "jun25": 0,
+              "jul25": 0, "aug25": 0, "sep25": 0, "oct25": 0, "nov25": 0, "dec25": 0,
+              "jan26": 0, "feb26": 0, "mar26": 0, "apr26": 0, "may26": 0, "jun26": 0,
+              "jul26": 0, "aug26": 0, "sep26": 0, "oct26": 0, "nov26": 0, "dec26": 0,
+              "jan27": 0, "feb27": 0, "mar27": 0, "apr27": 0, "may27": 0, "jun27": 0
+            }
           ]
         }
       ]
     },
     {
       id: "7249",
-      name: "Study 7249",
+      name: "CO-US-673-7249",
       materials: [
         {
           id: "PC-13296",
-          type: "PC",
+          type: "Drug Product",
           description: "DP -GS-5423 Injection, 150 mg/mL,  2 mL /via",
           parentMaterialIds: ["IP-14478"],
           consumptionRatio: 1.5,
@@ -222,7 +251,7 @@ export const programData = {
         {
           id: "IP-14478",
           description: "DP -GS-5423 Injection, 150 mg/mL,  2 mL /via",
-          type: "IP",
+          type: "Drug Substance",
           columns: [
             { "key": "metric", "label": "Metric" },
             { "key": "mar25", "label": "Mar-25" },
