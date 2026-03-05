@@ -5,14 +5,18 @@ import { Home, ChevronRight } from "lucide-react";
 import DataTable from "../components/DataTable";
 import StudySelector from '../components/StudySelector';
 import ViewModeToggle from '../components/ViewModeToggle';
-import { programs } from '../../data/programData';
+import programs from '../../data/programData.json';
 import { calculateCumulativeData } from '../utils/cumulativeCalculations';
 
 import summaryData from "../../data/Program_Summary.json";
 import parametersPoolData from "../../data/Parameters_Pool.json";
 import onhandInventoryData from "../../data/onhand_inventory_data.json";
 
-export default function ProgramDrilldown() {
+import ProgramSummary from './Program_Drilldown/components/ProgramSummary';
+import ProgramParameters from './Program_Drilldown/components/ProgramParameters';
+import ProgramTables from './Program_Drilldown/components/ProgramTables';
+
+export default function Program_Drilldown() {
   const { programId } = useParams();
   const [selectedStudyId, setSelectedStudyId] = useState("ALL");
   const [viewMode, setViewMode] = useState("PER_STUDY");
@@ -25,54 +29,6 @@ export default function ProgramDrilldown() {
     if (!program) return { data: [], columns: [] };
     return calculateCumulativeData(program.studies);
   }, [program]);
-
-  const renderTables = () => {
-    if (!program) return null;
-
-    if (viewMode === 'CUMULATIVE') {
-      return (
-        <div className="mb-8">
-          <h2 className="text-xl font-bold text-gray-800">
-            Cumulative Program View
-          </h2>
-          <DataTable columns={cumulativeColumns} data={cumulativeData} />
-        </div>
-      );
-    }
-
-
-
-    if (selectedStudyId !== 'ALL') {
-      const study = program.studies.find(s => s.id === selectedStudyId);
-      if (!study) return null;
-      return study.materials.map(material => (
-        <div key={material.id} className="mb-8">
-          <h2 className="text-xl font-bold text-gray-800">
-            {material.type}: {material.id}
-          </h2>
-          {material.description && <p className="text-gray-600 mt-1 text-base mb-4">{material.description}</p>}
-          <DataTable columns={material.columns} data={material.data} />
-        </div>
-      ));
-    }
-
-    // "ALL" + "PER_STUDY"
-    return program.studies.map(study => (
-      <div key={study.id}>
-        <h2 className="text-2xl font-bold text-gray-800 mb-4 mt-8">{study.name}</h2>
-        {study.materials.map(material => (
-          <div key={material.id} className="mb-8">
-            <h3 className="text-xl font-bold text-gray-800">
-              {material.type}: {material.id}
-            </h3>
-            {material.description && <p className="text-gray-600 mt-1 text-base mb-4">{material.description}</p>}
-            <DataTable columns={material.columns} data={material.data} />
-          </div>
-        ))}
-      </div>
-    ));
-  };
-
 
   if (!programSummary || !programParameters || !program) {
     return (
@@ -131,177 +87,8 @@ export default function ProgramDrilldown() {
         </p>
       </div>
 
-      {/* Program Summary Card */}
-      <div className="bg-white rounded-2xl border border-gray-200/80 shadow-sm p-6 mb-8">
-        <h2 className="text-xl font-bold text-gray-800 mb-4">
-          Program Summary
-        </h2>
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-          <div>
-            <label className="block text-sm font-medium text-gray-500">
-              Program
-            </label>
-            <p className="mt-1 text-base text-gray-900">
-              {programSummary.program}
-            </p>
-          </div>
-          <div>
-            <label className="block text-sm font-medium text-gray-500">
-              Therapeutic Area
-            </label>
-            <p className="mt-1 text-base text-gray-900">
-              {programSummary.therapeuticArea}
-            </p>
-          </div>
-          <div>
-            <label className="block text-sm font-medium text-gray-500">
-              Study Numbers
-            </label>
-            <p className="mt-1 text-base text-gray-900">
-              {programSummary.study}
-            </p>
-          </div>
-          <div>
-            <label className="block text-sm font-medium text-gray-500">
-              Material Numbers
-            </label>
-            <p className="mt-1 text-base text-gray-900">
-              {programSummary.materialNumber}
-            </p>
-          </div>
-          <div>
-            <label className="block text-sm font-medium text-gray-500">
-              Lot Numbers
-            </label>
-            <p className="mt-1 text-base text-gray-900">
-              {programSummary.lot}
-            </p>
-          </div>
-          <div>
-            <label className="block text-sm font-medium text-gray-500">
-              Site Execution
-            </label>
-            <p className="mt-1 text-base text-gray-900">
-              {programSummary.siteExecution}
-            </p>
-          </div>
-        </div>
-      </div>
-
-      {/* Parameters Pool Card */}
-      <div className="bg-white rounded-2xl border border-gray-200/80 shadow-sm p-6 mb-8">
-        <h2 className="text-xl font-bold text-gray-800 mb-4">
-          Program Parameters
-        </h2>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {/* Finished Product (FP) */}
-          <div className="border border-gray-200 rounded-lg p-4 bg-gray-50">
-            <h3 className="text-lg font-semibold text-gray-700 mb-3">
-              Finished Product (FP)
-            </h3>
-            <div className="grid grid-cols-2 gap-4">
-              <div>
-                <label className="block text-sm font-medium text-gray-500">
-                  Site Execution
-                </label>
-                <p className="mt-1 text-base text-gray-900">
-                  {programParameters.FP.siteExecution}
-                </p>
-              </div>
-              <div>
-                <label className="block text-sm font-medium text-gray-500">
-                  MOQ
-                </label>
-                <p className="mt-1 text-base text-gray-900">
-                  {programParameters.FP.moq}
-                </p>
-              </div>
-            </div>
-          </div>
-
-          {/* Drug Product (IP) - Group 1 */}
-          <div className="border border-gray-200 rounded-lg p-4 bg-gray-50">
-            <h3 className="text-lg font-semibold text-gray-700 mb-3">
-              Drug Product (PC)
-            </h3>
-            <div className="grid grid-cols-2 gap-4">
-              <div>
-                <label className="block text-sm font-medium text-gray-500">
-                  Safety Stock
-                </label>
-                <p className="mt-1 text-base text-gray-900">
-                  {programParameters.IP1.safetyStock}
-                </p>
-              </div>
-              <div>
-                <label className="block text-sm font-medium text-gray-500">
-                  Consumption Ratio (PC/FP)
-                </label>
-                <p className="mt-1 text-base text-gray-900">
-                  {programParameters.IP1.consumptionRatio}
-                </p>
-              </div>
-              <div>
-                <label className="block text-sm font-medium text-gray-500">
-                  Site Execution
-                </label>
-                <p className="mt-1 text-base text-gray-900">
-                  {programParameters.IP1.siteExecution}
-                </p>
-              </div>
-              <div>
-                <label className="block text-sm font-medium text-gray-500">
-                  MOQ
-                </label>
-                <p className="mt-1 text-base text-gray-900">
-                  {programParameters.IP1.moq}
-                </p>
-              </div>
-            </div>
-          </div>
-
-          {/* Drug Product (IP) - Group 2 */}
-          <div className="border border-gray-200 rounded-lg p-4 bg-gray-50">
-            <h3 className="text-lg font-semibold text-gray-700 mb-3">
-              Drug Substance (IP)
-            </h3>
-            <div className="grid grid-cols-2 gap-4">
-              <div>
-                <label className="block text-sm font-medium text-gray-500">
-                  Safety Stock
-                </label>
-                <p className="mt-1 text-base text-gray-900">
-                  {programParameters.IP2.safetyStock}
-                </p>
-              </div>
-              <div>
-                <label className="block text-sm font-medium text-gray-500">
-                  Consumption Ratio (IP/PC)
-                </label>
-                <p className="mt-1 text-base text-gray-900">
-                  {programParameters.IP2.consumptionRatio}
-                </p>
-              </div>
-              <div>
-                <label className="block text-sm font-medium text-gray-500">
-                  Site Execution
-                </label>
-                <p className="mt-1 text-base text-gray-900">
-                  {programParameters.IP2.siteExecution}
-                </p>
-              </div>
-              <div>
-                <label className="block text-sm font-medium text-gray-500">
-                  MOQ
-                </label>
-                <p className="mt-1 text-base text-gray-900">
-                  {programParameters.IP2.moq}
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+      <ProgramSummary programSummary={programSummary} />
+      <ProgramParameters programParameters={programParameters} />
       
       <div className="flex justify-between items-center mb-4">
         <StudySelector
@@ -313,9 +100,13 @@ export default function ProgramDrilldown() {
         <ViewModeToggle viewMode={viewMode} onChange={setViewMode} />
       </div>
 
-
-      {renderTables()}
-
+      <ProgramTables
+        program={program}
+        viewMode={viewMode}
+        cumulativeColumns={cumulativeColumns}
+        cumulativeData={cumulativeData}
+        selectedStudyId={selectedStudyId}
+      />
 
       {/* Onhand Inventory Table */}
       <div className="mt-8">

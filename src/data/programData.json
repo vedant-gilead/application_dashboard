@@ -1,18 +1,18 @@
-export const programs = {
+{
   "GS-5423": {
-    id: "GS-5423",
-    studies: [
+    "id": "GS-5423",
+    "studies": [
       {
-        id: "5939",
-        name: "GS-US-536-5939",
-        materials: [
+        "id": "5939",
+        "name": "GS-US-536-5939",
+        "materials": [
           {
-            id: "PC-12723",
-            type: "Drug Product",
-            description: "DP -GS-5423 Injection, 150 mg/mL,  2 mL /via",
-            parentMaterialIds: ["IP-15699"],
-            consumptionRatio: 1.2,
-            columns: [
+            "id": "PC-12723",
+            "type": "Drug Product",
+            "description": "DP -GS-5423 Injection, 150 mg/mL,  2 mL /via",
+            "parentMaterialIds": ["IP-15699"],
+            "consumptionRatio": 1.2,
+            "columns": [
               { "key": "metric", "label": "Metric" },
               { "key": "mar25", "label": "Mar-25" },
               { "key": "apr25", "label": "Apr-25" },
@@ -43,7 +43,7 @@ export const programs = {
               { "key": "may27", "label": "May-27" },
               { "key": "jun27", "label": "Jun-27" }
             ],
-            data: [
+            "data": [
               {
                 "metric": "Demand (Initial)",
                 "mar25": 0, "apr25": 0, "may25": 200, "jun25": 0, "jul25": 0, "aug25": 0,
@@ -93,10 +93,10 @@ export const programs = {
             ]
           },
           {
-            id: "IP-15699",
-            type: "Drug Substance",
-            description: "DP -GS-5423 Injection, 150 mg/mL,  2 mL /via",
-            columns: [
+            "id": "IP-15699",
+            "type": "Drug Substance",
+            "description": "DP -GS-5423 Injection, 150 mg/mL,  2 mL /via",
+            "columns": [
               { "key": "metric", "label": "Metric" },
               { "key": "mar25", "label": "Mar-25" },
               { "key": "apr25", "label": "Apr-25" },
@@ -127,7 +127,7 @@ export const programs = {
               { "key": "may27", "label": "May-27" },
               { "key": "jun27", "label": "Jun-27" }
             ],
-            data: [
+            "data": [
               {
                 "metric": "Demand (Initial)",
                 "mar25": 0, "apr25": 0, "may25": 0, "jun25": 0,
@@ -176,16 +176,16 @@ export const programs = {
         ]
       },
       {
-        id: "7249",
-        name: "CO-US-673-7249",
-        materials: [
+        "id": "7249",
+        "name": "CO-US-673-7249",
+        "materials": [
           {
-            id: "PC-13296",
-            type: "Drug Product",
-            description: "DP -GS-5423 Injection, 150 mg/mL,  2 mL /via",
-            parentMaterialIds: ["IP-14478"],
-            consumptionRatio: 1.5,
-            columns: [
+            "id": "PC-13296",
+            "type": "Drug Product",
+            "description": "DP -GS-5423 Injection, 150 mg/mL,  2 mL /via",
+            "parentMaterialIds": ["IP-14478"],
+            "consumptionRatio": 1.5,
+            "columns": [
               { "key": "metric", "label": "Metric" },
               { "key": "mar25", "label": "Mar-25" },
               { "key": "apr25", "label": "Apr-25" },
@@ -216,7 +216,7 @@ export const programs = {
               { "key": "may27", "label": "May-27" },
               { "key": "jun27", "label": "Jun-27" }
             ],
-            data: [
+            "data": [
               { "metric": "Demand (Initial)", "mar25": 0, "apr25": 0, "may25": 100, "jun25": 0, "jul25": 0, "aug25": 0,
               "sep25": 0, "oct25": 0, "nov25": 0, "dec25": 0,
               "jan26": 0, "feb26": 0, "mar26": 747, "apr26": 0, "may26": 0, "jun26": 0,
@@ -250,10 +250,10 @@ export const programs = {
             ]
           },
           {
-            id: "IP-14478",
-            description: "DP -GS-5423 Injection, 150 mg/mL,  2 mL /via",
-            type: "Drug Substance",
-            columns: [
+            "id": "IP-14478",
+            "description": "DP -GS-5423 Injection, 150 mg/mL,  2 mL /via",
+            "type": "Drug Substance",
+            "columns": [
               { "key": "metric", "label": "Metric" },
               { "key": "mar25", "label": "Mar-25" },
               { "key": "apr25", "label": "Apr-25" },
@@ -284,7 +284,7 @@ export const programs = {
               { "key": "may27", "label": "May-27" },
               { "key": "jun27", "label": "Jun-27" }
             ],
-            data: [
+            "data": [
               { "metric": "Demand (Initial)", "mar25": 0, "apr25": 0, "may25": 0, "jun25": 0, "jul25": 0, "aug25": 0,
               "sep25": 0, "oct25": 0, "nov25": 0, "dec25": 0,
               "jan26": 0, "feb26": 0, "mar26": 747, "apr26": 0, "may26": 0, "jun26": 0,
@@ -322,19 +322,19 @@ export const programs = {
     ]
   },
   "GS-2872": {
-    id: "GS-2872",
-    studies: [
+    "id": "GS-2872",
+    "studies": [
       {
-        id: "GS-2872 Phase 3",
-        name: "GS-2872 Phase 3",
-        materials: [
+        "id": "GS-2872 Phase 3",
+        "name": "GS-2872 Phase 3",
+        "materials": [
           {
-            id: "GS-2872 Phase 3 DP Activ 1",
-            type: "Drug Product",
-            description: "DP -GS-5423 Injection, 150 mg/mL,  2 mL /via",
-            parentMaterialIds: ["IP-15699"],
-            consumptionRatio: 1.2,
-            columns: [
+            "id": "GS-2872 Phase 3 DP Activ 1",
+            "type": "Drug Product",
+            "description": "DP -GS-5423 Injection, 150 mg/mL,  2 mL /via",
+            "parentMaterialIds": ["IP-15699"],
+            "consumptionRatio": 1.2,
+            "columns": [
               { "key": "metric", "label": "Metric" },
               { "key": "mar25", "label": "Mar-25" },
               { "key": "apr25", "label": "Apr-25" },
@@ -365,7 +365,7 @@ export const programs = {
               { "key": "may27", "label": "May-27" },
               { "key": "jun27", "label": "Jun-27" }
             ],
-            data: [
+            "data": [
               {
                 "metric": "Demand (Initial)",
                 "mar25": 0, "apr25": 0, "may25": 200, "jun25": 0, "jul25": 0, "aug25": 0,
@@ -415,12 +415,12 @@ export const programs = {
             ]
           },
           {
-            id: "GS-2872 Phase 3 DP Placebo 1",
-            type: "Drug Product",
-            description: "DP -GS-5423 Injection, 150 mg/mL,  2 mL /via",
-            parentMaterialIds: ["IP-15699"],
-            consumptionRatio: 1.2,
-            columns: [
+            "id": "GS-2872 Phase 3 DP Placebo 1",
+            "type": "Drug Product",
+            "description": "DP -GS-5423 Injection, 150 mg/mL,  2 mL /via",
+            "parentMaterialIds": ["IP-15699"],
+            "consumptionRatio": 1.2,
+            "columns": [
               { "key": "metric", "label": "Metric" },
               { "key": "mar25", "label": "Mar-25" },
               { "key": "apr25", "label": "Apr-25" },
@@ -451,7 +451,7 @@ export const programs = {
               { "key": "may27", "label": "May-27" },
               { "key": "jun27", "label": "Jun-27" }
             ],
-            data: [
+            "data": [
               {
                 "metric": "Demand (Initial)",
                 "mar25": 0, "apr25": 0, "may25": 200, "jun25": 0, "jul25": 0, "aug25": 0,
@@ -501,10 +501,10 @@ export const programs = {
             ]
           },
           {
-            id: "GS-2872 Phase 3 DS 1",
-            type: "Drug Substance",
-            description: "DP -GS-5423 Injection, 150 mg/mL,  2 mL /via",
-            columns: [
+            "id": "GS-2872 Phase 3 DS 1",
+            "type": "Drug Substance",
+            "description": "DP -GS-5423 Injection, 150 mg/mL,  2 mL /via",
+            "columns": [
               { "key": "metric", "label": "Metric" },
               { "key": "mar25", "label": "Mar-25" },
               { "key": "apr25", "label": "Apr-25" },
@@ -535,7 +535,7 @@ export const programs = {
               { "key": "may27", "label": "May-27" },
               { "key": "jun27", "label": "Jun-27" }
             ],
-            data: [
+            "data": [
               {
                 "metric": "Demand (Initial)",
                 "mar25": 0, "apr25": 0, "may25": 0, "jun25": 0,
@@ -585,4 +585,4 @@ export const programs = {
       }
     ]
   }
-};
+}
