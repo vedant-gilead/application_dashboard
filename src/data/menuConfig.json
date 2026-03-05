@@ -6,6 +6,12 @@
     "icon": "LayoutDashboard"
   },
   {
+    "id": "sites_master_data",
+    "label": "Sites Master Data",
+    "path": "/sites_master_data",
+    "icon": "Database"
+  },
+  {
     "id": "demand_forecast",
     "label": "Demand Forecast",
     "path": "/demand_forecast",

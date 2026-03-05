@@ -1,0 +1,143 @@
+{
+  "columns": [
+    {
+      "key": "execution_site",
+      "label": "Execution Site",
+      "sortable": true
+    },
+    {
+      "key": "receiving_lead_time",
+      "label": "Receiving Lead Time",
+      "sortable": true
+    },
+    {
+      "key": "manufacturing_lead_time",
+      "label": "Manufacturing Lead Time",
+      "sortable": true
+    },
+    {
+      "key": "release_lead_time",
+      "label": "Release Lead Time",
+      "sortable": true
+    },
+    {
+      "key": "execution_lead_time",
+      "label": "Execution Lead Time",
+      "sortable": true
+    }
+  ],
+  "data": [
+    {
+      "execution_site": "API 1",
+      "receiving_lead_time": 2,
+      "manufacturing_lead_time": 6,
+      "release_lead_time": 3,
+      "execution_lead_time": 9
+    },
+    {
+      "execution_site": "API 2",
+      "receiving_lead_time": 3,
+      "manufacturing_lead_time": 8,
+      "release_lead_time": 4,
+      "execution_lead_time": 12
+    },
+    {
+      "execution_site": "API 3",
+      "receiving_lead_time": 2,
+      "manufacturing_lead_time": 4,
+      "release_lead_time": 2,
+      "execution_lead_time": 6
+    },
+    {
+      "execution_site": "DS: CDMO 1",
+      "receiving_lead_time": 1,
+      "manufacturing_lead_time": 9,
+      "release_lead_time": 2,
+      "execution_lead_time": 11
+    },
+    {
+      "execution_site": "DS: CDMO 2",
+      "receiving_lead_time": 2,
+      "manufacturing_lead_time": 8,
+      "release_lead_time": 2,
+      "execution_lead_time": 10
+    },
+    {
+      "execution_site": "DS: CDMO 3",
+      "receiving_lead_time": 1,
+      "manufacturing_lead_time": 12,
+      "release_lead_time": 3,
+      "execution_lead_time": 15
+    },
+    {
+      "execution_site": "DS: CDMO 4",
+      "receiving_lead_time": 2,
+      "manufacturing_lead_time": 10,
+      "release_lead_time": 2,
+      "execution_lead_time": 12
+    },
+    {
+      "execution_site": "DP: GSIUC",
+      "receiving_lead_time": 1,
+      "manufacturing_lead_time": 3,
+      "release_lead_time": 2,
+      "execution_lead_time": 5
+    },
+    {
+      "execution_site": "DP: Foster City",
+      "receiving_lead_time": 2,
+      "manufacturing_lead_time": 3,
+      "release_lead_time": 1,
+      "execution_lead_time": 4
+    },
+    {
+      "execution_site": "DP: CDMO 4",
+      "receiving_lead_time": 1,
+      "manufacturing_lead_time": 6,
+      "release_lead_time": 3,
+      "execution_lead_time": 9
+    },
+    {
+      "execution_site": "DP: CDMO 5",
+      "receiving_lead_time": 2,
+      "manufacturing_lead_time": 4,
+      "release_lead_time": 2,
+      "execution_lead_time": 6
+    },
+    {
+      "execution_site": "DP: CDMO 6",
+      "receiving_lead_time": 1,
+      "manufacturing_lead_time": 2,
+      "release_lead_time": 1,
+      "execution_lead_time": 3
+    },
+    {
+      "execution_site": "DP: Gilead La Verne DP",
+      "receiving_lead_time": 1,
+      "manufacturing_lead_time": 7,
+      "release_lead_time": 1,
+      "execution_lead_time": 8
+    },
+    {
+      "execution_site": "Label: Gilead La Verne L/P",
+      "receiving_lead_time": 1,
+      "manufacturing_lead_time": 3,
+      "release_lead_time": 1,
+      "execution_lead_time": 4
+    },
+    {
+      "execution_site": "Label: Almac",
+      "receiving_lead_time": 0,
+      "manufacturing_lead_time": 3,
+      "release_lead_time": 0,
+      "execution_lead_time": 3
+    },
+    {
+      "execution_site": "Label: Fisher",
+      "receiving_lead_time": 0,
+      "manufacturing_lead_time": 3,
+      "release_lead_time": 0,
+      "execution_lead_time": 3
+    }
+  ]
+}
