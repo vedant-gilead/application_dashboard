@@ -1,10 +1,17 @@
+import { useState } from 'react';
 import DataTable from '../components/DataTable';
-import programData from '../../data/Program_Details.json';
-import { Plus } from 'lucide-react';
-import { Button } from '../components/ui/button';
+import initialProgramData from '../../data/Program_Details.json';
 import { columns } from '../config/programDetailsColumns';
+import AddProgramForm from '../components/AddProgramForm';
 
 export default function Program_Details() {
+  const [programData, setProgramData] = useState(initialProgramData);
+
+  const handleAddProgram = (newProgram) => {
+    const updatedData = { ...programData, data: [...programData.data, newProgram] };
+    setProgramData(updatedData);
+  };
+
   return (
     <div className="w-full">
       {/* Page Header */}
@@ -13,10 +20,7 @@ export default function Program_Details() {
           <h1 className="text-3xl font-semibold text-gray-900 tracking-tight">Program Details</h1>
           <p className="text-gray-600 mt-2 text-base">Programs: Manages clinical programs, studies, and associated materials with their site execution details.</p>
         </div>
-        <Button className="bg-[#306e9a] text-white px-4 py-2 rounded-lg shadow hover:bg-[#245371] transition-colors flex items-center gap-2">
-          <Plus className="w-5 h-5" />
-          Add Program
-        </Button>
+        <AddProgramForm onAddProgram={handleAddProgram} />
       </div>
 
       {/* Table Card */}
