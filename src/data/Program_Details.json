@@ -46,8 +46,8 @@
     },
     {
       "program": "GS-2872",
-      "modality": "TBD",
-      "therapeuticArea": "TBD",
+      "modality": "Sterile",
+      "therapeuticArea": "Virology",
       "apiSite": "La Verne, CDMO 2",
       "apiSiteReceivingLeadTime": 2,
       "apiSiteManufacturingLeadTime": 6,

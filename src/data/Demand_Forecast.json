@@ -1,6 +1,9 @@
 {
   "columns": [
     { "key": "program", "label": "Program", "sortable": true },
+    { "key": "partNumber", "label": "Part Number", "sortable": true, "editable": true  },
+    { "key": "partDescription", "label": "Part Description", "sortable": true, "editable": true  },
+    { "key": "materialStage", "label": "Material Stage", "sortable": true, "editable": true  },
     { "key": "Jan-2026", "label": "Jan 2026", "sortable": true, "editable": true },
     { "key": "Feb-2026", "label": "Feb 2026", "sortable": true, "editable": true },
     { "key": "Mar-2026", "label": "Mar 2026", "sortable": true, "editable": true },
