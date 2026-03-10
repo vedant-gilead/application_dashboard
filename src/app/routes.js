@@ -6,6 +6,7 @@ import ComingSoon from './pages/ComingSoon';
 import NotFound from './pages/NotFound';
 import Program_Drilldown from './pages/Program_Drilldown';
 import Sites_Master_Data from './pages/Sites_Master_Data';
+import Studies_Master_Data from './pages/Studies_Master_Data';
 
 export const router = createBrowserRouter([
   {
@@ -21,6 +22,7 @@ export const router = createBrowserRouter([
       { path: 'monthly_demand_supply', Component: ComingSoon },
       { path: 'programs/:programId', Component: Program_Drilldown },
       { path: 'sites_master_data', Component: Sites_Master_Data },
+      { path: 'studies_master_data', Component: Studies_Master_Data },
       { path: '*', Component: NotFound },
     ],
   },

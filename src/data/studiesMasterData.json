@@ -1,0 +1,39 @@
+{
+  "columns": [
+    { "key": "studyName", "label": "Study Name" },
+    { "key": "studyNumber", "label": "Study Number" },
+    { "key": "status", "label": "Status" },
+    { "key": "drugProduct", "label": "Drug Product" },
+    { "key": "drugSubstance", "label": "Drug Substance" },
+    { "key": "sites", "label": "Sites" }
+  ],
+  "data": [
+    {
+      "id": "1",
+      "studyName": "GS-US-536-5939",
+      "studyNumber": "5939",
+      "status": "Active",
+      "drugProduct": "PC-12723",
+      "drugSubstance": "IP-14478",
+      "sites": "La Verne, Wuxi"
+    },
+    {
+      "id": "2",
+      "studyName": "CO-US-673-7249",
+      "studyNumber": "7249",
+      "status": "Completed",
+      "drugProduct": "PC-13296",
+      "drugSubstance": "IP-15699",
+      "sites": "La Verne, Wuxi"
+    },
+    {
+      "id": "3",
+      "studyName": "GS-2872 Phase 3",
+      "studyNumber": "2872",
+      "status": "Planned",
+      "drugProduct": "GS-2872 Phase 3 DP Activ 1",
+      "drugSubstance": "GS-2872 Phase 3 DP Placebo 1, GS-2872 Phase 3 DS 1",
+      "sites": "La Verne, CDMO 2"
+    }
+  ]
+}
