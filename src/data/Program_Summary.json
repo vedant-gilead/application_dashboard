@@ -10,10 +10,10 @@
   },
   "GS-2872": {
     "program": "GS-2872",
-    "therapeuticArea": "HIV",
-    "study": "GS-2872 Phase 3",
+    "therapeuticArea": "Virology",
+    "study": "GS-US-XXX-XXXX",
     "materialNumber": "GS-2872 Phase 3 DP Activ 1, GS-2872 Phase 3 DP Placebo 1, GS-2872 Phase 3 DS 1",
     "lot": "NA",
-    "siteExecution": "La Verne, CDMO 2"
+    "siteExecution": "DP: Gilead La Verne DP, DS: CDMO 2"
   }
 }
