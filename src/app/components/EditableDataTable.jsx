@@ -1,7 +1,7 @@
 import { useState, useMemo, useEffect } from 'react';
 import { ChevronUp, ChevronDown, ChevronsUpDown } from 'lucide-react';
 
-export default function EditableDataTable({ columns, data, itemsPerPage = 10 }) {
+export default function EditableDataTable({ columns, data, itemsPerPage = 10, groupBy = null, onDataChange }) {
   const [currentPage, setCurrentPage] = useState(1);
   const [sortConfig, setSortConfig] = useState({ key: null, direction: 'asc' });
   const [tableData, setTableData] = useState([]);
@@ -14,6 +14,10 @@ export default function EditableDataTable({ columns, data, itemsPerPage = 10 }) 
     const newData = [...tableData];
     newData[rowIndex][columnKey] = e.target.innerText;
     setTableData(newData);
+    
+    if (onDataChange) {
+      onDataChange(newData);
+    }
   };
 
   const handleKeyDown = (e) => {
@@ -162,27 +166,38 @@ export default function EditableDataTable({ columns, data, itemsPerPage = 10 }) 
             </tr>
           </thead>
           <tbody className="bg-white divide-y divide-gray-200">
-            {currentData.map((row, rowIndex) => (
-              <tr
-                key={rowIndex}
-                className="odd:bg-white even:bg-gray-50 hover:bg-gray-100 transition-colors duration-150"
-              >
-                {columns.map((column) => (
-                  <td
-                    key={column.key}
-                    contentEditable={column.editable}
-                    onBlur={(e) => handleCellEdit(e, startIndex + rowIndex, column.key)}
-                    onKeyDown={handleKeyDown}
-                    suppressContentEditableWarning={true}
-                    className={`px-6 py-4 whitespace-nowrap text-sm text-gray-800 ${
-                      column.editable ? 'outline-none focus:ring-2 focus:ring-red-500' : ''
-                    }`}
-                  >
-                    {row[column.key]}
-                  </td>
-                ))}
-              </tr>
-            ))}
+            {currentData.map((row, rowIndex) => {
+              const showGroupByValue = groupBy 
+                ? rowIndex === 0 || row[groupBy] !== currentData[rowIndex - 1][groupBy]
+                : true;
+
+              return (
+                <tr
+                  key={rowIndex}
+                  className="odd:bg-white even:bg-gray-50 hover:bg-gray-100 transition-colors duration-150"
+                >
+                  {columns.map((column) => {
+                    const isGroupColumn = column.key === groupBy;
+                    const cellValue = isGroupColumn && !showGroupByValue ? '' : row[column.key];
+
+                    return (
+                      <td
+                        key={column.key}
+                        contentEditable={column.editable}
+                        onBlur={(e) => handleCellEdit(e, startIndex + rowIndex, column.key)}
+                        onKeyDown={handleKeyDown}
+                        suppressContentEditableWarning={true}
+                        className={`px-6 py-4 whitespace-nowrap text-sm text-gray-800 ${
+                          column.editable ? 'outline-none focus:ring-2 focus:ring-red-500' : ''
+                        } ${isGroupColumn ? 'font-medium' : ''}`}
+                      >
+                        {cellValue}
+                      </td>
+                    );
+                  })}
+                </tr>
+              );
+            })}
           </tbody>
         </table>
       </div>

@@ -2,6 +2,39 @@ import { defineConfig } from 'vite'
 import path from 'path'
 import tailwindcss from '@tailwindcss/vite'
 import react from '@vitejs/plugin-react'
+import fs from 'fs'
+
+// Simple Vite plugin to handle saving JSON data
+import { Plugin } from 'vite'
+
+const saveJsonPlugin = (): Plugin => ({
+  name: 'save-json-plugin',
+  configureServer(server: any) {
+    server.middlewares.use((req: any, res: any, next: any) => {
+      if (req.url === '/api/save-demand' && req.method === 'POST') {
+        let body = '';
+        req.on('data', (chunk: any) => {
+          body += chunk.toString();
+        });
+        req.on('end', () => {
+          try {
+            const data = JSON.parse(body);
+            const filePath = path.resolve(__dirname, './src/data/Demand_Forecast.json');
+            fs.writeFileSync(filePath, JSON.stringify(data, null, 2));
+            res.statusCode = 200;
+            res.end(JSON.stringify({ success: true }));
+          } catch (err: any) {
+            console.error(err);
+            res.statusCode = 500;
+            res.end(JSON.stringify({ success: false, error: err.message }));
+          }
+        });
+      } else {
+        next();
+      }
+    });
+  }
+});
 
 export default defineConfig({
   plugins: [
@@ -9,6 +42,7 @@ export default defineConfig({
     // Tailwind is not being actively used – do not remove them
     react(),
     tailwindcss(),
+    saveJsonPlugin(),
   ],
   resolve: {
     alias: {

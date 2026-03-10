@@ -4,6 +4,13 @@ import { Plus } from 'lucide-react';
 import { Button } from '../components/ui/button';
 
 export default function Demand_Forecast() {
+  // Filter columns to only include Program, Part Number, and Month columns
+  const filteredColumns = demandData.columns.filter(col => 
+    col.key === 'program' || 
+    col.key === 'partNumber' || 
+    /^[A-Z][a-z]{2}-\d{4}$/.test(col.key)
+  );
+
   return (
     <div className="w-full">
       {/* Page Header */}
@@ -19,7 +26,23 @@ export default function Demand_Forecast() {
       </div>
 
       {/* Table Card */}
-      <EditableDataTable columns={demandData.columns} data={demandData.data} />
+      <EditableDataTable 
+        columns={filteredColumns} 
+        data={demandData.data} 
+        groupBy="program"
+        onDataChange={(newData) => {
+          fetch('/api/save-demand', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+              columns: demandData.columns,
+              data: newData
+            })
+          });
+        }}
+      />
     </div>
   );
 }
