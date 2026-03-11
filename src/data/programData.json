@@ -325,13 +325,13 @@
     "id": "GS-2872",
     "studies": [
       {
-        "id": "GS-US-XXX-XXXX",
-        "name": "GS-US-XXX-XXXX",
+        "id": "GS-2872 Phase 3",
+        "name": "GS-2872 Phase 3",
         "materials": [
           {
             "id": "GS-2872 Phase 3 DP Activ 1",
             "type": "Drug Product",
-            "description": "GS-2872 Phase 3 DP Active 1",
+            "description": "DP -GS-5423 Injection, 150 mg/mL,  2 mL /via",
             "parentMaterialIds": ["IP-15699"],
             "consumptionRatio": 1.2,
             "columns": [
@@ -354,28 +354,7 @@
             ],
             "data": [
               {
-                "metric": "Demand (Clinical)",
-                "jul25": 0, "aug25": 0,
-                "sep25": 0, "oct25": 0, "nov25": 0, "dec25": 0,
-                "jan26": 0, "feb26": 0, "mar26": 0, "apr26": 0, "may26": 0, "jun26": 0,
-                "jul26": 0, "aug26": 0, "sep26": 0
-              },
-              {
-                "metric": "Demand (Independent)",
-                "jul25": 0, "aug25": 0,
-                "sep25": 0, "oct25": 0, "nov25": 0, "dec25": 0,
-                "jan26": 0, "feb26": 0, "mar26": 0, "apr26": 0, "may26": 0, "jun26": 0,
-                "jul26": 0, "aug26": 2500, "sep26": 0
-              },
-              {
-                "metric": "Total Demand",
-                "jul25": 0, "aug25": 0,
-                "sep25": 0, "oct25": 0, "nov25": 0, "dec25": 0,
-                "jan26": 0, "feb26": 0, "mar26": 0, "apr26": 0, "may26": 0, "jun26": 0,
-                "jul26": 0, "aug26": 2500, "sep26": 0
-              },
-              {
-                "metric": "Starting Inventory",
+                "metric": "Inventory",
                 "jul25": 0, "aug25": 0,
                 "sep25": 0, "oct25": 0, "nov25": 0, "dec25": 0,
                 "jan26": 0, "feb26": 0, "mar26": 0, "apr26": 0, "may26": 0, "jun26": 0,
@@ -388,19 +367,49 @@
                 "jan26": 0, "feb26": 0, "mar26": 0, "apr26": 0, "may26": 0, "jun26": 0,
                 "jul26": 0, "aug26": 0, "sep26": 0
               },
+              {
+                "metric": "Demand (Clinical)",
+                 "jul25": 0, "aug25": 0,
+                "sep25": 0, "oct25": 0, "nov25": 0, "dec25": 0,
+                "jan26": 0, "feb26": 0, "mar26": 0, "apr26": 0, "may26": 0, "jun26": 0,
+                "jul26": 0, "aug26": 0, "sep26": 0
+              },
+              {
+                "metric": "Demand (Independent)",
+                "jul25": 0, "aug25": 0,
+                "sep25": 0, "oct25": 0, "nov25": 0, "dec25": 0,
+                "jan26": 0, "feb26": 0, "mar26": 0, "apr26": 0, "may26": 0, "jun26": 0,
+                "jul26": 0, "aug26": 2500, "sep26": 0
+              },
+               {
+                "metric": "Total Demand",
+                "jul25": 0, "aug25": 0,
+                "sep25": 0, "oct25": 0, "nov25": 0, "dec25": 0,
+                "jan26": 0, "feb26": 0, "mar26": 0, "apr26": 0, "may26": 0, "jun26": 0,
+                "jul26": 0, "aug26": 2500, "sep26": 0
+              },
+            
+             
               {
                 "metric": "Supply/Release",
                 "jul25": 0, "aug25": 0,
                 "sep25": 0, "oct25": 0, "nov25": 0, "dec25": 0,
                 "jan26": 0, "feb26": 0, "mar26": 0, "apr26": 0, "may26": 0, "jun26": 0,
                 "jul26": 2500, "aug26": 0, "sep26": 0
+              },
+              {
+                "metric": "Supply(Execution Start)",
+                "jul25": 0, "aug25": 0,
+                "sep25": 0, "oct25": 0, "nov25": 0, "dec25": 2500,
+                "jan26": 0, "feb26": 0, "mar26": 0, "apr26": 0, "may26": 0, "jun26": 0,
+                "jul26": 0, "aug26": 0, "sep26": 0
               }
             ]
           },
           {
             "id": "GS-2872 Phase 3 DP Placebo 1",
             "type": "Drug Product",
-            "description": "GS-2872 Phase 3 DP Placebo 1",
+            "description": "DP -GS-5423 Injection, 150 mg/mL,  2 mL /via",
             "parentMaterialIds": ["IP-15699"],
             "consumptionRatio": 1.2,
             "columns": [
@@ -423,6 +432,20 @@
             ],
             "data": [
               {
+                "metric": "Inventory",
+                "jul25": 0, "aug25": 0,
+                "sep25": 0, "oct25": 0, "nov25": 0, "dec25": 0,
+                "jan26": 0, "feb26": 0, "mar26": 0, "apr26": 0, "may26": 0, "jun26": 0,
+                "jul26": 0, "aug26": 0, "sep26": 1800
+              },
+              {
+                "metric": "Expiry/Obsolescence",
+                "jul25": 0, "aug25": 0,
+                "sep25": 0, "oct25": 0, "nov25": 0, "dec25": 0,
+                "jan26": 0, "feb26": 0, "mar26": 0, "apr26": 0, "may26": 0, "jun26": 0,
+                "jul26": 0, "aug26": 0, "sep26": 0
+              },
+              {
                 "metric": "Demand (Clinical)",
                 "jul25": 0, "aug25": 0,
                 "sep25": 0, "oct25": 0, "nov25": 0, "dec25": 0,
@@ -437,39 +460,33 @@
                 "jul26": 0, "aug26": 0, "sep26": 1800
               },
               {
-                "metric": "Total Demand",
-                "jul25": 0, "aug25": 0,
+                "metric":"Total Demand",
+               "jul25": 0, "aug25": 0,
                 "sep25": 0, "oct25": 0, "nov25": 0, "dec25": 0,
                 "jan26": 0, "feb26": 0, "mar26": 0, "apr26": 0, "may26": 0, "jun26": 0,
                 "jul26": 0, "aug26": 0, "sep26": 1800
-              },
-              {
-                "metric": "Starting Inventory",
-                "jul25": 0, "aug25": 0,
-                "sep25": 0, "oct25": 0, "nov25": 0, "dec25": 0,
-                "jan26": 0, "feb26": 0, "mar26": 0, "apr26": 0, "may26": 0, "jun26": 0,
-                "jul26": 0, "aug26": 0, "sep26": 1800
-              },
-              {
-                "metric": "Expiry/Obsolescence",
-                "jul25": 0, "aug25": 0,
-                "sep25": 0, "oct25": 0, "nov25": 0, "dec25": 0,
-                "jan26": 0, "feb26": 0, "mar26": 0, "apr26": 0, "may26": 0, "jun26": 0,
-                "jul26": 0, "aug26": 0, "sep26": 0
-              },
+              },           
+            
               {
                 "metric": "Supply/Release",
                 "jul25": 0, "aug25": 0,
                 "sep25": 0, "oct25": 0, "nov25": 0, "dec25": 0,
                 "jan26": 0, "feb26": 0, "mar26": 0, "apr26": 0, "may26": 0, "jun26": 0,
                 "jul26": 0, "aug26": 1800, "sep26": 0
+              },
+              {
+                "metric": "Supply(Execution Start)",
+                 "jul25": 0, "aug25": 0,
+                "sep25": 0, "oct25": 0, "nov25": 0, "dec25": 0,
+                "jan26": 1800, "feb26": 0, "mar26": 0, "apr26": 0, "may26": 0, "jun26": 0,
+                "jul26": 0, "aug26": 0, "sep26": 0
               }
             ]
           },
           {
             "id": "GS-2872 Phase 3 DS 1",
             "type": "Drug Substance",
-            "description": "GS-2872 Phase 3 DS 1",
+            "description": "DP -GS-5423 Injection, 150 mg/mL,  2 mL /via",
             "columns": [
               { "key": "metric", "label": "Metric" },
               { "key": "jul25", "label": "Jul-25" },
@@ -490,28 +507,7 @@
             ],
             "data": [
               {
-                "metric": "Demand (Clinical)",
-                "jul25": 0, "aug25": 0,
-                "sep25": 0, "oct25": 0, "nov25": 0, "dec25": 0,
-                "jan26": 0, "feb26": 0, "mar26": 0, "apr26": 0, "may26": 0, "jun26": 0,
-                "jul26": 0, "aug26": 0, "sep26": 0
-              },
-              {
-                "metric": "Demand (Independent)",
-                "jul25": 0, "aug25": 0,
-                "sep25": 0, "oct25": 0, "nov25": 0, "dec25": 0,
-                "jan26": 0, "feb26": 0, "mar26": 0, "apr26": 0, "may26": 9.6, "jun26": 0,
-                "jul26": 0, "aug26": 0, "sep26": 0
-              },
-              {
-                "metric": "Total Demand",
-                "jul25": 0, "aug25": 0,
-                "sep25": 0, "oct25": 0, "nov25": 0, "dec25": 0,
-                "jan26": 0, "feb26": 0, "mar26": 0, "apr26": 0, "may26": 9.6, "jun26": 0,
-                "jul26": 0, "aug26": 0, "sep26": 0
-              },
-              {
-                "metric": "Starting Inventory",
+                "metric": "Inventory",
                 "jul25": 0, "aug25": 0,
                 "sep25": 0, "oct25": 0, "nov25": 0, "dec25": 0,
                 "jan26": 0, "feb26": 0, "mar26": 0, "apr26": 0, "may26": 9.6, "jun26": 0,
@@ -525,10 +521,37 @@
                 "jul26": 0, "aug26": 0, "sep26": 0
               },
               {
-                "metric": "Supply/Release",
+                "metric": "Demand (Clinical)",
+                "jul25": 0, "aug25": 0, "sep25": 0, "oct25": 0, "nov25": 0, "dec25": 0,
+                "jan26": 0, "feb26": 0, "mar26": 0, "apr26": 0, "may26": 0, "jun26": 0,
+                "jul26": 0, "aug26": 0, "sep26": 0
+              },
+              {
+                "metric": "Demand (Independent)",
+                 "jul25": 0, "aug25": 0, "sep25": 0, "oct25": 0, "nov25": 0, "dec25": 0,
+                "jan26": 0, "feb26": 0, "mar26": 0, "apr26": 0, "may26": 9.6, "jun26": 0,
+                "jul26": 0, "aug26": 0, "sep26": 0
+              },
+              {
+                "metric":"Total Demand",
                 "jul25": 0, "aug25": 0,
                 "sep25": 0, "oct25": 0, "nov25": 0, "dec25": 0,
+                "jan26": 0, "feb26": 0, "mar26": 0, "apr26": 0, "may26": 9.6, "jun26": 0,
+                "jul26": 0, "aug26": 0, "sep26": 0
+
+              },
+            
+              {
+                "metric": "Supply/Release",
+                "jul25": 0, "aug25": 0, "sep25": 0, "oct25": 0, "nov25": 0, "dec25": 0,
                 "jan26": 0, "feb26": 0, "mar26": 0, "apr26": 9.6, "may26": 0, "jun26": 0,
+                "jul26": 0, "aug26": 0, "sep26": 0
+              },
+              {
+                "metric": "Supply(Execution Start)",
+                "jul25": 9.6, "aug25": 0,
+                "sep25": 0, "oct25": 0, "nov25": 0, "dec25": 0,
+                "jan26": 0, "feb26": 0, "mar26": 0, "apr26": 0, "may26": 0, "jun26": 0,
                 "jul26": 0, "aug26": 0, "sep26": 0
               }
             ]

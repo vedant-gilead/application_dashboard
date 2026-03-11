@@ -109,7 +109,7 @@ export default function Program_Drilldown() {
       />
 
       {/* Onhand Inventory Table */}
-      <div className="mt-8">
+      {/* <div className="mt-8">
         <h2 className="text-xl font-bold text-gray-800 mb-4">
           Onhand Inventory
         </h2>
@@ -117,7 +117,22 @@ export default function Program_Drilldown() {
           columns={onhandInventoryData.columns}
           data={onhandInventoryData.data}
         />
-      </div>
+      </div> */}
+      {/* Onhand Inventory Table */}
+<div className="mt-8">
+  <h2 className="text-xl font-bold text-gray-800 mb-4">Onhand Inventory</h2>
+  {(() => {
+    const slice = onhandInventoryData[programId] || { columns: [], data: [] };
+    
+ // If no data, build a placeholder row with "--" in all columns
+    const dataWithPlaceholder =
+      slice.data.length === 0
+        ? [Object.fromEntries(slice.columns.map(col => [col.key, "--"]))]
+        : slice.data;
+
+    return <DataTable columns={slice.columns} data={dataWithPlaceholder} />;
+  })()}
+</div>
     </div>
   );
 }
