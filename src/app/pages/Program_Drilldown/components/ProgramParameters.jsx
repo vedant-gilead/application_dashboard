@@ -12,19 +12,19 @@ export default function ProgramParameters({ programParameters }) {
       {/* Container with horizontal scroll */}
       <div className="flex flex-nowrap overflow-x-auto gap-6 pb-4 scrollbar-hide">
         
-        {/* Finished Product (FP) - Fixed width to ensure consistency in scroll */}
-        <div className="flex-none w-[350px] border border-gray-200 rounded-lg p-4 bg-gray-50">
-          <h3 className="text-lg font-semibold text-gray-700 mb-3">
+        {/* Finished Product (FP) */}
+        <div className="flex-1 min-w-[320px] max-w-md border border-gray-200 rounded-lg p-4 bg-gray-50 flex flex-col justify-start shadow-[0_2px_4px_-2px_rgba(0,0,0,0.05)]">
+          <h3 className="text-sm font-semibold text-gray-800 mb-3 break-words">
             Finished Product (FP)
           </h3>
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-2 gap-4 mt-auto">
             <div>
-              <label className="block text-sm font-medium text-gray-500">Site Execution</label>
-              <p className="mt-1 text-base text-gray-900">{programParameters.FP.siteExecution}</p>
+              <label className="block text-[11px] font-medium text-gray-500 mb-1">Site Execution</label>
+              <p className="text-[13px] text-gray-900 font-medium whitespace-nowrap overflow-hidden text-ellipsis">{programParameters.FP.siteExecution}</p>
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-500">MOQ</label>
-              <p className="mt-1 text-base text-gray-900">{programParameters.FP.moq}</p>
+              <label className="block text-[11px] font-medium text-gray-500 mb-1">MOQ</label>
+              <p className="text-[13px] text-gray-900 font-medium whitespace-nowrap overflow-hidden text-ellipsis">{programParameters.FP.moq}</p>
             </div>
           </div>
         </div>
@@ -33,30 +33,31 @@ export default function ProgramParameters({ programParameters }) {
         {ipKeys.map((key) => {
           const item = programParameters[key];
           // Check if it's a Substance or Product based on the consumption ratio label or key
-          const title = key === 'IP1' ? "Drug Product (PC)" : "Drug Substance (IP)";
-          const ratioLabel = key === 'IP1' ? "Consumption Ratio (PC/FP)" : "Consumption Ratio (IP/PC)";
+          const isProduct = item.name ? item.name.toLowerCase().includes("product") : key === 'IP1';
+          const title = item.name || (isProduct ? "Drug Product (PC)" : "Drug Substance (IP)");
+          const ratioLabel = isProduct ? "Consumption Ratio (PC/FP)" : "Consumption Ratio (IP/PC)";
 
           return (
-            <div key={key} className="flex-none w-[350px] border border-gray-200 rounded-lg p-4 bg-gray-50">
-              <h3 className="text-lg font-semibold text-gray-700 mb-3">
+            <div key={key} className="flex-1 min-w-[320px] max-w-md border border-gray-200 rounded-lg p-4 bg-gray-50 flex flex-col justify-start shadow-[0_2px_4px_-2px_rgba(0,0,0,0.05)]">
+              <h3 className="text-sm font-semibold text-gray-800 mb-3 break-words">
                 {title}
               </h3>
-              <div className="grid grid-cols-2 gap-4">
+              <div className="grid grid-cols-2 gap-y-4 gap-x-2">
                 <div>
-                  <label className="block text-sm font-medium text-gray-500">Safety Stock</label>
-                  <p className="mt-1 text-base text-gray-900">{item.safetyStock}</p>
+                  <label className="block text-[11px] font-medium text-gray-500 mb-1">Safety Stock</label>
+                  <p className="text-[13px] text-gray-900 font-medium whitespace-nowrap overflow-hidden text-ellipsis">{item.safetyStock}</p>
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-500">{ratioLabel}</label>
-                  <p className="mt-1 text-base text-gray-900">{item.consumptionRatio}</p>
+                  <label className="block text-[11px] font-medium text-gray-500 mb-1">{ratioLabel}</label>
+                  <p className="text-[13px] text-gray-900 font-medium whitespace-nowrap overflow-hidden text-ellipsis">{item.consumptionRatio}</p>
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-500">Site Execution</label>
-                  <p className="mt-1 text-base text-gray-900">{item.siteExecution}</p>
+                  <label className="block text-[11px] font-medium text-gray-500 mb-1">Site Execution</label>
+                  <p className="text-[13px] text-gray-900 font-medium whitespace-nowrap overflow-hidden text-ellipsis">{item.siteExecution}</p>
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-500">MOQ</label>
-                  <p className="mt-1 text-base text-gray-900">{item.moq}</p>
+                  <label className="block text-[11px] font-medium text-gray-500 mb-1">MOQ</label>
+                  <p className="text-[13px] text-gray-900 font-medium whitespace-nowrap overflow-hidden text-ellipsis">{item.moq}</p>
                 </div>
               </div>
             </div>
