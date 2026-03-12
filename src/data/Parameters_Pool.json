@@ -21,6 +21,14 @@
       "moq": "20 Kg",
       "releaseLeadTime": "3 months",
       "executionLeadTime": "6 months"
+    },
+      "IP3": {
+      "safetyStock": "10 Kg",
+      "consumptionRatio": "0.0032",
+      "siteExecution": "Wuxi",
+      "moq": "20 Kg",
+      "releaseLeadTime": "3 months",
+      "executionLeadTime": "6 months"
     }
   },
   "GS-2872": {
