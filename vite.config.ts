@@ -57,7 +57,7 @@ export default defineConfig({
   // Expose the server to the network so it can be accessed on EC2
   server: {
     host: true, // Listens on 0.0.0.0
-    port: 5174, // You can change this if needed
+    port: 3000, // You can change this if needed
     strictPort: true, // Fails if the port is already in use
   }
 })
