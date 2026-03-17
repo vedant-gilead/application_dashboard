@@ -56,32 +56,18 @@ export default function PartNumberAccordion({ partNumber, programsData, allColum
   };
 
   return (
-    <div className="mb-6 rounded-xl overflow-hidden shadow-sm border border-gray-200">
+    <div className={`rounded-xl overflow-hidden shadow-sm border border-gray-200 bg-white ${isExpanded ? 'mb-4' : ''}`}>
       {/* Accordion Header */}
       <div 
-        className="bg-[#306e9a] text-white p-4 flex items-center justify-between cursor-pointer hover:bg-[#285c80] transition-colors"
+        className="p-4 flex items-center justify-between cursor-pointer hover:bg-gray-50 transition-colors border-b border-gray-100"
         onClick={() => setIsExpanded(!isExpanded)}
       >
-        <div className="flex-1 grid grid-cols-3 gap-4 items-center">
-          {/* Part Number */}
-          <div>
-            <div className="text-xs text-blue-100 font-medium tracking-wide">Part Number</div>
-            <div className="text-lg font-bold">{partNumber}</div>
+        <div className="flex-1 grid grid-cols-3 items-center">
+          <div className="font-semibold text-[#306e9a]">{partNumber}</div>
+          <div className="text-sm font-semibold text-gray-600 truncate" title={programsLabel}>
+            {programsLabel}
           </div>
-          
-          {/* Programs */}
-          <div>
-            <div className="text-xs text-blue-100 font-medium tracking-wide">Programs ({uniquePrograms.length})</div>
-            <div className="text-sm font-semibold truncate" title={programsLabel}>
-              {programsLabel}
-            </div>
-          </div>
-          
-          {/* Total Demand */}
-          <div>
-            <div className="text-xs text-blue-100 font-medium tracking-wide">Total Demand</div>
-            <div className="text-xl font-bold">{totalDemand.toLocaleString()}</div>
-          </div>
+          <div className="text-xl font-bold text-gray-600 text-right">{totalDemand.toLocaleString()}</div>
         </div>
 
         {/* Expand Icon */}
@@ -97,14 +83,14 @@ export default function PartNumberAccordion({ partNumber, programsData, allColum
             <thead className="bg-[#F9FAFB] border-b border-gray-200">
               {/* Top Header Row - Months */}
               <tr>
-                <th className="p-3 border-r border-gray-200 bg-[#F3F4F6] align-bottom w-48 sticky left-0 z-10" rowSpan={2}>
-                  <div className="flex items-center gap-1 text-xs font-semibold text-[#6B7280] tracking-wider uppercase">
+                <th className="p-3 border-r border-gray-200 bg-white align-bottom w-48 sticky left-0 z-10" rowSpan={2}>
+                  <div className="flex items-center text-xs font-semibold text-[#306e9a] tracking-wider uppercase">
                     PROGRAM
-                    <span className="text-[10px] ml-1 text-gray-400">↑↓</span>
+                    <span className="text-[10px] ml-1 text-[#306e9a]">↑↓</span>
                   </div>
                 </th>
                 {monthColumns.map(col => (
-                  <th key={col.key} colSpan={3} className="text-center p-2 border-r border-gray-200 text-xs font-bold text-gray-600 uppercase border-b border-gray-200">
+                  <th key={col.key} colSpan={3} className="text-center p-2 border-r border-gray-200 text-xs font-semibold text-[#306e9a] uppercase border-b border-gray-200">
                     {col.label}
                   </th>
                 ))}
@@ -113,9 +99,9 @@ export default function PartNumberAccordion({ partNumber, programsData, allColum
               <tr>
                 {monthColumns.map(col => (
                   <React.Fragment key={`sub-${col.key}`}>
-                    <th className="p-2 text-center text-[10px] font-bold text-gray-500 tracking-wider">TOTAL</th>
-                    <th className="p-2 text-center text-[10px] font-bold text-gray-500 tracking-wider">CLINICAL</th>
-                    <th className="p-2 text-center text-[10px] font-bold text-gray-500 tracking-wider border-r border-gray-200">INDEPENDENT</th>
+                    <th className="p-2 text-center text-[10px] font-semibold text-[#306e9a] tracking-wider">TOTAL</th>
+                    <th className="p-2 text-center text-[10px] font-semibold text-[#306e9a] tracking-wider">CLINICAL</th>
+                    <th className="p-2 text-center text-[10px] font-semibold text-[#306e9a] tracking-wider border-r border-gray-200">INDEPENDENT</th>
                   </React.Fragment>
                 ))}
               </tr>

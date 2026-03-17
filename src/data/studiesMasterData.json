@@ -1,39 +1,109 @@
 {
   "columns": [
     { "key": "studyName", "label": "Study Name" },
-    { "key": "studyNumber", "label": "Study Number" },
+    { "key": "finishedGoods", "label": "Finished Goods" },
+    { "key": "drugProducts", "label": "Drug Products" },
+    { "key": "drugSubstances", "label": "Drug Substances" },
     { "key": "status", "label": "Status" },
-    { "key": "drugProduct", "label": "Drug Product" },
-    { "key": "drugSubstance", "label": "Drug Substance" },
-    { "key": "sites", "label": "Sites" }
+    { "key": "lastUpdated", "label": "Last Updated" },
+    { "key": "actions", "label": "Actions" }
   ],
   "data": [
     {
       "id": "1",
       "studyName": "GS-US-536-5939",
-      "studyNumber": "5939",
+      "studyDescription": "Clinical Trial Phase III",
+      "finishedGoods": "2 FGs",
+      "drugProducts": "1 DPs",
+      "drugSubstances": "2 DSs",
       "status": "Active",
-      "drugProduct": "PC-12723",
-      "drugSubstance": "IP-14478",
-      "sites": "La Verne, Wuxi"
+      "lastUpdated": "Mar 8, 2026",
+      "children": [
+        {
+          "id": "1-1",
+          "name": "ABC Finished Product",
+          "description": "Single-use vial containing 250mg antibody",
+          "type": "fg",
+          "children": [
+            {
+              "id": "1-1-1",
+              "name": "PC-12723",
+              "manufacturing": "Manufacturing: Aseptic Fill-Finish",
+              "type": "dp",
+              "children": [
+                {
+                  "id": "1-1-1-1",
+                  "name": " IP-14478",
+                  "code": "(MAB-X101-2024)",
+                  "type": "ds"
+                },
+                {
+                  "id": "1-1-1-2",
+                  "name": " IP-15699",
+                  "code": "(EXC-A450-2024)",
+                  "type": "ds"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "1-2",
+          "name": "XYZ Finished Product",
+          "description": "Pre-filled syringe containing 100mg antibody",
+          "type": "fg",
+          "children": [
+            {
+              "id": "1-2-1",
+              "name": "PC-13296",
+              "manufacturing": "Manufacturing: Dry Granulation",
+              "type": "dp",
+              "children": [
+                {
+                  "id": "1-2-1-1",
+                  "name": "IP-15699",
+                  "code": "(INB-Z305-2023)",
+                  "type": "ds"
+                }
+              ]
+            }
+          ]
+        }
+      ]
     },
     {
       "id": "2",
       "studyName": "CO-US-673-7249",
-      "studyNumber": "7249",
+      "studyDescription": "Clinical Trial Phase II",
+      "finishedGoods": "1 FGs",
+      "drugProducts": "1 DPs",
+      "drugSubstances": "1 DSs",
       "status": "Completed",
-      "drugProduct": "PC-13296",
-      "drugSubstance": "IP-15699",
-      "sites": "La Verne, Wuxi"
-    },
-    {
-      "id": "3",
-      "studyName": "GS-2872 Phase 3",
-      "studyNumber": "2872",
-      "status": "Planned",
-      "drugProduct": "GS-2872 Phase 3 DP Activ 1",
-      "drugSubstance": "GS-2872 Phase 3 DP Placebo 1, GS-2872 Phase 3 DS 1",
-      "sites": "La Verne, CDMO 2"
+      "lastUpdated": "Sep 15, 2025",
+      "children": [
+         {
+          "id": "2-1",
+          "name": "DOLO 1000",
+          "description": "Daily oral medication",
+          "type": "fg",
+          "children": [
+            {
+              "id": "2-1-1",
+              "name": "PC-13296",
+              "manufacturing": "Manufacturing: Dry Granulation",
+              "type": "dp",
+              "children": [
+                {
+                  "id": "2-1-1-1",
+                  "name": "IP-15699",
+                  "code": "(INB-Z305-2023)",
+                  "type": "ds"
+                }
+              ]
+            }
+          ]
+        }
+      ]
     }
   ]
 }

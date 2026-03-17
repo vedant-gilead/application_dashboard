@@ -53,4 +53,11 @@ export default defineConfig({
 
   // File types to support raw imports. Never add .css, .tsx, or .ts files to this.
   assetsInclude: ['**/*.svg', '**/*.csv'],
+
+  // Expose the server to the network so it can be accessed on EC2
+  server: {
+    host: true, // Listens on 0.0.0.0
+    port: 5174, // You can change this if needed
+    strictPort: true, // Fails if the port is already in use
+  }
 })

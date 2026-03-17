@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { ChevronDown, ChevronUp } from 'lucide-react';
 
 export default function ProgramAccordion({ program, partsData, allColumns, onDataChange }) {
-  const [isExpanded, setIsExpanded] = useState(true); // Default to expanded for demo
+  const [isExpanded, setIsExpanded] = useState(false); // Default to collapsed
 
   // Get only the month columns (exclude static columns)
   const monthColumns = allColumns.filter(col => !['program', 'partNumber', 'partDescription', 'materialStage'].includes(col.key));
@@ -34,46 +34,24 @@ export default function ProgramAccordion({ program, partsData, allColumns, onDat
   };
 
   return (
-    <div className="mb-6 rounded-xl overflow-hidden shadow-sm border border-gray-200">
+    <div className={`rounded-xl overflow-hidden shadow-sm border border-gray-200 bg-white ${isExpanded ? 'mb-4' : ''}`}>
       {/* Accordion Header */}
       <div 
-        className="bg-[#306e9a] text-white p-4 flex items-center justify-between cursor-pointer hover:bg-[#285c80] transition-colors"
+        className="p-4 flex items-center justify-between cursor-pointer hover:bg-gray-50 transition-colors border-b border-gray-100"
         onClick={() => setIsExpanded(!isExpanded)}
       >
-        <div className="flex-1 grid grid-cols-5 gap-4 items-center">
-          {/* Program Info */}
-          <div>
-            <div className="text-xs text-blue-100 font-medium tracking-wide">Program Header</div>
-            <div className="text-lg font-bold">{program}</div>
+        <div className="flex-1 grid grid-cols-5 items-center">
+          <div className="font-semibold text-[#306e9a]">{program}</div>
+          <div className="text-sm font-semibold text-gray-600">{startDate}</div>
+          <div className="text-sm font-semibold text-gray-600 truncate" title={uniqueParts.join(', ')}>
+            {partsLabel}
           </div>
-          
-          {/* Start Date */}
           <div>
-            <div className="text-xs text-blue-100 font-medium tracking-wide">Start Date</div>
-            <div className="text-sm font-semibold">{startDate}</div>
-          </div>
-          
-          {/* Parts */}
-          <div>
-            <div className="text-xs text-blue-100 font-medium tracking-wide">Parts ({uniqueParts.length})</div>
-            <div className="text-sm font-semibold truncate" title={uniqueParts.join(', ')}>
-              {partsLabel}
-            </div>
-          </div>
-          
-          {/* Status */}
-          <div>
-            <div className="text-xs text-blue-100 font-medium tracking-wide mb-1">Status</div>
             <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
               Active
             </span>
           </div>
-          
-          {/* Total Demand */}
-          <div>
-            <div className="text-xs text-blue-100 font-medium tracking-wide">Total Demand</div>
-            <div className="text-xl font-bold">{totalDemand.toLocaleString()}</div>
-          </div>
+          <div className="font-bold text-[#306e9a] text-right">{totalDemand.toLocaleString()}</div>
         </div>
 
         {/* Expand Icon */}
@@ -89,14 +67,14 @@ export default function ProgramAccordion({ program, partsData, allColumns, onDat
             <thead className="bg-[#F9FAFB] border-b border-gray-200">
               {/* Top Header Row - Months */}
               <tr>
-                <th className="p-3 border-r border-gray-200 bg-[#F3F4F6] align-bottom w-48" rowSpan={2}>
-                  <div className="flex items-center gap-1 text-xs font-semibold text-[#6B7280] tracking-wider uppercase">
+                <th className="p-3 border-r border-gray-200 bg-white align-bottom w-48" rowSpan={2}>
+                  <div className="flex items-center text-xs font-semibold text-[#306e9a] tracking-wider uppercase">
                     PART NUMBER
-                    <span className="text-[10px] ml-1 text-gray-400">↑↓</span>
+                    <span className="text-[10px] ml-1 text-[#306e9a]">↑↓</span>
                   </div>
                 </th>
                 {monthColumns.map(col => (
-                  <th key={col.key} colSpan={3} className="text-center p-2 border-r border-gray-200 text-xs font-bold text-gray-600 uppercase border-b border-gray-200">
+                  <th key={col.key} colSpan={3} className="text-center p-2 border-r border-gray-200 text-xs font-semibold text-[#306e9a] uppercase border-b border-gray-200">
                     {col.label}
                   </th>
                 ))}
@@ -105,9 +83,9 @@ export default function ProgramAccordion({ program, partsData, allColumns, onDat
               <tr>
                 {monthColumns.map(col => (
                   <React.Fragment key={`sub-${col.key}`}>
-                    <th className="p-2 text-center text-[10px] font-bold text-gray-500 tracking-wider">TOTAL</th>
-                    <th className="p-2 text-center text-[10px] font-bold text-gray-500 tracking-wider">CLINICAL</th>
-                    <th className="p-2 text-center text-[10px] font-bold text-gray-500 tracking-wider border-r border-gray-200">INDEPENDENT</th>
+                    <th className="p-2 text-center text-[10px] font-semibold text-[#306e9a] tracking-wider">TOTAL</th>
+                    <th className="p-2 text-center text-[10px] font-semibold text-[#306e9a] tracking-wider">CLINICAL</th>
+                    <th className="p-2 text-center text-[10px] font-semibold text-[#306e9a] tracking-wider border-r border-gray-200">INDEPENDENT</th>
                   </React.Fragment>
                 ))}
               </tr>

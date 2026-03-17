@@ -113,8 +113,28 @@ export default function Demand_Forecast() {
         </div>
       </div>
 
-      {/* Accordion List */}
-      <div className="w-full flex flex-col gap-4">
+      <div className="bg-white rounded-xl p-6 border border-gray-200 shadow-sm">
+        {/* Static column header (outside accordions) */}
+        <div className="rounded-xl bg-[#1f5d96] px-4 py-3 shadow-sm">
+          {viewMode === 'program' ? (
+            <div className="grid grid-cols-5 gap-4 text-sm font-semibold text-white">
+              <div>Program</div>
+              <div>Start Date</div>
+              <div>Parts</div>
+              <div>Status</div>
+              <div className="text-right">Total Demand</div>
+            </div>
+          ) : (
+            <div className="grid grid-cols-3 gap-4 text-sm font-semibold text-white">
+              <div>Part Number</div>
+              <div>Programs</div>
+              <div className="text-right">Total Demand</div>
+            </div>
+          )}
+        </div>
+
+        {/* Accordion List */}
+        <div className="w-full flex flex-col">
         {viewMode === 'program' 
           ? Object.entries(programs).map(([programName, partsData]) => (
               <ProgramAccordion 
@@ -137,5 +157,6 @@ export default function Demand_Forecast() {
         }
       </div>
     </div>
-  );
+  </div>
+);
 }
