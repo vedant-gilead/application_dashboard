@@ -56,13 +56,13 @@ export default function PartNumberAccordion({ partNumber, programsData, allColum
   };
 
   return (
-    <div className={`rounded-xl overflow-hidden shadow-sm border border-gray-200 bg-white ${isExpanded ? 'mb-4' : ''}`}>
+    <div className={`overflow-hidden shadow-sm border border-gray-200 bg-white ${isExpanded ? 'mb-4' : ''}`}>
       {/* Accordion Header */}
       <div 
         className="p-4 flex items-center justify-between cursor-pointer hover:bg-gray-50 transition-colors border-b border-gray-100"
         onClick={() => setIsExpanded(!isExpanded)}
       >
-        <div className="flex-1 grid grid-cols-3 items-center">
+        <div className="flex-1 grid grid-cols-[1.8fr_1.7fr_1.3fr] items-center">
           <div className="font-semibold text-[#306e9a]">{partNumber}</div>
           <div className="text-sm font-semibold text-gray-600 truncate" title={programsLabel}>
             {programsLabel}

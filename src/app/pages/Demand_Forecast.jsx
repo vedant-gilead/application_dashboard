@@ -106,26 +106,26 @@ export default function Demand_Forecast() {
                  />
             </div>
           </div>
-          <Button className="bg-[#306e9a] text-white px-4 py-2 rounded-lg shadow hover:bg-[#245371] transition-colors flex items-center gap-2">
+          {/* <Button className="bg-[#306e9a] text-white px-4 py-2 rounded-lg shadow hover:bg-[#245371] transition-colors flex items-center gap-2">
             <Plus className="w-5 h-5" />
             Add Demand
-          </Button>
+          </Button> */}
         </div>
       </div>
 
-      <div className="bg-white rounded-xl p-6 border border-gray-200 shadow-sm">
+      <div className="bg-white rounded-xl   border border-gray-200 shadow-sm">
         {/* Static column header (outside accordions) */}
-        <div className="rounded-xl bg-[#1f5d96] px-4 py-3 shadow-sm">
+        <div className="rounded-t-xl bg-[#306e9a] px-4 py-4 shadow-sm">
           {viewMode === 'program' ? (
-            <div className="grid grid-cols-5 gap-4 text-sm font-semibold text-white">
-              <div>Program</div>
-              <div>Start Date</div>
-              <div>Parts</div>
-              <div>Status</div>
-              <div className="text-right">Total Demand</div>
+            <div className="grid grid-cols-[1.5fr_1.1fr_1.7fr_1.1fr_1fr] gap-4 text-sm font-semibold text-white">
+              <div>PROGRAM</div>
+              <div>START DATE</div>
+              <div>PARTS</div>
+              <div>STATUS</div>
+              <div className="text-right">TOTAL DEMAND</div>
             </div>
           ) : (
-            <div className="grid grid-cols-3 gap-4 text-sm font-semibold text-white">
+            <div className="grid grid-cols-[1.8fr_1.7fr_1.3fr] gap-4 text-sm font-semibold text-white">
               <div>Part Number</div>
               <div>Programs</div>
               <div className="text-right">Total Demand</div>

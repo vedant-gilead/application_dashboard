@@ -1,12 +1,10 @@
 {
   "columns": [
-    { "key": "studyName", "label": "Study Name" },
-    { "key": "finishedGoods", "label": "Finished Goods" },
-    { "key": "drugProducts", "label": "Drug Products" },
-    { "key": "drugSubstances", "label": "Drug Substances" },
-    { "key": "status", "label": "Status" },
-    { "key": "lastUpdated", "label": "Last Updated" },
-    { "key": "actions", "label": "Actions" }
+    { "key": "studyName", "label": "STUDY NAME" },
+    { "key": "finishedGoods", "label": "FINISHED GOODS" },
+    { "key": "drugProducts", "label": "DRUG PRODUCTS" },
+    { "key": "drugSubstances", "label": "DRUG SUBSTANCES" },
+    { "key": "actions", "label": "ACTIONS" }
   ],
   "data": [
     {

@@ -34,13 +34,13 @@ export default function ProgramAccordion({ program, partsData, allColumns, onDat
   };
 
   return (
-    <div className={`rounded-xl overflow-hidden shadow-sm border border-gray-200 bg-white ${isExpanded ? 'mb-4' : ''}`}>
+    <div className={`overflow-hidden shadow-sm border border-gray-200 bg-white ${isExpanded ? 'mb-4' : ''}`}>
       {/* Accordion Header */}
       <div 
         className="p-4 flex items-center justify-between cursor-pointer hover:bg-gray-50 transition-colors border-b border-gray-100"
         onClick={() => setIsExpanded(!isExpanded)}
       >
-        <div className="flex-1 grid grid-cols-5 items-center">
+        <div className="flex-1 grid grid-cols-[1.5fr_1fr_1.7fr_0.9fr_1fr] items-center gap-3">
           <div className="font-semibold text-[#306e9a]">{program}</div>
           <div className="text-sm font-semibold text-gray-600">{startDate}</div>
           <div className="text-sm font-semibold text-gray-600 truncate" title={uniqueParts.join(', ')}>
@@ -93,7 +93,7 @@ export default function ProgramAccordion({ program, partsData, allColumns, onDat
             <tbody className="divide-y divide-gray-100">
               {partsData.map((row, idx) => (
                 <tr key={`${row.partNumber}-${idx}`} className="hover:bg-gray-50 group">
-                  <td className="p-3 border-r border-gray-200 font-medium text-sm text-gray-900 bg-white group-hover:bg-gray-50 sticky left-0 shadow-[1px_0_0_0_#e5e7eb]">
+                  <td className="p-3 border-r border-gray-200 font-medium text-sm text-gray-900 bg-white group-hover:bg-gray-50 sticky left-0 shadow-[1px_0_0_0_#e5e7eb] z-10" style={{ minWidth: '160px', paddingRight: '1.25rem' }}>
                     {row.partNumber}
                   </td>
                   {monthColumns.map(col => {

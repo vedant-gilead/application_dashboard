@@ -7,6 +7,7 @@ import NotFound from './pages/NotFound';
 import Program_Drilldown from './pages/Program_Drilldown';
 import Sites_Master_Data from './pages/Sites_Master_Data';
 import Studies_Master_Data from './pages/Studies_Master_Data';
+import Study_Create from './pages/Study_Create';
 
 export const router = createBrowserRouter([
   {
@@ -23,6 +24,7 @@ export const router = createBrowserRouter([
       { path: 'programs/:programId', Component: Program_Drilldown },
       { path: 'sites_master_data', Component: Sites_Master_Data },
       { path: 'studies_master_data', Component: Studies_Master_Data },
+      { path: 'studies_master_data/create', Component: Study_Create },
       { path: '*', Component: NotFound },
     ],
   },

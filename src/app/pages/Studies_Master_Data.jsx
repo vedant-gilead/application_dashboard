@@ -1,16 +1,31 @@
 import React, { useState, useMemo } from 'react';
+import { useNavigate } from 'react-router-dom';
 import HierarchyAccordion from '../components/HierarchyAccordion';
 import studiesMasterData from '../../data/studiesMasterData.json';
 import { Plus } from 'lucide-react';
 import { Button } from '../components/ui/button';
 
 export default function Studies_Master_Data() {
+  const navigate = useNavigate();
   const [searchQuery, setSearchQuery] = useState('');
   const [statusFilter, setStatusFilter] = useState('All Statuses');
 
+  const persistedStudies = useMemo(() => {
+    try {
+      const stored = localStorage.getItem('studiesMasterDataNewStudies');
+      return stored ? JSON.parse(stored) : [];
+    } catch {
+      return [];
+    }
+  }, []);
+
+  const combinedStudies = useMemo(() => {
+    return [...studiesMasterData.data, ...persistedStudies];
+  }, [persistedStudies]);
+
   // Filter data based on search and status
   const filteredData = useMemo(() => {
-    return studiesMasterData.data.filter(study => {
+    return combinedStudies.filter(study => {
       // Check if study name or description matches search query
       const matchesSearch = 
         study.studyName.toLowerCase().includes(searchQuery.toLowerCase()) || 
@@ -31,14 +46,14 @@ export default function Studies_Master_Data() {
           <h1 className="text-3xl font-semibold text-gray-900 tracking-tight">Studies Master Data</h1>
           <p className="text-gray-600 mt-2 text-sm">Manage pharmaceutical research studies and their components</p>
         </div>
-<Button className="bg-[#306e9a] text-white px-4 py-2 rounded-lg shadow hover:bg-[#245371] transition-colors flex items-center gap-2">
+<Button onClick={() => navigate('/studies_master_data/create')} className="bg-[#306e9a] text-white px-4 py-2 rounded-lg shadow hover:bg-[#245371] transition-colors flex items-center gap-2">
           <Plus className="w-4 h-4" />
           Create Study
         </Button>
       </div>
       
       {/* Main Content Area */}
-      <div className="bg-white rounded-xl p-6 border border-gray-200 shadow-sm">
+      <div className="bg-white rounded-xl   border border-gray-200 shadow-sm">
         
         {/* Search & Filter Bar */}
         {/* <div className="flex justify-between items-center mb-6 bg-white p-3 rounded-lg shadow-sm border border-gray-100">
@@ -74,7 +89,7 @@ export default function Studies_Master_Data() {
             data={filteredData} 
           />
         ) : (
-          <div className="text-center py-10 text-gray-500 bg-white rounded-lg border border-gray-100">
+          <div className="text-center py-10 text-gray-500 bg-white rounded-xl border border-gray-100">
             No studies match your search criteria.
           </div>
         )}
