@@ -11,9 +11,10 @@ import {
 } from "./ui/dialog";
 import { Input } from "./ui/input";
 import { Label } from "./ui/label";
-import { Plus } from "lucide-react";
+import { Plus, Check, AlertCircle, ChevronDown } from "lucide-react";
 import programData from "../../data/Program_Details.json";
 import sitesMasterData from "../../data/sitesMasterData.json";
+import studiesMasterData from "../../data/studiesMasterData.json";
 import { ScrollArea } from "./ui/scroll-area";
 import { toast } from "sonner";
 import {
@@ -23,6 +24,11 @@ import {
     SelectTrigger,
     SelectValue,
 } from "./ui/select";
+import {
+    Popover,
+    PopoverContent,
+    PopoverTrigger,
+} from "./ui/popover";
 
 export default function AddProgramForm({ onAddProgram }) {
     const [open, setOpen] = useState(false);
@@ -35,6 +41,7 @@ export default function AddProgramForm({ onAddProgram }) {
         programData.columns.forEach((col) => {
             initialData[col.key] = "";
         });
+        initialData["studyName"] = [];
         setFormData(initialData);
     }, [open]); // Re-initialize when dialog opens
 
@@ -130,6 +137,47 @@ export default function AddProgramForm({ onAddProgram }) {
         ].includes(key);
     };
 
+    const renderColumn = (column) => {
+        const isSiteDropdown = ["apiSite", "dsSite", "dpSite", "labelSite"].includes(column.key);
+        const isReadOnly = isReadOnlyLeadTime(column.key);
+
+        return (
+            <div className="space-y-1.5" key={column.key}>
+                <Label htmlFor={column.key} className="text-sm font-medium text-gray-700 block">
+                    {column.label}
+                </Label>
+                
+                {isSiteDropdown ? (
+                    <Select
+                        value={formData[column.key]}
+                        onValueChange={(value) => handleSelectChange(column.key, value)}
+                    >
+                        <SelectTrigger className="w-full border-gray-300 rounded-md shadow-sm focus:ring-2 focus:ring-[#306e9a]/20 focus:border-[#306e9a] bg-white sm:text-sm h-9 px-3 py-2 transition-all duration-200 outline-none">
+                            <SelectValue placeholder={`Select ${column.label}`} />
+                        </SelectTrigger>
+                        <SelectContent>
+                            {sitesMasterData.data.map((site) => (
+                                <SelectItem key={site.execution_site} value={site.execution_site}>
+                                    {site.execution_site}
+                                </SelectItem>
+                            ))}
+                        </SelectContent>
+                    </Select>
+                ) : (
+                    <Input
+                        id={column.key}
+                        name={column.key}
+                        value={formData[column.key] || ""}
+                        onChange={handleChange}
+                        readOnly={isReadOnly}
+                        className={`w-full border-gray-300 rounded-md shadow-sm focus:ring-2 focus:ring-[#306e9a]/20 focus:border-[#306e9a] bg-white sm:text-sm h-9 px-3 py-2 transition-all duration-200 outline-none ${isReadOnly ? 'bg-gray-100 cursor-not-allowed text-gray-500' : ''}`}
+                        placeholder={`Enter ${column.label}`}
+                    />
+                )}
+            </div>
+        );
+    };
+
     return (
         <Dialog open={open} onOpenChange={setOpen}>
             <DialogTrigger asChild>
@@ -148,46 +196,64 @@ export default function AddProgramForm({ onAddProgram }) {
                 <ScrollArea className="max-h-[65vh] px-2 py-2 mx-4 my-2">
                     <form id="add-program-form" onSubmit={handleSubmit} className="px-2">
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-5">
-                            {programData.columns.map((column) => {
-                                const isSiteDropdown = ["apiSite", "dsSite", "dpSite", "labelSite"].includes(column.key);
-                                const isReadOnly = isReadOnlyLeadTime(column.key);
+                            {programData.columns.slice(0, 2).map(renderColumn)}
 
-                                return (
-                                    <div className="space-y-1.5" key={column.key}>
-                                        <Label htmlFor={column.key} className="text-sm font-medium text-gray-700 block">
-                                            {column.label}
-                                        </Label>
-                                        
-                                        {isSiteDropdown ? (
-                                            <Select
-                                                value={formData[column.key]}
-                                                onValueChange={(value) => handleSelectChange(column.key, value)}
-                                            >
-                                                <SelectTrigger className="w-full border-gray-300 rounded-md shadow-sm focus:ring-2 focus:ring-[#306e9a]/20 focus:border-[#306e9a] bg-white sm:text-sm h-9 px-3 py-2 transition-all duration-200 outline-none">
-                                                    <SelectValue placeholder={`Select ${column.label}`} />
-                                                </SelectTrigger>
-                                                <SelectContent>
-                                                    {sitesMasterData.data.map((site) => (
-                                                        <SelectItem key={site.execution_site} value={site.execution_site}>
-                                                            {site.execution_site}
-                                                        </SelectItem>
-                                                    ))}
-                                                </SelectContent>
-                                            </Select>
-                                        ) : (
-                                            <Input
-                                                id={column.key}
-                                                name={column.key}
-                                                value={formData[column.key] || ""}
-                                                onChange={handleChange}
-                                                readOnly={isReadOnly}
-                                                className={`w-full border-gray-300 rounded-md shadow-sm focus:ring-2 focus:ring-[#306e9a]/20 focus:border-[#306e9a] bg-white sm:text-sm h-9 px-3 py-2 transition-all duration-200 outline-none ${isReadOnly ? 'bg-gray-100 cursor-not-allowed text-gray-500' : ''}`}
-                                                placeholder={`Enter ${column.label}`}
-                                            />
-                                        )}
-                                    </div>
-                                );
-                            })}
+                            {/* Studies Dropdown */}
+                            <div className="space-y-1.5 col-span-1">
+                                <Label className="text-sm font-medium text-gray-700 block">
+                                    Associated Study
+                                </Label>
+                                <Popover>
+                                    <PopoverTrigger asChild>
+                                        <button type="button" className="w-full border border-gray-300 rounded-md shadow-sm focus:ring-2 focus:ring-[#306e9a]/20 focus:border-[#306e9a] bg-white sm:text-sm h-9 px-3 py-2 text-left flex items-center justify-between transition-all duration-200 outline-none overflow-hidden">
+                                            <span className={`block truncate ${formData.studyName?.length ? 'text-gray-900' : 'text-gray-500'}`}>
+                                                {formData.studyName?.length > 0 
+                                                  ? formData.studyName.join(", ") 
+                                                  : "Select Associated Study"}
+                                            </span>
+                                            <ChevronDown className="h-4 w-4 opacity-50 shrink-0 ml-2" />
+                                        </button>
+                                    </PopoverTrigger>
+                                    <PopoverContent className="p-0 border-gray-200 shadow-md bg-white rounded-md z-50" style={{ width: 'var(--radix-popover-trigger-width)' }}>
+                                        <div className="max-h-60 overflow-y-auto">
+                                            <div className="p-1.5 space-y-0.5">
+                                                {studiesMasterData.data.map((study) => {
+                                                    const isSelected = (formData.studyName || []).includes(study.studyName);
+                                                    return (
+                                                        <label key={study.id} className={`flex items-center px-3 py-2 rounded-md cursor-pointer transition-all ${isSelected ? 'bg-blue-50/80 text-[#306e9a]' : 'hover:bg-gray-50 text-gray-700'}`} onClick={(e) => {
+                                                            e.preventDefault();
+                                                            setFormData((prev) => {
+                                                                const current = prev.studyName || [];
+                                                                if (isSelected) {
+                                                                    return { ...prev, studyName: current.filter((s) => s !== study.studyName) };
+                                                                } else {
+                                                                    return { ...prev, studyName: [...current, study.studyName] };
+                                                                }
+                                                            });
+                                                        }}>
+                                                            <div className={`w-4 h-4 rounded border flex flex-shrink-0 items-center justify-center mr-3 transition-colors ${isSelected ? 'bg-[#306e9a] border-[#306e9a] text-white' : 'border-gray-300 bg-white text-transparent'}`}>
+                                                                <Check className="w-3 h-3" strokeWidth={3} />
+                                                            </div>
+                                                            <div className="flex flex-col justify-center leading-tight truncate">
+                                                                <span className="text-sm font-medium truncate">{study.studyName}</span>
+                                                                {study.studyDescription && <span className="text-[10px] text-gray-400 mt-0.5 truncate">{study.studyDescription}</span>}
+                                                            </div>
+                                                        </label>
+                                                    );
+                                                })}
+                                                {studiesMasterData.data.length === 0 && (
+                                                    <div className="py-4 text-center text-[13px] text-gray-500">No existing studies found.</div>
+                                                )}
+                                            </div>
+                                        </div>
+                                        <div className="border-t border-gray-100 bg-gray-50/50 p-2 text-center text-[11px] text-gray-500 rounded-b-md flex justify-center items-center gap-1.5 shadow-inner">
+                                            <AlertCircle className="w-3 h-3" /> Select one or multiple studies
+                                        </div>
+                                    </PopoverContent>
+                                </Popover>
+                            </div>
+
+                            {programData.columns.slice(2).map(renderColumn)}
                         </div>
                     </form>
                 </ScrollArea>

@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import { ChevronDown, ChevronUp } from 'lucide-react';
 
 export default function PartNumberAccordion({ partNumber, programsData, allColumns, onDataChange }) {
   const [isExpanded, setIsExpanded] = useState(false); // Default false for Part Number view
+  const [sortConfig, setSortConfig] = useState({ key: null, direction: 'asc' });
 
   // Get only the month columns (exclude static columns)
   const monthColumns = allColumns.filter(col => !['program', 'partNumber', 'partDescription', 'materialStage'].includes(col.key));
@@ -33,6 +34,18 @@ export default function PartNumberAccordion({ partNumber, programsData, allColum
     return acc;
   }, []);
 
+  const sortedProgramsData = useMemo(() => {
+    if (!sortConfig.key) return dedupedProgramsData;
+    return [...dedupedProgramsData].sort((a, b) => {
+      const aVal = a[sortConfig.key];
+      const bVal = b[sortConfig.key];
+      if (typeof aVal === 'string' && typeof bVal === 'string') {
+        return sortConfig.direction === 'asc' ? aVal.localeCompare(bVal) : bVal.localeCompare(aVal);
+      }
+      return 0;
+    });
+  }, [dedupedProgramsData, sortConfig]);
+
   // Get unique programs list (calculated off the deduped array directly)
   const uniquePrograms = dedupedProgramsData.map(d => d.program);
   const programsLabel = uniquePrograms.join(', ');
@@ -53,6 +66,19 @@ export default function PartNumberAccordion({ partNumber, programsData, allColum
     const clinical = Math.round(total * 0.7);
     const independent = total - clinical;
     return { clinical, independent };
+  };
+
+  const handleSort = (key) => {
+    let direction = 'asc';
+    if (sortConfig.key === key && sortConfig.direction === 'asc') direction = 'desc';
+    setSortConfig({ key, direction });
+  };
+
+  const getSortIcon = (key) => {
+    if (sortConfig.key === key) {
+      return sortConfig.direction === 'asc' ? <ChevronUp className="w-3 h-3 ml-1 inline text-[#306e9a]" /> : <ChevronDown className="w-3 h-3 ml-1 inline text-[#306e9a]" />;
+    }
+    return <span className="text-[10px] ml-1 text-[#306e9a]">↑↓</span>;
   };
 
   return (
@@ -83,10 +109,14 @@ export default function PartNumberAccordion({ partNumber, programsData, allColum
             <thead className="bg-[#F9FAFB] border-b border-gray-200">
               {/* Top Header Row - Months */}
               <tr>
-                <th className="p-3 border-r border-gray-200 bg-white align-bottom w-48 sticky left-0 z-10" rowSpan={2}>
-                  <div className="flex items-center text-xs font-semibold text-[#306e9a] tracking-wider uppercase">
+                <th 
+                  className="p-3 border-r border-gray-200 bg-white align-bottom w-48 sticky left-0 z-10 cursor-pointer hover:bg-gray-50 transition-colors" 
+                  rowSpan={2}
+                  onClick={() => handleSort('program')}
+                >
+                  <div className="flex items-center text-xs font-semibold text-[#306e9a] tracking-wider uppercase select-none">
                     PROGRAM
-                    <span className="text-[10px] ml-1 text-[#306e9a]">↑↓</span>
+                    {getSortIcon('program')}
                   </div>
                 </th>
                 {monthColumns.map(col => (
@@ -107,7 +137,7 @@ export default function PartNumberAccordion({ partNumber, programsData, allColum
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-100">
-              {dedupedProgramsData.map((row, idx) => (
+              {sortedProgramsData.map((row, idx) => (
                 <tr key={`${row.program}-${idx}`} className="hover:bg-gray-50 group">
                   <td className="p-3 border-r border-gray-200 font-medium text-sm text-gray-900 bg-white group-hover:bg-gray-50 sticky left-0 shadow-[1px_0_0_0_#e5e7eb] z-10">
                     {row.program}

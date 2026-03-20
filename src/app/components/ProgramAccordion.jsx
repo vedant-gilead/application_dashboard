@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import { ChevronDown, ChevronUp } from 'lucide-react';
 
 export default function ProgramAccordion({ program, partsData, allColumns, onDataChange }) {
   const [isExpanded, setIsExpanded] = useState(false); // Default to collapsed
+  const [sortConfig, setSortConfig] = useState({ key: null, direction: 'asc' });
 
   // Get only the month columns (exclude static columns)
   const monthColumns = allColumns.filter(col => !['program', 'partNumber', 'partDescription', 'materialStage'].includes(col.key));
@@ -31,6 +32,31 @@ export default function ProgramAccordion({ program, partsData, allColumns, onDat
     const clinical = Math.round(total * 0.7);
     const independent = total - clinical;
     return { clinical, independent };
+  };
+
+  const sortedPartsData = useMemo(() => {
+    if (!sortConfig.key) return partsData;
+    return [...partsData].sort((a, b) => {
+      const aVal = a[sortConfig.key];
+      const bVal = b[sortConfig.key];
+      if (typeof aVal === 'string' && typeof bVal === 'string') {
+        return sortConfig.direction === 'asc' ? aVal.localeCompare(bVal) : bVal.localeCompare(aVal);
+      }
+      return 0;
+    });
+  }, [partsData, sortConfig]);
+
+  const handleSort = (key) => {
+    let direction = 'asc';
+    if (sortConfig.key === key && sortConfig.direction === 'asc') direction = 'desc';
+    setSortConfig({ key, direction });
+  };
+
+  const getSortIcon = (key) => {
+    if (sortConfig.key === key) {
+      return sortConfig.direction === 'asc' ? <ChevronUp className="w-3 h-3 ml-1 inline text-[#306e9a]" /> : <ChevronDown className="w-3 h-3 ml-1 inline text-[#306e9a]" />;
+    }
+    return <span className="text-[10px] ml-1 text-[#306e9a]">↑↓</span>;
   };
 
   return (
@@ -67,10 +93,14 @@ export default function ProgramAccordion({ program, partsData, allColumns, onDat
             <thead className="bg-[#F9FAFB] border-b border-gray-200">
               {/* Top Header Row - Months */}
               <tr>
-                <th className="p-3 border-r border-gray-200 bg-white align-bottom w-48" rowSpan={2}>
+                <th 
+                  className="p-3 border-r border-gray-200 bg-white align-bottom w-48 cursor-pointer hover:bg-gray-50 transition-colors select-none" 
+                  rowSpan={2}
+                  onClick={() => handleSort('partNumber')}
+                >
                   <div className="flex items-center text-xs font-semibold text-[#306e9a] tracking-wider uppercase">
                     PART NUMBER
-                    <span className="text-[10px] ml-1 text-[#306e9a]">↑↓</span>
+                    {getSortIcon('partNumber')}
                   </div>
                 </th>
                 {monthColumns.map(col => (
@@ -91,7 +121,7 @@ export default function ProgramAccordion({ program, partsData, allColumns, onDat
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-100">
-              {partsData.map((row, idx) => (
+              {sortedPartsData.map((row, idx) => (
                 <tr key={`${row.partNumber}-${idx}`} className="hover:bg-gray-50 group">
                   <td className="p-3 border-r border-gray-200 font-medium text-sm text-gray-900 bg-white group-hover:bg-gray-50 sticky left-0 shadow-[1px_0_0_0_#e5e7eb] z-10" style={{ minWidth: '160px', paddingRight: '1.25rem' }}>
                     {row.partNumber}

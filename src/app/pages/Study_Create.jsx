@@ -1,6 +1,6 @@
 import React, { useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Plus } from 'lucide-react';
+import { Plus, AlertCircle, X, Check } from 'lucide-react';
 import { Button } from '../components/ui/button';
 import {
   Drawer,
@@ -56,6 +56,19 @@ const getExistingDrugSubstances = () => {
     .map((ds) => ({ ...ds, type: 'ds' }));
   return uniqueBy(items, (ds) => ds.id || ds.name);
 };
+
+const ErrorMessage = ({ message }) => {
+  if (!message) return null;
+  return (
+    <div className="flex items-center gap-1.5 mt-1.5 text-red-500 text-[13px] font-medium bg-red-50/50 p-2 rounded-lg border border-red-100">
+      <AlertCircle className="w-4 h-4 shrink-0" />
+      <span>{message}</span>
+    </div>
+  );
+};
+
+const inputClassName = "w-full rounded-xl border border-gray-300 px-3.5 py-2.5 text-gray-900 text-sm focus:outline-none focus:ring-2 focus:ring-[#306e9a]/20 focus:border-[#306e9a] transition-all bg-white shadow-sm mt-1.5 placeholder:text-gray-400";
+const labelClassName = "block text-[13px] font-bold text-slate-700 uppercase tracking-wider";
 
 export default function Study_Create() {
   const navigate = useNavigate();
@@ -155,6 +168,7 @@ export default function Study_Create() {
     ]);
     setNewDpDsName('');
     setNewDpDsCode('');
+    setFormErrors((prev) => ({ ...prev, newDsName: '', newDsSelection: '' }));
   };
 
   const addNewFpDp = () => {
@@ -166,7 +180,7 @@ export default function Study_Create() {
     const allDsForNewDp = [...filteredExistingDs, ...newDpDsList];
     
     if (allDsForNewDp.length === 0) {
-      alert("Please select or create at least one Drug Substance for the new Drug Product.");
+      setFormErrors((prev) => ({ ...prev, newDsSelection: 'Please select or create at least one Drug Substance.' }));
       return;
     }
 
@@ -185,6 +199,7 @@ export default function Study_Create() {
     setNewDpManufacturing('');
     setSelectedExistingDsIds([]);
     setNewDpDsList([]);
+    setFormErrors((prev) => ({ ...prev, newDsSelection: '', newDpName: '' }));
   };
 
   const handleSaveNewFp = () => {
@@ -212,7 +227,7 @@ export default function Study_Create() {
       if (wipDp) combinedDps.push(wipDp);
 
       if (combinedDps.length === 0) {
-        alert("Please create at least one Drug Product for the Finished Product.");
+        setFormErrors((prev) => ({ ...prev, newDpSelection: 'Please create at least one Drug Product.' }));
         return;
       }
       dpForFp = combinedDps;
@@ -228,7 +243,7 @@ export default function Study_Create() {
     }
 
     if (!dpForFp || (Array.isArray(dpForFp) && dpForFp.length === 0)) {
-      alert('Please select or create at least one Drug Product for the Finished Product.');
+      setFormErrors((prev) => ({ ...prev, newDpSelection: 'Please select or create at least one Drug Product.' }));
       return;
     }
 
@@ -452,7 +467,7 @@ export default function Study_Create() {
     setStep(4);
   };
 
-  const handleFinishStudy = () => {
+  const handleFinishStudy = async () => {
     const studyId = `new-${Date.now()}`;
     const finishedGoodsCount = structureFGs.length;
     const drugProductsCount = structureFGs.reduce((acc, fg) => acc + (fg.children?.length || 0), 0);
@@ -475,9 +490,20 @@ export default function Study_Create() {
       children: structureFGs,
     };
 
-    const stored = localStorage.getItem('studiesMasterDataNewStudies');
-    const saved = stored ? JSON.parse(stored) : [];
-    localStorage.setItem('studiesMasterDataNewStudies', JSON.stringify([...saved, newStudy]));
+
+    try {
+      const updatedData = {
+        ...studiesMasterData,
+        data: [...studiesMasterData.data, newStudy]
+      };
+      await fetch('/api/save-studies', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(updatedData),
+      });
+    } catch (e) {
+      console.error('Failed to save study to disk:', e);
+    }
 
     navigate('/studies_master_data');
   };
@@ -758,199 +784,355 @@ export default function Study_Create() {
             </DrawerDescription>
           </DrawerHeader>
 
-          <div className="space-y-4 p-4 flex-1 overflow-y-auto">
+          <div className="space-y-6 p-6 flex-1 overflow-y-auto bg-gray-50/30">
             {drawerMode === 'fp' && (
-              <>
-                <label className="block text-sm font-medium text-gray-700">Finished Good Name *</label>
-                <input
-                  className="w-full rounded-lg border border-gray-300 p-2"
-                  value={newFpName}
-                  onChange={(e) => {
-                    setNewFpName(e.target.value);
-                    if (formErrors.newFpName) setFormErrors((prev) => ({ ...prev, newFpName: '' }));
-                  }}
-                  placeholder="e.g., New FP Name"
-                />
-                {formErrors.newFpName && <p className="text-red-500 text-xs mt-1">{formErrors.newFpName}</p>}
+              <div className="max-w-4xl mx-auto space-y-8">
+                {/* FP Details Section */}
+                <div className="bg-white p-6 rounded-2xl border border-gray-200 shadow-sm space-y-5">
+                  <h3 className="text-lg font-semibold text-gray-900 border-b border-gray-100 pb-3">Finished Product Details</h3>
+                  <div>
+                    <label className={labelClassName}>Finished Product Name <span className="text-red-500">*</span></label>
+                    <input
+                      className={`${inputClassName} ${formErrors.newFpName ? 'border-red-300 focus:border-red-500 focus:ring-red-200 bg-red-50/10' : ''}`}
+                      value={newFpName}
+                      onChange={(e) => {
+                        setNewFpName(e.target.value);
+                        if (formErrors.newFpName) setFormErrors((prev) => ({ ...prev, newFpName: '' }));
+                      }}
+                      placeholder="e.g., New FP Name"
+                    />
+                    <ErrorMessage message={formErrors.newFpName} />
+                  </div>
 
-                <label className="block text-sm font-medium text-gray-700">Finished Good Description</label>
-                <textarea className="w-full rounded-lg border border-gray-300 p-2" value={newFpDescription} onChange={(e) => setNewFpDescription(e.target.value)} placeholder="e.g., Description..." />
+                  <div>
+                    <label className={labelClassName}>Finished Product Description</label>
+                    <textarea 
+                      className={`${inputClassName} min-h-[100px] resize-y`}
+                      value={newFpDescription} 
+                      onChange={(e) => setNewFpDescription(e.target.value)} 
+                      placeholder="Enter a detailed description..." 
+                    />
+                  </div>
+                </div>
 
-                <div className="border-t border-gray-200 pt-4 mt-4">
-                  <h3 className="font-semibold text-gray-800 mb-3">Drug Product (Required)</h3>
+                {/* DP Section */}
+                <div className="bg-white p-6 rounded-2xl border border-gray-200 shadow-sm">
+                  <div className="flex items-center justify-between mb-5 border-b border-gray-100 pb-3">
+                    <h3 className="text-lg font-semibold text-gray-900">Drug Product Association</h3>
+                    <span className="bg-blue-50 text-[#306e9a] text-xs font-bold px-2.5 py-1 rounded-md">REQUIRED</span>
+                  </div>
                   
-                  <div className="flex items-center gap-6 mb-4">
-                    <label className="flex items-center gap-2 text-sm text-gray-700 cursor-pointer">
-                      <input type="radio" checked={!usingNewDP} onChange={() => setUsingNewDP(false)} />
-                      Select Existing Drug Product
+                  <div className="grid grid-cols-2 gap-4 mb-6">
+                    <label className={`flex items-center p-4 border rounded-xl cursor-pointer transition-all duration-200 ${!usingNewDP ? 'border-[#306e9a] bg-[#f4f9fd] ring-1 ring-[#306e9a] shadow-sm' : 'border-gray-200 hover:bg-gray-50 hover:border-gray-300'}`}>
+                      <div className="relative flex items-center justify-center">
+                        <input type="radio" checked={!usingNewDP} onChange={() => setUsingNewDP(false)} className="sr-only" />
+                        <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center transition-colors ${!usingNewDP ? 'border-[#306e9a]' : 'border-gray-300'}`}>
+                          {!usingNewDP && <div className="w-2.5 h-2.5 rounded-full bg-[#306e9a]" />}
+                        </div>
+                      </div>
+                      <div className="ml-3">
+                        <span className={`block font-semibold text-sm ${!usingNewDP ? 'text-[#306e9a]' : 'text-gray-700'}`}>Select Existing</span>
+                        <span className="block text-xs text-gray-500 mt-0.5">Choose from standard registry</span>
+                      </div>
                     </label>
-                    <label className="flex items-center gap-2 text-sm text-gray-700 cursor-pointer">
-                      <input type="radio" checked={usingNewDP} onChange={() => setUsingNewDP(true)} />
-                      Create New Drug Product
+                    
+                    <label className={`flex items-center p-4 border rounded-xl cursor-pointer transition-all duration-200 ${usingNewDP ? 'border-[#306e9a] bg-[#f4f9fd] ring-1 ring-[#306e9a] shadow-sm' : 'border-gray-200 hover:bg-gray-50 hover:border-gray-300'}`}>
+                      <div className="relative flex items-center justify-center">
+                        <input type="radio" checked={usingNewDP} onChange={() => setUsingNewDP(true)} className="sr-only" />
+                        <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center transition-colors ${usingNewDP ? 'border-[#306e9a]' : 'border-gray-300'}`}>
+                          {usingNewDP && <div className="w-2.5 h-2.5 rounded-full bg-[#306e9a]" />}
+                        </div>
+                      </div>
+                      <div className="ml-3">
+                        <span className={`block font-semibold text-sm ${usingNewDP ? 'text-[#306e9a]' : 'text-gray-700'}`}>Create New DP</span>
+                        <span className="block text-xs text-gray-500 mt-0.5">Define a custom product</span>
+                      </div>
                     </label>
                   </div>
 
                   {!usingNewDP ? (
-                    <div>
-                      <select 
-                        className="w-full rounded-lg border border-gray-300 p-2 h-32"
-                        multiple
-                        value={selectedExistingDpIds}
-                        onChange={(e) => setSelectedExistingDpIds(Array.from(e.target.selectedOptions, option => option.value))}
-                      >
-                        {existingDPs.map(dp => (
-                          <option key={dp.id} value={dp.id}>{dp.name}</option>
-                        ))}
-                      </select>
-                      <p className="text-xs text-gray-500 mt-1">Hold Ctrl/Cmd to select multiple</p>
-                      {formErrors.newDpSelection && <p className="text-red-500 text-xs mt-1">{formErrors.newDpSelection}</p>}
+                    <div className="bg-gray-50 rounded-xl p-5 border border-gray-100">
+                      <label className={labelClassName}>Available Drug Products</label>
+                      <div className={`w-full rounded-xl border ${formErrors.newDpSelection ? 'border-red-300 ring-1 ring-red-200 bg-red-50/10' : 'border-gray-300 bg-white'} mt-2 max-h-56 overflow-y-auto shadow-inner`}>
+                        <div className="p-2 space-y-1">
+                          {existingDPs.map(dp => {
+                            const isSelected = selectedExistingDpIds.includes(dp.id);
+                            return (
+                              <label key={dp.id} className={`flex items-center px-4 py-2.5 rounded-lg cursor-pointer transition-all ${isSelected ? 'bg-blue-50/80 text-[#306e9a]' : 'hover:bg-gray-50 text-gray-700'}`} onClick={(e) => {
+                                e.preventDefault();
+                                if (formErrors.newDpSelection) setFormErrors(prev => ({...prev, newDpSelection: ''}));
+                                if (isSelected) setSelectedExistingDpIds(prev => prev.filter(id => id !== dp.id));
+                                else setSelectedExistingDpIds(prev => [...prev, dp.id]);
+                              }}>
+                                <div className={`w-5 h-5 rounded border flex items-center justify-center mr-3 transition-colors ${isSelected ? 'bg-[#306e9a] border-[#306e9a] text-white' : 'border-gray-300 bg-white text-transparent'}`}>
+                                  <Check className="w-3.5 h-3.5" strokeWidth={3} />
+                                </div>
+                                <span className="text-sm font-medium select-none flex-1">{dp.name}</span>
+                                {dp.manufacturing && <span className="text-xs text-gray-400 select-none ml-2 truncate max-w-[200px]">{dp.manufacturing}</span>}
+                              </label>
+                            );
+                          })}
+                          {existingDPs.length === 0 && (
+                            <div className="py-8 text-center text-sm text-gray-500">No existing drug products found.</div>
+                          )}
+                        </div>
+                      </div>
+                      <p className="text-[13px] text-gray-500 mt-2 flex items-center gap-1.5"><AlertCircle className="w-3.5 h-3.5" /> Select one or multiple entries</p>
+                      <ErrorMessage message={formErrors.newDpSelection} />
                     </div>
                   ) : (
-                    <div className="space-y-4 bg-gray-50 p-4 rounded-lg border border-gray-200">
-                      <label className="block text-sm font-medium text-gray-700">New Drug Product Name *</label>
-                      <input
-                        className="w-full rounded-lg border border-gray-300 p-2 bg-white"
-                        value={newDpName}
-                        onChange={(e) => {
-                          setNewDpName(e.target.value);
-                          if (formErrors.newDpName) setFormErrors((prev) => ({ ...prev, newDpName: '' }));
-                        }}
-                      />
-                      {formErrors.newDpName && <p className="text-red-500 text-xs mt-1">{formErrors.newDpName}</p>}
+                    <div className="space-y-5 bg-blue-50/30 p-6 rounded-xl border border-blue-100/50">
+                      <div>
+                        <label className={labelClassName}>New Drug Product Name <span className="text-red-500">*</span></label>
+                        <input
+                          className={`${inputClassName} ${formErrors.newDpName ? 'border-red-300 focus:border-red-500 focus:ring-red-200 bg-red-50/10' : ''}`}
+                          value={newDpName}
+                          onChange={(e) => {
+                            setNewDpName(e.target.value);
+                            if (formErrors.newDpName) setFormErrors((prev) => ({ ...prev, newDpName: '' }));
+                          }}
+                          placeholder="e.g., PC-XXXXX"
+                        />
+                        <ErrorMessage message={formErrors.newDpName} />
+                      </div>
 
-                      <label className="block text-sm font-medium text-gray-700">Manufacturing</label>
-                      <input className="w-full rounded-lg border border-gray-300 p-2 bg-white" value={newDpManufacturing} onChange={(e) => setNewDpManufacturing(e.target.value)} placeholder="e.g., Aseptic Fill-Finish" />
+                      <div>
+                        <label className={labelClassName}>Manufacturing Process</label>
+                        <input className={inputClassName} value={newDpManufacturing} onChange={(e) => setNewDpManufacturing(e.target.value)} placeholder="e.g., Aseptic Fill-Finish" />
+                      </div>
 
-                      <div className="border-t border-gray-200 pt-4 mt-2">
-                         <h4 className="font-semibold text-sm text-gray-800 mb-3">Drug Substance (Required for New Drug Product)</h4>
-                         
-                         <label className="block text-sm font-medium text-gray-700 mb-1">Select Existing Drug Substance</label>
-                         <select 
-                           className="w-full rounded-lg border border-gray-300 p-2 bg-white mb-1 h-24"
-                           multiple
-                           value={selectedExistingDsIds}
-                           onChange={(e) => setSelectedExistingDsIds(Array.from(e.target.selectedOptions, option => option.value))}
-                         >
-                           {existingDSs.map(ds => (
-                             <option key={ds.id} value={ds.id}>{ds.name} ({ds.code || 'No Code'})</option>
-                           ))}
-                         </select>
-                         <p className="text-xs text-gray-500 mb-4">Hold Ctrl/Cmd to select multiple</p>
-
-                         <label className="block text-sm font-medium text-gray-700 mb-2">Or Create New Drug Substance</label>
-                         <div className="gap-2 mb-2">
-                           <input className="w-full rounded-lg border border-gray-300 p-2 bg-white mb-6" placeholder="Drug Substance Name" value={newDpDsName} onChange={(e) => setNewDpDsName(e.target.value)} />
-                           <input className="w-full rounded-lg border border-gray-300 p-2 bg-white mb-6" placeholder="Drug Substance Code" value={newDpDsCode} onChange={(e) => setNewDpDsCode(e.target.value)} />
-                           <Button type="button" className="bg-[#306e9a] text-white shrink-0" onClick={addNewDpDs}>Add Drug Substance</Button>
+                      <div className="border-t border-gray-200/80 pt-6 mt-4">
+                         <div className="flex items-center justify-between mb-4">
+                           <h4 className="font-semibold text-gray-900">Drug Substance Dependencies</h4>
+                           <span className="bg-blue-50 text-[#306e9a] border border-blue-100 text-[11px] px-2 py-0.5 rounded-full font-bold tracking-wide">REQUIRED</span>
                          </div>
                          
-                         {newDpDsList.length > 0 && (
-                           <ul className="text-sm text-gray-700 space-y-2 mt-3 mb-2">
-                             {newDpDsList.map((ds) => (
-                               <li key={ds.id} className="border border-gray-200 bg-white rounded p-2 flex justify-between items-center">
-                                 <span>{ds.name} {ds.code ? `(${ds.code})` : ''}</span>
-                                 <button type="button" className="text-red-500 hover:text-red-700 font-medium" onClick={() => setNewDpDsList(prev => prev.filter(d => d.id !== ds.id))}>Remove</button>
-                               </li>
-                             ))}
-                           </ul>
-                         )}
-                         <Button type="button" className="bg-[#1f4a6b] hover:bg-[#16364f] text-white w-full mt-4" onClick={addNewFpDp}>Add this Drug Product</Button>
+                         <div className="bg-white p-5 rounded-xl border border-gray-200 shadow-sm space-y-5">
+                           <div>
+                             <label className={labelClassName}>Link Existing Drug Substance</label>
+                              <div className={`w-full rounded-xl border ${formErrors.newDsSelection ? 'border-red-300 ring-1 ring-red-200 bg-red-50/10' : 'border-gray-300 bg-white'} mt-2 max-h-48 overflow-y-auto shadow-inner`}>
+                                <div className="p-2 space-y-1">
+                                  {existingDSs.map(ds => {
+                                    const isSelected = selectedExistingDsIds.includes(ds.id);
+                                    return (
+                                      <label key={ds.id} className={`flex items-center px-4 py-2.5 rounded-lg cursor-pointer transition-all ${isSelected ? 'bg-blue-50/80 text-[#306e9a]' : 'hover:bg-gray-50 text-gray-700'}`} onClick={(e) => {
+                                        e.preventDefault();
+                                        if (formErrors.newDsSelection) setFormErrors(prev => ({...prev, newDsSelection: ''}));
+                                        if (isSelected) setSelectedExistingDsIds(prev => prev.filter(id => id !== ds.id));
+                                        else setSelectedExistingDsIds(prev => [...prev, ds.id]);
+                                      }}>
+                                        <div className={`w-5 h-5 rounded border flex items-center justify-center mr-3 transition-colors ${isSelected ? 'bg-[#306e9a] border-[#306e9a] text-white' : 'border-gray-300 bg-white text-transparent'}`}>
+                                          <Check className="w-3.5 h-3.5" strokeWidth={3} />
+                                        </div>
+                                        <div className="flex-1 flex flex-col justify-center leading-tight">
+                                          <span className="text-sm font-medium">{ds.name}</span>
+                                          {ds.code && <span className="text-[11px] text-gray-400 font-mono mt-0.5">{ds.code}</span>}
+                                        </div>
+                                      </label>
+                                    );
+                                  })}
+                                  {existingDSs.length === 0 && (
+                                    <div className="py-6 text-center text-[13px] text-gray-500">No existing drug substances found.</div>
+                                  )}
+                                </div>
+                              </div>
+                              <ErrorMessage message={formErrors.newDsSelection} />
+                           </div>
+
+                           <div className="relative flex items-center py-2">
+                              <div className="flex-grow border-t border-gray-200"></div>
+                              <span className="flex-shrink-0 mx-4 text-xs font-bold text-gray-400 uppercase tracking-widest">OR ADD NEW</span>
+                              <div className="flex-grow border-t border-gray-200"></div>
+                           </div>
+
+                           <div className="bg-gray-50 p-4 rounded-xl border border-gray-100 flex flex-col gap-3">
+                             <div className="grid grid-cols-2 gap-3">
+                               <div>
+                                 <label className="block text-xs font-bold text-gray-600 uppercase tracking-wide mb-1">DS NAME</label>
+                                 <input className={`w-full rounded-lg border ${formErrors.newDsName ? 'border-red-300 ring-1 ring-red-200 bg-red-50/10' : 'border-gray-300'} px-3 py-2 text-sm focus:ring-[#306e9a] focus:border-[#306e9a]`} placeholder="IP-XXXXX" value={newDpDsName} onChange={(e) => {
+                                   setNewDpDsName(e.target.value);
+                                   if (formErrors.newDsName) setFormErrors(prev => ({ ...prev, newDsName: '' }));
+                                 }} />
+                                 <ErrorMessage message={formErrors.newDsName} />
+                               </div>
+                               <div>
+                                 <label className="block text-xs font-bold text-gray-600 uppercase tracking-wide mb-1">CODE (OPTIONAL)</label>
+                                 <input className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:ring-[#306e9a] focus:border-[#306e9a]" placeholder="e.g. MAB-X101" value={newDpDsCode} onChange={(e) => setNewDpDsCode(e.target.value)} />
+                               </div>
+                             </div>
+                             <Button type="button" className="bg-[#306e9a] hover:bg-[#255577] text-white shadow-sm w-full md:w-auto self-end font-medium transition-colors" onClick={addNewDpDs}>
+                               <Plus className="w-4 h-4 mr-1.5" /> Define Substance
+                             </Button>
+                           </div>
+                           
+                           {newDpDsList.length > 0 && (
+                             <div className="mt-4 pt-4 border-t border-dashed border-gray-200">
+                               <h5 className="text-xs font-bold text-gray-500 uppercase tracking-wider mb-3">Newly Defined Substances</h5>
+                               <ul className="space-y-2">
+                                 {newDpDsList.map((ds) => (
+                                   <li key={ds.id} className="bg-white border text-sm border-blue-200/60 shadow-sm rounded-lg p-2.5 flex justify-between items-center group transition-colors hover:border-blue-300">
+                                     <div className="flex items-center gap-2.5">
+                                       <div className="w-1.5 h-1.5 rounded-full bg-[#306e9a]" />
+                                       <span className="font-semibold text-gray-800">{ds.name}</span>
+                                       {ds.code && <span className="font-mono text-xs px-1.5 py-0.5 bg-gray-100 text-gray-500 rounded">{ds.code}</span>}
+                                     </div>
+                                     <button type="button" className="text-gray-400 hover:text-red-500 transition-colors p-1" onClick={() => setNewDpDsList(prev => prev.filter(d => d.id !== ds.id))} title="Remove">
+                                        <X className="w-4 h-4" />
+                                     </button>
+                                   </li>
+                                 ))}
+                               </ul>
+                             </div>
+                           )}
+                         </div>
+                         <Button type="button" className="bg-[#1f4a6b] hover:bg-[#16364f] text-white w-full py-6 mt-6 shadow-md text-base rounded-xl font-semibold transition-all" onClick={addNewFpDp}>
+                           ✔ Finalize & Add Drug Product
+                         </Button>
                       </div>
 
                       {newFpNewDpList.length > 0 && (
-                        <div className="mt-4 pt-4 border-t border-gray-200">
-                          <h4 className="font-semibold text-sm text-gray-800 mb-2">Added Drug Products</h4>
-                          <ul className="text-sm text-gray-700 space-y-2">
+                        <div className="mt-2 pt-6 border-t border-gray-200">
+                          <h4 className="font-semibold text-gray-900 mb-3 flex items-center gap-2">
+                             <span className="bg-[#306e9a] text-white text-[10px] w-5 h-5 flex items-center justify-center rounded-full">{newFpNewDpList.length}</span>
+                             Custom Drug Products Added
+                          </h4>
+                          <ul className="grid gap-3">
                             {newFpNewDpList.map((dp) => (
-                              <li key={dp.id} className="border border-[#306e9a] bg-[#eef6fc] rounded p-3 flex justify-between items-start">
+                              <li key={dp.id} className="bg-white border border-[#306e9a]/30 shadow-sm rounded-xl p-4 flex justify-between items-start group">
                                 <div>
-                                  <div className="font-medium text-[#306e9a]">{dp.name}</div>
-                                  {dp.manufacturing && <div className="text-xs text-gray-600">Mfg: {dp.manufacturing}</div>}
-                                  <div className="text-xs text-gray-500 mt-1">{dp.children?.length} DS(s) attached</div>
+                                  <div className="font-bold text-[#306e9a] text-base">{dp.name}</div>
+                                  {dp.manufacturing && <div className="text-[13px] text-gray-600 mt-1 flex items-center gap-1.5"><span className="w-1.5 h-1.5 rounded-full bg-gray-300" /> Mfg: {dp.manufacturing}</div>}
+                                  <div className="text-[12px] font-medium text-[#306e9a] mt-2 bg-blue-50 inline-block px-2 py-0.5 rounded border border-blue-100">
+                                    {dp.children?.length || 0} DS Dependencies
+                                  </div>
                                 </div>
-                                <button type="button" className="text-red-500 hover:text-red-700 font-medium text-xs mt-1" onClick={() => setNewFpNewDpList(prev => prev.filter(d => d.id !== dp.id))}>Remove</button>
+                                <button type="button" className="text-gray-400 hover:text-red-500 bg-gray-50 hover:bg-red-50 p-2 rounded-lg transition-colors border border-transparent hover:border-red-100 mt-0.5" onClick={() => setNewFpNewDpList(prev => prev.filter(d => d.id !== dp.id))} title="Remove DP">
+                                  <X className="w-4 h-4" />
+                                </button>
                               </li>
                             ))}
                           </ul>
                         </div>
                       )}
-
                     </div>
                   )}
                 </div>
-              </>
+              </div>
             )}
 
             {drawerMode === 'dp' && (
-              <>
+              <div className="max-w-2xl mx-auto space-y-6 bg-white p-6 rounded-2xl border border-gray-200 shadow-sm mt-4">
                 {!selectedStudyFG ? (
-                  <p className="text-sm text-gray-500">Please return to Step 2 and choose an FP first.</p>
+                  <div className="py-8 text-center text-[13px] text-gray-500 bg-gray-50 rounded-xl border border-dashed border-gray-300">
+                    <AlertCircle className="w-8 h-8 mx-auto text-gray-400 mb-2" />
+                    Please return to Step 2 and choose a Finished Product first.
+                  </div>
                 ) : (
                   <>
-                    {formErrors.newDpError && <p className="text-red-500 text-xs mb-2">{formErrors.newDpError}</p>}
-                    <label className="block text-sm font-medium text-gray-700">DP Name</label>
-                    <input
-                      className="w-full rounded-lg border border-gray-300 p-2"
-                      value={newDpName}
-                      onChange={(e) => {
-                        setNewDpName(e.target.value);
-                        if (formErrors.newDpName) setFormErrors((prev) => ({ ...prev, newDpName: '' }));
-                      }}
-                    />
-                    {formErrors.newDpName && <p className="text-red-500 text-xs mt-1">{formErrors.newDpName}</p>}
+                    {formErrors.newDpError && <ErrorMessage message={formErrors.newDpError} />}
+                    <div>
+                      <label className={labelClassName}>Drug Product Name <span className="text-red-500">*</span></label>
+                      <input
+                        className={`${inputClassName} ${formErrors.newDpName ? 'border-red-300 focus:border-red-500 focus:ring-red-200 bg-red-50/10' : ''}`}
+                        value={newDpName}
+                        onChange={(e) => {
+                          setNewDpName(e.target.value);
+                          if (formErrors.newDpName) setFormErrors((prev) => ({ ...prev, newDpName: '' }));
+                        }}
+                        placeholder="e.g., PC-XXXXX"
+                      />
+                      <ErrorMessage message={formErrors.newDpName} />
+                    </div>
 
-                    <label className="block text-sm font-medium text-gray-700">Manufacturing</label>
-                    <input className="w-full rounded-lg border border-gray-300 p-2" value={newDpManufacturing} onChange={(e) => setNewDpManufacturing(e.target.value)} placeholder="e.g., Aseptic Fill-Finish" />
+                    <div>
+                      <label className={labelClassName}>Manufacturing Process</label>
+                      <input className={inputClassName} value={newDpManufacturing} onChange={(e) => setNewDpManufacturing(e.target.value)} placeholder="e.g., Aseptic Fill-Finish" />
+                    </div>
 
-                    <label className="block text-sm font-medium text-gray-700">Optional DS to link now</label>
-                    <input className="w-full rounded-lg border border-gray-300 p-2" placeholder="DS Name" value={newDpDsName} onChange={(e) => setNewDpDsName(e.target.value)} />
-                    <input className="w-full rounded-lg border border-gray-300 p-2 mt-2" placeholder="DS Code (optional)" value={newDpDsCode} onChange={(e) => setNewDpDsCode(e.target.value)} />
-                    <Button className="bg-[#306e9a] text-white" onClick={addNewDpDs}>
-                      Add DS to DP
-                    </Button>
-                    {newDpDsList.length > 0 && (
-                      <ul className="mt-2 text-sm text-gray-700 space-y-1">
-                        {newDpDsList.map((ds) => (
-                          <li key={ds.id} className="border border-gray-200 rounded p-2">{ds.name} {ds.code}</li>
-                        ))}
-                      </ul>
-                    )}
+                    <div className="border-t border-gray-100 pt-6 mt-4">
+                      <div className="flex items-center justify-between mb-4">
+                        <label className={labelClassName}>Optional DS to link now</label>
+                        <span className="bg-gray-100 text-gray-500 text-[11px] px-2 py-0.5 rounded-full font-bold tracking-wide">OPTIONAL</span>
+                      </div>
+                      
+                      <div className="bg-gray-50 p-4 rounded-xl border border-gray-100 flex flex-col gap-3">
+                        <div className="grid grid-cols-2 gap-3">
+                          <div>
+                            <input className={`w-full rounded-lg border ${formErrors.newDsName ? 'border-red-300 ring-1 ring-red-200 bg-red-50/10' : 'border-gray-300'} px-3 py-2 text-sm focus:ring-[#306e9a] focus:border-[#306e9a]`} placeholder="DS Name" value={newDpDsName} onChange={(e) => {
+                              setNewDpDsName(e.target.value);
+                              if (formErrors.newDsName) setFormErrors(prev => ({ ...prev, newDsName: '' }));
+                            }} />
+                            <ErrorMessage message={formErrors.newDsName} />
+                          </div>
+                          <div>
+                            <input className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:ring-[#306e9a] focus:border-[#306e9a]" placeholder="DS Code" value={newDpDsCode} onChange={(e) => setNewDpDsCode(e.target.value)} />
+                          </div>
+                        </div>
+                        <Button type="button" className="bg-slate-200 hover:bg-slate-300 text-slate-800 shadow-sm w-full md:w-auto self-end font-medium transition-colors" onClick={addNewDpDs}>
+                          <Plus className="w-4 h-4 mr-1.5" /> Quick Add DS
+                        </Button>
+                      </div>
+
+                      {newDpDsList.length > 0 && (
+                        <ul className="mt-4 space-y-2">
+                          {newDpDsList.map((ds) => (
+                            <li key={ds.id} className="bg-white border text-sm border-gray-200 shadow-sm rounded-lg p-2.5 flex justify-between items-center group transition-colors hover:border-gray-300">
+                              <div className="flex items-center gap-2.5">
+                                <span className="font-semibold text-gray-800">{ds.name}</span>
+                                {ds.code && <span className="font-mono text-xs px-1.5 py-0.5 bg-gray-100 text-gray-500 rounded">{ds.code}</span>}
+                              </div>
+                              <button type="button" className="text-gray-400 hover:text-red-500 transition-colors p-1" onClick={() => setNewDpDsList(prev => prev.filter(d => d.id !== ds.id))} title="Remove">
+                                <X className="w-4 h-4" />
+                              </button>
+                            </li>
+                          ))}
+                        </ul>
+                      )}
+                    </div>
                   </>
                 )}
-              </>
+              </div>
             )}
 
             {drawerMode === 'ds' && (
-              <>
+              <div className="max-w-xl mx-auto space-y-6 bg-white p-6 rounded-2xl border border-gray-200 shadow-sm mt-4">
                 {!selectedStudyDP ? (
-                  <p className="text-sm text-gray-500">Please return to Step 3 and choose a DP first.</p>
+                  <div className="py-8 text-center text-[13px] text-gray-500 bg-gray-50 rounded-xl border border-dashed border-gray-300">
+                     <AlertCircle className="w-8 h-8 mx-auto text-gray-400 mb-2" />
+                     Please return to Step 3 and choose a Drug Product first.
+                  </div>
                 ) : (
                   <>
-                    {formErrors.newDsError && <p className="text-red-500 text-xs mb-2">{formErrors.newDsError}</p>}
-                    <label className="block text-sm font-medium text-gray-700">DS Name</label>
-                    <input
-                      className="w-full rounded-lg border border-gray-300 p-2"
-                      value={newDpDsName}
-                      onChange={(e) => {
-                        setNewDpDsName(e.target.value);
-                        if (formErrors.newDsName) setFormErrors((prev) => ({ ...prev, newDsName: '' }));
-                      }}
-                    />
-                    {formErrors.newDsName && <p className="text-red-500 text-xs mt-1">{formErrors.newDsName}</p>}
+                    {formErrors.newDsError && <ErrorMessage message={formErrors.newDsError} />}
+                    <div>
+                      <label className={labelClassName}>Drug Substance Name <span className="text-red-500">*</span></label>
+                      <input
+                        className={`${inputClassName} ${formErrors.newDsName ? 'border-red-300 focus:border-red-500 focus:ring-red-200 bg-red-50/10' : ''}`}
+                        value={newDpDsName}
+                        onChange={(e) => {
+                          setNewDpDsName(e.target.value);
+                          if (formErrors.newDsName) setFormErrors((prev) => ({ ...prev, newDsName: '' }));
+                        }}
+                        placeholder="e.g., IP-XXXXX"
+                      />
+                      <ErrorMessage message={formErrors.newDsName} />
+                    </div>
 
-                    <label className="block text-sm font-medium text-gray-700">DS Code</label>
-                    <input className="w-full rounded-lg border border-gray-300 p-2" value={newDpDsCode} onChange={(e) => setNewDpDsCode(e.target.value)} />
+                    <div>
+                      <label className={labelClassName}>Drug Substance Code</label>
+                      <input className={inputClassName} value={newDpDsCode} onChange={(e) => setNewDpDsCode(e.target.value)} placeholder="e.g., MAB-X101 (Optional)" />
+                    </div>
                   </>
                 )}
-              </>
+              </div>
             )}
           </div>
 
-          <DrawerFooter>
-            <div className="flex justify-end w-full gap-3">
-              <Button className="bg-gray-200 text-gray-700" onClick={resetDrawer}>Cancel</Button>
+          <DrawerFooter className="bg-white border-t border-gray-200 py-4 px-6 shrink-0 shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.05)]">
+            <div className="flex justify-end w-full gap-4 max-w-4xl mx-auto">
+              <Button className="bg-white hover:bg-gray-50 text-gray-700 border border-gray-300 shadow-sm px-6 font-medium" onClick={resetDrawer}>Cancel</Button>
               <Button
-                className="bg-[#306e9a] text-white"
+                className="bg-[#306e9a] hover:bg-[#255577] text-white shadow-sm px-8 font-semibold transition-colors"
                 onClick={drawerMode === 'fp' ? handleSaveNewFp : drawerMode === 'dp' ? handleSaveNewDp : handleSaveNewDs}
               >
                 Save {drawerMode === 'fp' ? 'Finished Product' : drawerMode === 'dp' ? 'Drug Product' : 'Drug Substance'}

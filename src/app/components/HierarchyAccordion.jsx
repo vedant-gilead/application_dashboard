@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
-import { ChevronDown, ChevronRight, MoreVertical } from 'lucide-react';
+import React, { useState, useMemo } from 'react';
+import { ChevronDown, ChevronRight, ChevronUp, ChevronsUpDown } from 'lucide-react';
+import Pagination from './Pagination';
 
 const HierarchyNode = ({ node, level = 0 }) => {
   const [isExpanded, setIsExpanded] = useState(false);
@@ -24,7 +25,7 @@ const HierarchyNode = ({ node, level = 0 }) => {
           </div>
 
           {/* Columns */}
-          <div className="flex-1 grid grid-cols-4 items-center">
+          <div className="flex-1 grid grid-cols-4 items-center gap-4">
             <div className="col-span-1">
               <div className="font-semibold text-[#306e9a]">{node.studyName}</div>
               <div className="text-xs text-gray-500">{node.studyDescription}</div>
@@ -33,13 +34,6 @@ const HierarchyNode = ({ node, level = 0 }) => {
             <div className="text-sm text-gray-600 text-center">{node.drugProducts}</div>
             <div className="text-sm text-gray-600 text-center">{node.drugSubstances}</div>
           </div>
-          
-          {/* Actions */}
-          {/* <div className="w-10 flex-shrink-0 flex justify-end">
-            <button className="text-gray-400 hover:text-gray-600" onClick={(e) => e.stopPropagation()}>
-              <MoreVertical className="w-5 h-5" />
-            </button>
-          </div> */}
         </div>
 
         {/* Children */}
@@ -99,27 +93,129 @@ const HierarchyNode = ({ node, level = 0 }) => {
   );
 };
 
-export default function HierarchyAccordion({ data, columns }) {
+export default function HierarchyAccordion({ data, columns, itemsPerPage = 10 }) {
+  const [currentPage, setCurrentPage] = useState(1);
+  const [sortConfig, setSortConfig] = useState({ key: null, direction: 'asc' });
+
+  // Sort data
+  const sortedData = useMemo(() => {
+    if (!sortConfig.key) return data;
+
+    const sorted = [...data].sort((a, b) => {
+      const aValue = a[sortConfig.key] || 0;
+      const bValue = b[sortConfig.key] || 0;
+
+      // Numeric values
+      const aNum = parseFloat(String(aValue).replace(/[^0-9.-]/g, ""));
+      const bNum = parseFloat(String(bValue).replace(/[^0-9.-]/g, ""));
+
+      if (!isNaN(aNum) && !isNaN(bNum)) {
+        return sortConfig.direction === "asc" ? aNum - bNum : bNum - aNum;
+      }
+
+      // String values
+      const aStr = String(aValue).toLowerCase();
+      const bStr = String(bValue).toLowerCase();
+
+      if (aStr < bStr) return sortConfig.direction === "asc" ? -1 : 1;
+      if (aStr > bStr) return sortConfig.direction === "asc" ? 1 : -1;
+      return 0;
+    });
+
+    return sorted;
+  }, [data, sortConfig]);
+
+  // Pagination
+  const totalPages = Math.ceil(sortedData.length / itemsPerPage);
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const endIndex = startIndex + itemsPerPage;
+  const currentData = sortedData.slice(startIndex, endIndex);
+
+  const handleSort = (key) => {
+    let direction = "asc";
+    if (sortConfig.key === key && sortConfig.direction === "asc") {
+      direction = "desc";
+    }
+    setSortConfig({ key, direction });
+  };
+
+  const getSortIcon = (columnKey) => {
+    if (sortConfig.key === columnKey) {
+      return sortConfig.direction === "asc" ? (
+        <ChevronUp className="w-4 h-4 ml-1 inline text-white" />
+      ) : (
+        <ChevronDown className="w-4 h-4 ml-1 inline text-white" />
+      );
+    }
+    return <ChevronsUpDown className="w-4 h-4 ml-1 inline text-blue-200 hover:text-white" />;
+  };
+
+  const headerCells = [
+    { key: 'studyName' },
+    { key: 'finishedGoods' },
+    { key: 'drugProducts' },
+    { key: 'drugSubstances' }
+  ];
+
   return (
-    <div className="w-full">
+    <div className="w-full bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
       {/* Header Row (matches root node layout) */}
-      <div className="flex items-center  py-4 bg-[#306e9a] rounded-t-xl border border-gray-100 shadow-sm text-sm font-semibold text-white">
+      <div className="flex items-center px-4 py-4 bg-[#306e9a] text-sm font-semibold text-white">
         <div className="w-8 flex-shrink-0"></div> {/* Space for expand icon */}
-        <div className="flex-1 grid grid-cols-4">
-          <div className="col-span-1">{columns.find(c => c.key === 'studyName')?.label || 'Title'}</div>
-          <div className="text-center">{columns.find(c => c.key === 'finishedGoods')?.label || 'FG'}</div>
-          <div className="text-center">{columns.find(c => c.key === 'drugProducts')?.label || 'DP'}</div>
-          <div className="text-center">{columns.find(c => c.key === 'drugSubstances')?.label || 'DS'}</div>
+        <div className="flex-1 grid grid-cols-4 gap-4">
+          <div 
+            className="col-span-1 cursor-pointer select-none flex items-center hover:bg-blue-800/50 -m-1 p-1 rounded transition-colors"
+            onClick={() => handleSort('studyName')}
+          >
+            {columns.find(c => c.key === 'studyName')?.label || 'Title'}
+            {getSortIcon('studyName')}
+          </div>
+          <div 
+            className="text-center cursor-pointer select-none flex items-center justify-center hover:bg-blue-800/50 -m-1 p-1 rounded transition-colors"
+            onClick={() => handleSort('finishedGoods')}
+          >
+            {columns.find(c => c.key === 'finishedGoods')?.label || 'FG'}
+            {getSortIcon('finishedGoods')}
+          </div>
+          <div 
+            className="text-center cursor-pointer select-none flex items-center justify-center hover:bg-blue-800/50 -m-1 p-1 rounded transition-colors"
+            onClick={() => handleSort('drugProducts')}
+          >
+            {columns.find(c => c.key === 'drugProducts')?.label || 'DP'}
+            {getSortIcon('drugProducts')}
+          </div>
+          <div 
+            className="text-center cursor-pointer select-none flex items-center justify-center hover:bg-blue-800/50 -m-1 p-1 rounded transition-colors"
+            onClick={() => handleSort('drugSubstances')}
+          >
+            {columns.find(c => c.key === 'drugSubstances')?.label || 'DS'}
+            {getSortIcon('drugSubstances')}
+          </div>
         </div>
-        {/* <div className="w-10 flex-shrink-0 text-right text-white">{columns.find(c => c.key === 'actions')?.label || 'Actions'}</div> */}
       </div>
 
       {/* Accordion Items */}
       <div className="flex flex-col">
-        {data.map((item, idx) => (
-          <HierarchyNode key={item.id || idx} node={item} />
-        ))}
+        {currentData.length > 0 ? (
+          currentData.map((item, idx) => (
+            <HierarchyNode key={item.id || idx} node={item} />
+          ))
+        ) : (
+          <div className="p-8 text-center text-gray-500 bg-white">
+            No items match your query.
+          </div>
+        )}
       </div>
+
+      {/* Pagination */}
+      <Pagination 
+        currentPage={currentPage}
+        totalPages={totalPages}
+        startIndex={startIndex}
+        endIndex={endIndex}
+        totalItems={sortedData.length}
+        onPageChange={setCurrentPage}
+      />
     </div>
   );
 }

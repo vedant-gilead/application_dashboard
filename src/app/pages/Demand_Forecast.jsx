@@ -1,9 +1,10 @@
-import React, { useMemo, useState } from 'react';
+import React, { useMemo, useState, useEffect } from 'react';
 import ProgramAccordion from '../components/ProgramAccordion';
 import PartNumberAccordion from '../components/PartNumberAccordion';
 import initialDemandData from '../../data/Demand_Forecast.json';
-import { Plus } from 'lucide-react';
+import { Plus, ChevronDown, ChevronUp, ChevronsUpDown } from 'lucide-react';
 import { Button } from '../components/ui/button';
+import Pagination from '../components/Pagination';
 
 export default function Demand_Forecast() {
   const [demandData, setDemandData] = useState(initialDemandData);
@@ -32,6 +33,99 @@ export default function Demand_Forecast() {
     });
     return grouped;
   }, [demandData]);
+
+  const [currentPage, setCurrentPage] = useState(1);
+  const [sortConfig, setSortConfig] = useState({ key: null, direction: 'asc' });
+  const itemsPerPage = 10;
+
+  useEffect(() => {
+    setCurrentPage(1);
+    setSortConfig({ key: null, direction: 'asc' });
+  }, [viewMode]);
+
+  const currentViewData = useMemo(() => {
+    let entries = viewMode === 'program' ? Object.entries(programs) : Object.entries(parts);
+    
+    // 1. Map to array of objects with sortable properties
+    let sortableList = entries.map(([key, data]) => {
+      let totalDemand = 0;
+      const monthColumns = demandData.columns.filter(c => !['program', 'partNumber', 'partDescription', 'materialStage'].includes(c.key));
+      
+      let uniquePartsOrProgramsLabel = '';
+      let startDate = 'N/A';
+      
+      if (viewMode === 'program') {
+          const uniqueParts = [...new Set(data.map(d => d.partNumber))];
+          uniquePartsOrProgramsLabel = uniqueParts.slice(0, 2).join(', ') + (uniqueParts.length > 2 ? '...' : '');
+          startDate = monthColumns.length > 0 ? monthColumns[0].label : 'N/A';
+      } else {
+          const dedupedPrograms = data.reduce((acc, current) => {
+            if (!acc.find(i => i.program === current.program)) acc.push(current);
+            return acc;
+          }, []);
+          uniquePartsOrProgramsLabel = dedupedPrograms.map(d => d.program).join(', ');
+      }
+      
+      data.forEach(row => {
+        monthColumns.forEach(col => {
+          if (typeof row[col.key] === 'number' && !isNaN(row[col.key])) totalDemand += row[col.key];
+        });
+      });
+
+      return {
+          keyName: key,
+          data,
+          startDate,
+          uniquePartsOrProgramsLabel,
+          totalDemand,
+          status: 'Active'
+      };
+    });
+
+    // 2. Sort
+    if (sortConfig.key) {
+      sortableList.sort((a, b) => {
+          let aValue = a[sortConfig.key];
+          let bValue = b[sortConfig.key];
+
+          if (typeof aValue === 'number' && typeof bValue === 'number') {
+            return sortConfig.direction === 'asc' ? aValue - bValue : bValue - aValue;
+          }
+
+          const aStr = String(aValue).toLowerCase();
+          const bStr = String(bValue).toLowerCase();
+          if (aStr < bStr) return sortConfig.direction === "asc" ? -1 : 1;
+          if (aStr > bStr) return sortConfig.direction === "asc" ? 1 : -1;
+          return 0;
+      });
+    }
+
+    return sortableList;
+  }, [programs, parts, viewMode, demandData.columns, sortConfig]);
+
+  const totalPages = Math.ceil(currentViewData.length / itemsPerPage);
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const endIndex = startIndex + itemsPerPage;
+  const paginatedData = currentViewData.slice(startIndex, endIndex);
+
+  const handleSort = (key) => {
+    let direction = "asc";
+    if (sortConfig.key === key && sortConfig.direction === "asc") {
+      direction = "desc";
+    }
+    setSortConfig({ key, direction });
+  };
+
+  const getSortIcon = (columnKey) => {
+    if (sortConfig.key === columnKey) {
+      return sortConfig.direction === "asc" ? (
+        <ChevronUp className="w-4 h-4 ml-1 inline text-white" />
+      ) : (
+        <ChevronDown className="w-4 h-4 ml-1 inline text-white" />
+      );
+    }
+    return <ChevronsUpDown className="w-4 h-4 ml-1 inline text-blue-200 hover:text-white" />;
+  };
 
   const handleDataChange = (partNumber, monthKey, newValue, programName) => {
     // Find and update the row in our local state
@@ -118,44 +212,58 @@ export default function Demand_Forecast() {
         <div className="rounded-t-xl bg-[#306e9a] px-4 py-4 shadow-sm">
           {viewMode === 'program' ? (
             <div className="grid grid-cols-[1.5fr_1.1fr_1.7fr_1.1fr_1fr] gap-4 text-sm font-semibold text-white">
-              <div>PROGRAM</div>
-              <div>START DATE</div>
-              <div>PARTS</div>
-              <div>STATUS</div>
-              <div className="text-right">TOTAL DEMAND</div>
+              <div className="cursor-pointer hover:bg-blue-800/50 -m-1 p-1 rounded transition-colors select-none flex items-center" onClick={() => handleSort('keyName')}>PROGRAM {getSortIcon('keyName')}</div>
+              <div className="cursor-pointer hover:bg-blue-800/50 -m-1 p-1 rounded transition-colors select-none flex items-center" onClick={() => handleSort('startDate')}>START DATE {getSortIcon('startDate')}</div>
+              <div className="cursor-pointer hover:bg-blue-800/50 -m-1 p-1 rounded transition-colors select-none flex items-center" onClick={() => handleSort('uniquePartsOrProgramsLabel')}>PARTS {getSortIcon('uniquePartsOrProgramsLabel')}</div>
+              <div className="cursor-pointer hover:bg-blue-800/50 -m-1 p-1 rounded transition-colors select-none flex items-center" onClick={() => handleSort('status')}>STATUS {getSortIcon('status')}</div>
+              <div className="text-right cursor-pointer hover:bg-blue-800/50 -m-1 p-1 rounded transition-colors select-none flex items-center justify-end" onClick={() => handleSort('totalDemand')}>TOTAL DEMAND {getSortIcon('totalDemand')}</div>
             </div>
           ) : (
             <div className="grid grid-cols-[1.8fr_1.7fr_1.3fr] gap-4 text-sm font-semibold text-white">
-              <div>Part Number</div>
-              <div>Programs</div>
-              <div className="text-right">Total Demand</div>
+              <div className="cursor-pointer hover:bg-blue-800/50 -m-1 p-1 rounded transition-colors select-none flex items-center" onClick={() => handleSort('keyName')}>Part Number {getSortIcon('keyName')}</div>
+              <div className="cursor-pointer hover:bg-blue-800/50 -m-1 p-1 rounded transition-colors select-none flex items-center" onClick={() => handleSort('uniquePartsOrProgramsLabel')}>Programs {getSortIcon('uniquePartsOrProgramsLabel')}</div>
+              <div className="text-right cursor-pointer hover:bg-blue-800/50 -m-1 p-1 rounded transition-colors select-none flex items-center justify-end" onClick={() => handleSort('totalDemand')}>Total Demand {getSortIcon('totalDemand')}</div>
             </div>
           )}
         </div>
 
         {/* Accordion List */}
         <div className="w-full flex flex-col">
-        {viewMode === 'program' 
-          ? Object.entries(programs).map(([programName, partsData]) => (
-              <ProgramAccordion 
-                key={programName}
-                program={programName}
-                partsData={partsData}
-                allColumns={demandData.columns}
-                onDataChange={handleDataChange}
-              />
-            ))
-          : Object.entries(parts).map(([partNum, programsData]) => (
-              <PartNumberAccordion 
-                key={partNum}
-                partNumber={partNum}
-                programsData={programsData}
-                allColumns={demandData.columns}
-                onDataChange={handleDataChange}
-              />
-            ))
-        }
+        {paginatedData.length > 0 ? (
+          viewMode === 'program' 
+            ? paginatedData.map(item => (
+                <ProgramAccordion 
+                  key={item.keyName}
+                  program={item.keyName}
+                  partsData={item.data}
+                  allColumns={demandData.columns}
+                  onDataChange={handleDataChange}
+                />
+              ))
+            : paginatedData.map(item => (
+                <PartNumberAccordion 
+                  key={item.keyName}
+                  partNumber={item.keyName}
+                  programsData={item.data}
+                  allColumns={demandData.columns}
+                  onDataChange={handleDataChange}
+                />
+              ))
+        ) : (
+          <div className="p-8 text-center text-gray-500 bg-white">
+            No items match your query.
+          </div>
+        )}
       </div>
+
+      <Pagination 
+        currentPage={currentPage}
+        totalPages={totalPages}
+        startIndex={startIndex}
+        endIndex={endIndex}
+        totalItems={currentViewData.length}
+        onPageChange={setCurrentPage}
+      />
     </div>
   </div>
 );

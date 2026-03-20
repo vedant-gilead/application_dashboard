@@ -10,18 +10,7 @@ export default function Studies_Master_Data() {
   const [searchQuery, setSearchQuery] = useState('');
   const [statusFilter, setStatusFilter] = useState('All Statuses');
 
-  const persistedStudies = useMemo(() => {
-    try {
-      const stored = localStorage.getItem('studiesMasterDataNewStudies');
-      return stored ? JSON.parse(stored) : [];
-    } catch {
-      return [];
-    }
-  }, []);
-
-  const combinedStudies = useMemo(() => {
-    return [...studiesMasterData.data, ...persistedStudies];
-  }, [persistedStudies]);
+  const combinedStudies = studiesMasterData.data;
 
   // Filter data based on search and status
   const filteredData = useMemo(() => {
