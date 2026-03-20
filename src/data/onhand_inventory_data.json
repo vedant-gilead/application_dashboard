@@ -99,6 +99,39 @@
         "lot_status_description": "Release",
         "onhand_qty": 103,
         "uom": "ca"
+      },
+      {
+        "organization_name": "US-001-CLIN-FMTP",
+        "item_code": "IP-144478",
+        "item_description": "GS-5423, Drug Substance Filtration, 150 mg/ml",
+        "lot_number": "47451",
+        "creation_date": "2025-02-25 10:50:27.000",
+        "lot_expiration_date": "--",
+        "lot_status_description": "Quarantine-Routine",
+        "onhand_qty": 15.01,
+        "uom": "Kg"
+      },
+      {
+        "organization_name": "US-001-CLIN-FMTP",
+        "item_code": "IP-144478",
+        "item_description": "GS-5423, Drug Substance Filtration, 150 mg/ml",
+        "lot_number": "25105",
+        "creation_date": "2020-10-07 10:50:27.000",
+        "lot_expiration_date": "--",
+        "lot_status_description": "Quarantine-Routine",
+        "onhand_qty": 15.67,
+        "uom": "Kg"
+      },
+      {
+        "organization_name": "US-001-CLIN-FMTP",
+        "item_code": "IP-144478",
+        "item_description": "GS-5423, Drug Substance Filtration, 150 mg/ml",
+        "lot_number": "23116",
+        "creation_date": "2020-10-02 10:50:27.000",
+        "lot_expiration_date": "--",
+        "lot_status_description": "Quarantine-Routine",
+        "onhand_qty": 11.78,
+        "uom": "Kg"
       }
     ]
   },

@@ -9,7 +9,7 @@
           {
             "id": "PC-12723",
             "type": "Drug Product",
-            "description": "DP -GS-5423 Injection, 150 mg/mL,  2 mL /via",
+            "description": "GS-5423 Injection, 150 mg/mL,  2 mL /vial",
             "parentMaterialIds": ["IP-15699"],
             "consumptionRatio": 1.2,
             "columns": [
@@ -33,10 +33,10 @@
             "data": [
               {
                 "metric": "Inventory",
-                "jul25": 0, "aug25": 0,
-                "sep25": 0, "oct25": 0, "nov25": 0, "dec25": 0,
-                "jan26": 0, "feb26": 0, "mar26": 0, "apr26": 0, "may26": 0, "jun26": 0,
-                "jul26": 0, "aug26": 2500, "sep26": 0
+                "jul25": 2426, "aug25": 2426,
+                "sep25": 2426, "oct25": 2426, "nov25": 2426, "dec25": 2426,
+                "jan26": 2426, "feb26": 2426, "mar26": 2426, "apr26": 2426, "may26": 2426, "jun26": 2426,
+                "jul26": 2426, "aug26": 2426, "sep26": 2426
               },
               {
                 "metric": "Expiry/Obsolescence",
@@ -49,22 +49,22 @@
                 "metric": "Demand (Clinical)",
                  "jul25": 0, "aug25": 0,
                 "sep25": 0, "oct25": 0, "nov25": 0, "dec25": 0,
-                "jan26": 0, "feb26": 0, "mar26": 0, "apr26": 0, "may26": 0, "jun26": 0,
-                "jul26": 0, "aug26": 0, "sep26": 0
+                "jan26": 747, "feb26": 0, "mar26": 0, "apr26": 0, "may26": 0, "jun26": 0,
+                "jul26": 0, "aug26": 0, "sep26": 1500
               },
               {
                 "metric": "Demand (Independent)",
                 "jul25": 0, "aug25": 0,
                 "sep25": 0, "oct25": 0, "nov25": 0, "dec25": 0,
                 "jan26": 0, "feb26": 0, "mar26": 0, "apr26": 0, "may26": 0, "jun26": 0,
-                "jul26": 0, "aug26": 2500, "sep26": 0
+                "jul26": 0, "aug26": 0, "sep26": 0
               },
                {
                 "metric": "Total Demand",
                 "jul25": 0, "aug25": 0,
                 "sep25": 0, "oct25": 0, "nov25": 0, "dec25": 0,
-                "jan26": 0, "feb26": 0, "mar26": 0, "apr26": 0, "may26": 0, "jun26": 0,
-                "jul26": 0, "aug26": 2500, "sep26": 0
+                "jan26": 747, "feb26": 0, "mar26": 0, "apr26": 0, "may26": 0, "jun26": 0,
+                "jul26": 0, "aug26": 0, "sep26": 1500
               },
             
              
@@ -73,12 +73,12 @@
                 "jul25": 0, "aug25": 0,
                 "sep25": 0, "oct25": 0, "nov25": 0, "dec25": 0,
                 "jan26": 0, "feb26": 0, "mar26": 0, "apr26": 0, "may26": 0, "jun26": 0,
-                "jul26": 2500, "aug26": 0, "sep26": 0
+                "jul26": 0, "aug26": 0, "sep26": 0
               },
               {
                 "metric": "Supply(Execution Start)",
                 "jul25": 0, "aug25": 0,
-                "sep25": 0, "oct25": 0, "nov25": 0, "dec25": 2500,
+                "sep25": 0, "oct25": 0, "nov25": 0, "dec25": 0,
                 "jan26": 0, "feb26": 0, "mar26": 0, "apr26": 0, "may26": 0, "jun26": 0,
                 "jul26": 0, "aug26": 0, "sep26": 0
               }
@@ -87,7 +87,7 @@
           {
             "id": "IP-15699",
             "type": "Drug Substance",
-            "description": "DP -GS-5423 Injection, 150 mg/mL,  2 mL /via",
+            "description": "GS-5423 DS, 85mg/mL",
             "columns": [
               { "key": "metric", "label": "Metric" },
               { "key": "jul25", "label": "Jul-25" },
@@ -112,7 +112,7 @@
                 "jul25": 0, "aug25": 0,
                 "sep25": 0, "oct25": 0, "nov25": 0, "dec25": 0,
                 "jan26": 0, "feb26": 0, "mar26": 0, "apr26": 0, "may26": 0, "jun26": 0,
-                "jul26": 0, "aug26": 2500, "sep26": 0
+                "jul26": 0, "aug26": 0, "sep26": 0
               },
               {
                 "metric": "Expiry/Obsolescence",
@@ -133,14 +133,14 @@
                 "jul25": 0, "aug25": 0,
                 "sep25": 0, "oct25": 0, "nov25": 0, "dec25": 0,
                 "jan26": 0, "feb26": 0, "mar26": 0, "apr26": 0, "may26": 0, "jun26": 0,
-                "jul26": 0, "aug26": 2500, "sep26": 0
+                "jul26": 0, "aug26": 0, "sep26": 0
               },
                {
                 "metric": "Total Demand",
                 "jul25": 0, "aug25": 0,
                 "sep25": 0, "oct25": 0, "nov25": 0, "dec25": 0,
                 "jan26": 0, "feb26": 0, "mar26": 0, "apr26": 0, "may26": 0, "jun26": 0,
-                "jul26": 0, "aug26": 2500, "sep26": 0
+                "jul26": 0, "aug26": 0, "sep26": 0
               },
             
              
@@ -149,12 +149,12 @@
                 "jul25": 0, "aug25": 0,
                 "sep25": 0, "oct25": 0, "nov25": 0, "dec25": 0,
                 "jan26": 0, "feb26": 0, "mar26": 0, "apr26": 0, "may26": 0, "jun26": 0,
-                "jul26": 2500, "aug26": 0, "sep26": 0
+                "jul26": 0, "aug26": 0, "sep26": 0
               },
               {
                 "metric": "Supply(Execution Start)",
                 "jul25": 0, "aug25": 0,
-                "sep25": 0, "oct25": 0, "nov25": 0, "dec25": 2500,
+                "sep25": 0, "oct25": 0, "nov25": 0, "dec25": 0,
                 "jan26": 0, "feb26": 0, "mar26": 0, "apr26": 0, "may26": 0, "jun26": 0,
                 "jul26": 0, "aug26": 0, "sep26": 0
               }
@@ -169,7 +169,7 @@
           {
             "id": "PC-13296",
             "type": "Drug Product",
-            "description": "DP -GS-5423 Injection, 150 mg/mL,  2 mL /via",
+            "description": "Teropavimab, sol. inf, 2550mg, 30mL/vl",
             "parentMaterialIds": ["IP-14478"],
             "consumptionRatio": 1.5,
             "columns": [
@@ -196,7 +196,7 @@
                 "jul25": 0, "aug25": 0,
                 "sep25": 0, "oct25": 0, "nov25": 0, "dec25": 0,
                 "jan26": 0, "feb26": 0, "mar26": 0, "apr26": 0, "may26": 0, "jun26": 0,
-                "jul26": 0, "aug26": 2500, "sep26": 0
+                "jul26": 0, "aug26": 0, "sep26": 0
               },
               {
                 "metric": "Expiry/Obsolescence",
@@ -217,14 +217,14 @@
                 "jul25": 0, "aug25": 0,
                 "sep25": 0, "oct25": 0, "nov25": 0, "dec25": 0,
                 "jan26": 0, "feb26": 0, "mar26": 0, "apr26": 0, "may26": 0, "jun26": 0,
-                "jul26": 0, "aug26": 2500, "sep26": 0
+                "jul26": 0, "aug26": 0, "sep26": 0
               },
                {
                 "metric": "Total Demand",
                 "jul25": 0, "aug25": 0,
                 "sep25": 0, "oct25": 0, "nov25": 0, "dec25": 0,
                 "jan26": 0, "feb26": 0, "mar26": 0, "apr26": 0, "may26": 0, "jun26": 0,
-                "jul26": 0, "aug26": 2500, "sep26": 0
+                "jul26": 0, "aug26": 0, "sep26": 0
               },
             
              
@@ -233,12 +233,12 @@
                 "jul25": 0, "aug25": 0,
                 "sep25": 0, "oct25": 0, "nov25": 0, "dec25": 0,
                 "jan26": 0, "feb26": 0, "mar26": 0, "apr26": 0, "may26": 0, "jun26": 0,
-                "jul26": 2500, "aug26": 0, "sep26": 0
+                "jul26": 0, "aug26": 0, "sep26": 0
               },
               {
                 "metric": "Supply(Execution Start)",
                 "jul25": 0, "aug25": 0,
-                "sep25": 0, "oct25": 0, "nov25": 0, "dec25": 2500,
+                "sep25": 0, "oct25": 0, "nov25": 0, "dec25": 0,
                 "jan26": 0, "feb26": 0, "mar26": 0, "apr26": 0, "may26": 0, "jun26": 0,
                 "jul26": 0, "aug26": 0, "sep26": 0
               }
@@ -246,7 +246,7 @@
           },
           {
             "id": "IP-14478",
-            "description": "DP -GS-5423 Injection, 150 mg/mL,  2 mL /via",
+            "description": "GS-5423, Drug Substance Filtration, 150 mg/ml",
             "type": "Drug Substance",
             "columns": [
               { "key": "metric", "label": "Metric" },
@@ -269,10 +269,10 @@
             "data": [
               {
                 "metric": "Inventory",
-                "jul25": 0, "aug25": 0,
-                "sep25": 0, "oct25": 0, "nov25": 0, "dec25": 0,
-                "jan26": 0, "feb26": 0, "mar26": 0, "apr26": 0, "may26": 0, "jun26": 0,
-                "jul26": 0, "aug26": 2500, "sep26": 0
+                "jul25": 42.46, "aug25": 42.46,
+                "sep25": 42.46, "oct25": 42.46, "nov25": 42.46, "dec25": 42.46,
+                "jan26": 42.46, "feb26": 42.46, "mar26": 42.46, "apr26": 42.46, "may26": 42.46, "jun26": 42.46,
+                "jul26": 42.46, "aug26": 42.46, "sep26": 42.46
               },
               {
                 "metric": "Expiry/Obsolescence",
@@ -284,7 +284,7 @@
               {
                 "metric": "Demand (Clinical)",
                  "jul25": 0, "aug25": 0,
-                "sep25": 0, "oct25": 0, "nov25": 0, "dec25": 0,
+                "sep25": 0, "oct25": 0, "nov25": 1500, "dec25": 0,
                 "jan26": 0, "feb26": 0, "mar26": 0, "apr26": 0, "may26": 0, "jun26": 0,
                 "jul26": 0, "aug26": 0, "sep26": 0
               },
@@ -293,26 +293,26 @@
                 "jul25": 0, "aug25": 0,
                 "sep25": 0, "oct25": 0, "nov25": 0, "dec25": 0,
                 "jan26": 0, "feb26": 0, "mar26": 0, "apr26": 0, "may26": 0, "jun26": 0,
-                "jul26": 0, "aug26": 2500, "sep26": 0
+                "jul26": 0, "aug26": 0, "sep26": 0
               },
                {
                 "metric": "Total Demand",
                 "jul25": 0, "aug25": 0,
-                "sep25": 0, "oct25": 0, "nov25": 0, "dec25": 0,
+                "sep25": 0, "oct25": 0, "nov25": 1500, "dec25": 0,
                 "jan26": 0, "feb26": 0, "mar26": 0, "apr26": 0, "may26": 0, "jun26": 0,
-                "jul26": 0, "aug26": 2500, "sep26": 0
+                "jul26": 0, "aug26": 0, "sep26": 0
               },
               {
                 "metric": "Supply/Release",
                 "jul25": 0, "aug25": 0,
                 "sep25": 0, "oct25": 0, "nov25": 0, "dec25": 0,
                 "jan26": 0, "feb26": 0, "mar26": 0, "apr26": 0, "may26": 0, "jun26": 0,
-                "jul26": 2500, "aug26": 0, "sep26": 0
+                "jul26": 0, "aug26": 0, "sep26": 0
               },
               {
                 "metric": "Supply(Execution Start)",
                 "jul25": 0, "aug25": 0,
-                "sep25": 0, "oct25": 0, "nov25": 0, "dec25": 2500,
+                "sep25": 0, "oct25": 0, "nov25": 0, "dec25": 0,
                 "jan26": 0, "feb26": 0, "mar26": 0, "apr26": 0, "may26": 0, "jun26": 0,
                 "jul26": 0, "aug26": 0, "sep26": 0
               }

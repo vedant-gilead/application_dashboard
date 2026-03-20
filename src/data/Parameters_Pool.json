@@ -2,45 +2,45 @@
   "GS-5423": {
     "FP": {
       "siteExecution": "La Verne",
-      "moq": "1000 vials",
-      "releaseLeadTime": "10 days",
-      "executionLeadTime": "3 months"
+      "moq": "--",
+      "releaseLeadTime": "--",
+      "executionLeadTime": "--"
     },
     "IP1": {
       "name": "DRUG PRODUCT (PC-12723)",
-      "safetyStock": "2000 vials",
-      "consumptionRatio": "1",
+      "safetyStock": "--",
+      "consumptionRatio": "--",
       "siteExecution": "La Verne",
-      "moq": "5000 vials",
-      "releaseLeadTime": "2 months",
-      "executionLeadTime": "4 months"
+      "moq": "--",
+      "releaseLeadTime": "--",
+      "executionLeadTime": "--"
     },
     "IP4": {
       "name": "DRUG PRODUCT (PC-13296)",
-      "safetyStock": "500 vials",
-      "consumptionRatio": "1.5",
+      "safetyStock": "--",
+      "consumptionRatio": "--",
       "siteExecution": "La Verne",
-      "moq": "1000 vials",
-      "releaseLeadTime": "1 month",
-      "executionLeadTime": "2 months"
+      "moq": "--",
+      "releaseLeadTime": "--",
+      "executionLeadTime": "--"
     },
     "IP2": {
       "name": "DRUG SUBSTANCE (IP-15699)",
-      "safetyStock": "10 Kg",
-      "consumptionRatio": "0.0032",
-      "siteExecution": "Wuxi",
-      "moq": "20 Kg",
-      "releaseLeadTime": "3 months",
-      "executionLeadTime": "6 months"
+      "safetyStock": "--",
+      "consumptionRatio": "--",
+      "siteExecution": "La Verne",
+      "moq": "--",
+      "releaseLeadTime": "--",
+      "executionLeadTime": "--"
     },
     "IP3": {
       "name": "DRUG SUBSTANCE (IP-14478)",
-      "safetyStock": "10 Kg",
-      "consumptionRatio": "0.0032",
-      "siteExecution": "Wuxi",
-      "moq": "20 Kg",
-      "releaseLeadTime": "3 months",
-      "executionLeadTime": "6 months"
+      "safetyStock": "--",
+      "consumptionRatio": "--",
+      "siteExecution": "La Verne",
+      "moq": "--",
+      "releaseLeadTime": "--",
+      "executionLeadTime": "--"
     }
   },
   "GS-2872": {

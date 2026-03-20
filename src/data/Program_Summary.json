@@ -2,11 +2,11 @@
 {
   "GS-5423": {
     "program": "GS-5423",
-    "therapeuticArea": "HIV",
+    "therapeuticArea": "Virology",
     "study": "GS-US-536-5939, CO-US-673-7249",
     "materialNumber": "PC-12723, PC-13296, IP-14478, IP-15699",
-    "lot": "765462, 913617, 625519",
-    "siteExecution": "La Verne, Wuxi"
+    "lot": "10015916, 1421993, 0000625519, 0000913617, 1421993",
+    "siteExecution": "DP: Gilead La Verne DP"
   },
   "GS-2872": {
     "program": "GS-2872",
