@@ -1,8 +1,8 @@
-import React, { useMemo, useState, useEffect } from 'react';
+import React, { useMemo, useRef, useState, useEffect } from 'react';
 import ProgramAccordion from '../components/ProgramAccordion';
 import PartNumberAccordion from '../components/PartNumberAccordion';
 import initialDemandData from '../../data/Demand_Forecast.json';
-import { Plus, ChevronDown, ChevronUp, ChevronsUpDown, Upload } from 'lucide-react';
+import { ChevronDown, ChevronUp, ChevronsUpDown, Upload } from 'lucide-react';
 import { Button } from '../components/ui/button';
 import Pagination from '../components/Pagination';
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from '../components/ui/dialog';
@@ -47,6 +47,12 @@ export default function Demand_Forecast() {
 
   const [bulkDialogOpen, setBulkDialogOpen] = useState(false);
   const [bulkSelectedProgram, setBulkSelectedProgram] = useState('');
+  const csvInputRef = useRef(null);
+  const [isDragActive, setIsDragActive] = useState(false);
+
+  useEffect(() => {
+    if (!bulkSelectedProgram) setIsDragActive(false);
+  }, [bulkSelectedProgram]);
 
   const availablePrograms = useMemo(() => {
     const set = new Set(demandData.data.map((row) => row.program).filter(Boolean));
@@ -277,7 +283,10 @@ export default function Demand_Forecast() {
         open={bulkDialogOpen}
         onOpenChange={(open) => {
           setBulkDialogOpen(open);
-          if (!open) setBulkSelectedProgram('');
+          if (!open) {
+            setBulkSelectedProgram('');
+            setIsDragActive(false);
+          }
         }}
       >
         <DialogContent className="sm:max-w-[520px] bg-white rounded-lg shadow-xl border border-gray-200">
@@ -307,7 +316,80 @@ export default function Demand_Forecast() {
               </Select>
             </div>
 
-            {/* Template instructions intentionally omitted (download-only in this flow). */}
+            <input
+              ref={csvInputRef}
+              type="file"
+              accept=".csv,text/csv"
+              className="hidden"
+              onChange={(e) => {
+                e.target.value = '';
+              }}
+            />
+
+            <div
+              aria-disabled={!bulkSelectedProgram}
+              className={[
+                'rounded-md border border-dashed px-4 py-4 transition-colors',
+                !bulkSelectedProgram && 'opacity-60 border-gray-200 bg-gray-100',
+                bulkSelectedProgram && isDragActive && 'border-[#306e9a] bg-[#eef6fc]',
+                bulkSelectedProgram && !isDragActive && 'border-gray-300 bg-gray-50',
+              ]
+                .filter(Boolean)
+                .join(' ')}
+              onDragEnter={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                if (!bulkSelectedProgram) {
+                  e.dataTransfer.dropEffect = 'none';
+                  return;
+                }
+                e.dataTransfer.dropEffect = 'copy';
+                setIsDragActive(true);
+              }}
+              onDragOver={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                if (!bulkSelectedProgram) {
+                  e.dataTransfer.dropEffect = 'none';
+                  return;
+                }
+                e.dataTransfer.dropEffect = 'copy';
+                setIsDragActive(true);
+              }}
+              onDragLeave={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                setIsDragActive(false);
+              }}
+              onDrop={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                setIsDragActive(false);
+                if (!bulkSelectedProgram) return;
+              }}
+            >
+              <div className="flex items-center justify-between gap-3">
+                <div className="text-sm text-gray-700">
+                  <div className="font-medium">
+                    {bulkSelectedProgram ? 'Drag & drop your CSV here' : 'Select a program to enable upload'}
+                  </div>
+                  <div className="text-gray-500">
+                    {bulkSelectedProgram ? 'or use the Upload CSV button.' : 'Then you can drag and drop or use Upload CSV.'}
+                  </div>
+                </div>
+                <Button
+                  type="button"
+                  className="bg-gray-200 text-gray-800 hover:bg-gray-300 shadow-sm disabled:opacity-50 disabled:pointer-events-none"
+                  disabled={!bulkSelectedProgram}
+                  onClick={() => {
+                    if (!bulkSelectedProgram) return;
+                    csvInputRef.current?.click();
+                  }}
+                >
+                  Upload CSV
+                </Button>
+              </div>
+            </div>
           </div>
 
           <DialogFooter>
@@ -388,3 +470,5 @@ export default function Demand_Forecast() {
   </div>
 );
 }
+
+ 
