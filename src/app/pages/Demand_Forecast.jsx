@@ -2,9 +2,11 @@ import React, { useMemo, useState, useEffect } from 'react';
 import ProgramAccordion from '../components/ProgramAccordion';
 import PartNumberAccordion from '../components/PartNumberAccordion';
 import initialDemandData from '../../data/Demand_Forecast.json';
-import { Plus, ChevronDown, ChevronUp, ChevronsUpDown } from 'lucide-react';
+import { Plus, ChevronDown, ChevronUp, ChevronsUpDown, Upload } from 'lucide-react';
 import { Button } from '../components/ui/button';
 import Pagination from '../components/Pagination';
+import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from '../components/ui/dialog';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../components/ui/select';
 
 export default function Demand_Forecast() {
   const [demandData, setDemandData] = useState(initialDemandData);
@@ -42,6 +44,59 @@ export default function Demand_Forecast() {
     setCurrentPage(1);
     setSortConfig({ key: null, direction: 'asc' });
   }, [viewMode]);
+
+  const [bulkDialogOpen, setBulkDialogOpen] = useState(false);
+  const [bulkSelectedProgram, setBulkSelectedProgram] = useState('');
+
+  const availablePrograms = useMemo(() => {
+    const set = new Set(demandData.data.map((row) => row.program).filter(Boolean));
+    return [...set].sort((a, b) => a.localeCompare(b));
+  }, [demandData.data]);
+
+  const forecastMonthColumns = useMemo(() => {
+    return demandData.columns.filter(
+      (col) => !['program', 'partNumber', 'partDescription', 'materialStage'].includes(col.key),
+    );
+  }, [demandData.columns]);
+
+  const downloadCsv = (csv, fileName) => {
+    const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = fileName;
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    URL.revokeObjectURL(url);
+  };
+
+  const buildDemandTemplateCsv = (programName) => {
+    const monthKeys = forecastMonthColumns.map((c) => c.key);
+    const header = ['partNumber', ...monthKeys.flatMap((m) => [`${m}_clinical`, `${m}_independent`])];
+
+    const csvEscape = (value) => {
+      const str = value == null ? '' : String(value);
+      if (/[",\n]/.test(str)) return `"${str.replace(/"/g, '""')}"`;
+      return str;
+    };
+
+    const programRows = demandData.data.filter((r) => r.program === programName);
+    const partNumbers = [...new Set(programRows.map((r) => r.partNumber).filter(Boolean))].sort((a, b) =>
+      (a || '').localeCompare(b || ''),
+    );
+
+    // First row: a single "program name" cell on top (rest blank)
+    const topRow = [programName, ...Array(header.length - 1).fill('')];
+
+    // Data rows: partNumber filled, all month clinical/independent cells empty
+    const lines = partNumbers.map((partNumber) => {
+      const emptyMonthCells = monthKeys.flatMap(() => ['', '']);
+      return [partNumber, ...emptyMonthCells].map(csvEscape).join(',');
+    });
+
+    return [topRow.map(csvEscape).join(','), header.map(csvEscape).join(','), ...lines].join('\n');
+  };
 
   const currentViewData = useMemo(() => {
     let entries = viewMode === 'program' ? Object.entries(programs) : Object.entries(parts);
@@ -173,56 +228,121 @@ export default function Demand_Forecast() {
           <h1 className="text-3xl font-semibold text-gray-900 tracking-tight">Demand Forecast</h1>
           <p className="text-gray-600 mt-2 text-base">Demand Forecasts: showing Total, Clinical, and Independent demand across different time periods.</p>
         </div>
-        <div className="flex items-center gap-4">
+        <div className="flex flex-col items-end gap-3">
           <div className="flex items-center gap-3">
             <span className="text-gray-700 font-medium text-sm">View Mode:</span>
             <div className="flex bg-[#E5E7EB] rounded-full p-1 border border-gray-200 shadow-sm relative overflow-hidden">
-               <button 
-                  onClick={() => setViewMode('program')}
-                  className={`relative z-10 px-6 py-1.5 text-[13px] font-medium rounded-full transition-all duration-200 ${viewMode === 'program' ? 'text-white' : 'text-gray-700 hover:text-gray-900'}`}
-                >
-                  By Program
-                </button>
-                <button 
-                  onClick={() => setViewMode('part')}
-                  className={`relative z-10 px-6 py-1.5 text-[13px] font-medium rounded-full transition-all duration-200 ${viewMode === 'part' ? 'text-white' : 'text-gray-700 hover:text-gray-900'}`}
-                >
-                  By Part Number
-                </button>
+              <button
+                onClick={() => setViewMode('program')}
+                className={`relative z-10 px-6 py-1.5 text-[13px] font-medium rounded-full transition-all duration-200 ${
+                  viewMode === 'program' ? 'text-white' : 'text-gray-700 hover:text-gray-900'
+                }`}
+              >
+                By Program
+              </button>
+              <button
+                onClick={() => setViewMode('part')}
+                className={`relative z-10 px-6 py-1.5 text-[13px] font-medium rounded-full transition-all duration-200 ${
+                  viewMode === 'part' ? 'text-white' : 'text-gray-700 hover:text-gray-900'
+                }`}
+              >
+                By Part Number
+              </button>
 
-                 {/* Absolute Sliding Pill Background */}
-                 <div 
-                   className={`absolute top-1 bottom-1 bg-[#306e9a] rounded-full transition-all duration-300 ease-in-out z-0`}
-                   style={{
-                     left: viewMode === 'program' ? '4px' : '50%',
-                     width: 'calc(50% - 4px)',
-                   }}
-                 />
+              {/* Absolute Sliding Pill Background */}
+              <div
+                className={`absolute top-1 bottom-1 bg-[#306e9a] rounded-full transition-all duration-300 ease-in-out z-0`}
+                style={{
+                  left: viewMode === 'program' ? '4px' : '50%',
+                  width: 'calc(50% - 4px)',
+                }}
+              />
             </div>
           </div>
-          {/* <Button className="bg-[#306e9a] text-white px-4 py-2 rounded-lg shadow hover:bg-[#245371] transition-colors flex items-center gap-2">
-            <Plus className="w-5 h-5" />
-            Add Demand
-          </Button> */}
+
+          <Button
+            className="bg-gray-200 text-gray-800 hover:bg-gray-300 px-4 py-2 rounded-lg shadow-sm transition-colors"
+            onClick={() => {
+              setBulkSelectedProgram('');
+              setBulkDialogOpen(true);
+            }}
+          >
+            <Upload className="w-4 h-4 mr-2" />
+            Bulk Upload
+          </Button>
         </div>
       </div>
+
+      <Dialog
+        open={bulkDialogOpen}
+        onOpenChange={(open) => {
+          setBulkDialogOpen(open);
+          if (!open) setBulkSelectedProgram('');
+        }}
+      >
+        <DialogContent className="sm:max-w-[520px] bg-white rounded-lg shadow-xl border border-gray-200">
+          <DialogHeader>
+            <DialogTitle>Bulk Upload Demand Forecast</DialogTitle>
+            <DialogDescription>Select a program to download its CSV template.</DialogDescription>
+          </DialogHeader>
+
+          <div className="space-y-4">
+            <div className="space-y-2">
+              <div className="text-sm font-medium text-gray-700">Program *</div>
+              <Select value={bulkSelectedProgram} onValueChange={setBulkSelectedProgram}>
+                <SelectTrigger className="w-full !border-[#306e9a] rounded-md shadow-sm focus-visible:!ring-[#306e9a]/20 focus-visible:!border-[#306e9a] bg-white">
+                  <SelectValue placeholder="Select a program" />
+                </SelectTrigger>
+                <SelectContent>
+                  {availablePrograms.map((p) => (
+                    <SelectItem
+                      key={p}
+                      value={p}
+                      className="focus:!bg-[#eef6fc] focus:!text-[#306e9a] data-[state=checked]:!text-[#306e9a]"
+                    >
+                      {p}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+
+            {/* Template instructions intentionally omitted (download-only in this flow). */}
+          </div>
+
+          <DialogFooter>
+            <Button
+              type="button"
+              className="bg-[#306e9a] hover:bg-[#255577] text-white shadow-sm"
+              disabled={!bulkSelectedProgram}
+              onClick={() => {
+                if (!bulkSelectedProgram) return;
+                const csv = buildDemandTemplateCsv(bulkSelectedProgram);
+                downloadCsv(csv, `Demand_Forecast_Template_${bulkSelectedProgram}.csv`);
+              }}
+            >
+              Download template
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
 
       <div className="bg-white rounded-xl   border border-gray-200 shadow-sm">
         {/* Static column header (outside accordions) */}
         <div className="rounded-t-xl bg-[#306e9a] px-4 py-4 shadow-sm">
           {viewMode === 'program' ? (
             <div className="grid grid-cols-[1.5fr_1.1fr_1.7fr_1.1fr_1fr] gap-4 text-sm font-semibold text-white">
-              <div className="cursor-pointer hover:bg-blue-800/50 -m-1 p-1 rounded transition-colors select-none flex items-center" onClick={() => handleSort('keyName')}>PROGRAM {getSortIcon('keyName')}</div>
-              <div className="cursor-pointer hover:bg-blue-800/50 -m-1 p-1 rounded transition-colors select-none flex items-center" onClick={() => handleSort('startDate')}>START DATE {getSortIcon('startDate')}</div>
-              <div className="cursor-pointer hover:bg-blue-800/50 -m-1 p-1 rounded transition-colors select-none flex items-center" onClick={() => handleSort('uniquePartsOrProgramsLabel')}>PARTS {getSortIcon('uniquePartsOrProgramsLabel')}</div>
-              <div className="cursor-pointer hover:bg-blue-800/50 -m-1 p-1 rounded transition-colors select-none flex items-center" onClick={() => handleSort('status')}>STATUS {getSortIcon('status')}</div>
-              <div className="text-right cursor-pointer hover:bg-blue-800/50 -m-1 p-1 rounded transition-colors select-none flex items-center justify-end" onClick={() => handleSort('totalDemand')}>TOTAL DEMAND {getSortIcon('totalDemand')}</div>
+              <div className="cursor-pointer -m-1 p-1 rounded transition-colors select-none flex items-center" onClick={() => handleSort('keyName')}>PROGRAM {getSortIcon('keyName')}</div>
+              <div className="cursor-pointer -m-1 p-1 rounded transition-colors select-none flex items-center" onClick={() => handleSort('startDate')}>START DATE {getSortIcon('startDate')}</div>
+              <div className="cursor-pointer -m-1 p-1 rounded transition-colors select-none flex items-center" onClick={() => handleSort('uniquePartsOrProgramsLabel')}>PARTS {getSortIcon('uniquePartsOrProgramsLabel')}</div>
+              <div className="cursor-pointer -m-1 p-1 rounded transition-colors select-none flex items-center" onClick={() => handleSort('status')}>STATUS {getSortIcon('status')}</div>
+              <div className="text-right cursor-pointer -m-1 p-1 rounded transition-colors select-none flex items-center justify-end" onClick={() => handleSort('totalDemand')}>TOTAL DEMAND {getSortIcon('totalDemand')}</div>
             </div>
           ) : (
             <div className="grid grid-cols-[1.8fr_1.7fr_1.3fr] gap-4 text-sm font-semibold text-white">
-              <div className="cursor-pointer hover:bg-blue-800/50 -m-1 p-1 rounded transition-colors select-none flex items-center" onClick={() => handleSort('keyName')}>Part Number {getSortIcon('keyName')}</div>
-              <div className="cursor-pointer hover:bg-blue-800/50 -m-1 p-1 rounded transition-colors select-none flex items-center" onClick={() => handleSort('uniquePartsOrProgramsLabel')}>Programs {getSortIcon('uniquePartsOrProgramsLabel')}</div>
-              <div className="text-right cursor-pointer hover:bg-blue-800/50 -m-1 p-1 rounded transition-colors select-none flex items-center justify-end" onClick={() => handleSort('totalDemand')}>Total Demand {getSortIcon('totalDemand')}</div>
+              <div className="cursor-pointer -m-1 p-1 rounded transition-colors select-none flex items-center" onClick={() => handleSort('keyName')}>Part Number {getSortIcon('keyName')}</div>
+              <div className="cursor-pointer -m-1 p-1 rounded transition-colors select-none flex items-center" onClick={() => handleSort('uniquePartsOrProgramsLabel')}>Programs {getSortIcon('uniquePartsOrProgramsLabel')}</div>
+              <div className="text-right cursor-pointer -m-1 p-1 rounded transition-colors select-none flex items-center justify-end" onClick={() => handleSort('totalDemand')}>Total Demand {getSortIcon('totalDemand')}</div>
             </div>
           )}
         </div>

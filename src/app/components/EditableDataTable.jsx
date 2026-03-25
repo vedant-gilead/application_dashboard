@@ -153,7 +153,7 @@ export default function EditableDataTable({ columns, data, itemsPerPage = 10, gr
                   onClick={() => handleSort(column.key, column.sortable)}
                   className={`
                     px-6 py-4 text-left text-sm font-bold text-white uppercase tracking-wider whitespace-nowrap
-                    ${column.sortable ? 'cursor-pointer hover:bg-gray-200 select-none' : ''}
+                    ${column.sortable ? 'cursor-pointer select-none' : ''}
                     transition-colors duration-150
                   `}
                 >

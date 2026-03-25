@@ -16,7 +16,7 @@ const HierarchyNode = ({ node, level = 0 }) => {
       <div className={`bg-white shadow-sm border border-gray-200 overflow-hidden ${isExpanded ? 'mb-4' : ''}`}>
         {/* Root Header Row */}
         <div 
-          className="flex items-center px-4 py-3 cursor-pointer hover:bg-gray-50 transition-colors border-b border-gray-100"
+          className="flex items-center px-4 py-3 cursor-pointer transition-colors border-b border-gray-100"
           onClick={toggleExpand}
         >
           {/* Expand Icon */}
@@ -164,28 +164,28 @@ export default function HierarchyAccordion({ data, columns, itemsPerPage = 10 })
         <div className="w-8 flex-shrink-0"></div> {/* Space for expand icon */}
         <div className="flex-1 grid grid-cols-4 gap-4">
           <div 
-            className="col-span-1 cursor-pointer select-none flex items-center hover:bg-blue-800/50 -m-1 p-1 rounded transition-colors"
+            className="col-span-1 cursor-pointer select-none flex items-center -m-1 p-1 rounded transition-colors"
             onClick={() => handleSort('studyName')}
           >
             {columns.find(c => c.key === 'studyName')?.label || 'Title'}
             {getSortIcon('studyName')}
           </div>
           <div 
-            className="text-center cursor-pointer select-none flex items-center justify-center hover:bg-blue-800/50 -m-1 p-1 rounded transition-colors"
+            className="text-center cursor-pointer select-none flex items-center justify-center -m-1 p-1 rounded transition-colors"
             onClick={() => handleSort('finishedGoods')}
           >
             {columns.find(c => c.key === 'finishedGoods')?.label || 'FG'}
             {getSortIcon('finishedGoods')}
           </div>
           <div 
-            className="text-center cursor-pointer select-none flex items-center justify-center hover:bg-blue-800/50 -m-1 p-1 rounded transition-colors"
+            className="text-center cursor-pointer select-none flex items-center justify-center -m-1 p-1 rounded transition-colors"
             onClick={() => handleSort('drugProducts')}
           >
             {columns.find(c => c.key === 'drugProducts')?.label || 'DP'}
             {getSortIcon('drugProducts')}
           </div>
           <div 
-            className="text-center cursor-pointer select-none flex items-center justify-center hover:bg-blue-800/50 -m-1 p-1 rounded transition-colors"
+            className="text-center cursor-pointer select-none flex items-center justify-center -m-1 p-1 rounded transition-colors"
             onClick={() => handleSort('drugSubstances')}
           >
             {columns.find(c => c.key === 'drugSubstances')?.label || 'DS'}

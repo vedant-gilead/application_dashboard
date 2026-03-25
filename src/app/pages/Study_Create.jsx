@@ -530,13 +530,13 @@ export default function Study_Create() {
                 setStudyName(e.target.value);
                 if (formErrors.studyName) setFormErrors((prev) => ({ ...prev, studyName: '' }));
               }}
-              placeholder="e.g., abc"
+              placeholder="eg: GS-US-1234"
               className="w-full rounded-lg border border-gray-300 p-2"
             />
             {formErrors.studyName && <p className="text-red-500 text-xs mt-1">{formErrors.studyName}</p>}
 
             <label className="block text-sm font-medium text-gray-700">Description</label>
-            <textarea value={studyDescription} onChange={(e) => setStudyDescription(e.target.value)} placeholder="Project description" className="w-full rounded-lg border border-gray-300 p-2" />
+            <textarea value={studyDescription} onChange={(e) => setStudyDescription(e.target.value)} placeholder="Briefly describe the study objective and scope" className="w-full rounded-lg border border-gray-300 p-2" />
 
             <label className="block text-sm font-medium text-gray-700">Study Type *</label>
             <select
@@ -573,7 +573,7 @@ export default function Study_Create() {
                 setStudyOwner(e.target.value);
                 if (formErrors.studyOwner) setFormErrors((prev) => ({ ...prev, studyOwner: '' }));
               }}
-              placeholder="e.g., VanJain"
+              placeholder="eg: John Michael"
               className="w-full rounded-lg border border-gray-300 p-2"
             />
             {formErrors.studyOwner && <p className="text-red-500 text-xs mt-1">{formErrors.studyOwner}</p>}
@@ -810,7 +810,7 @@ export default function Study_Create() {
                       className={`${inputClassName} min-h-[100px] resize-y`}
                       value={newFpDescription} 
                       onChange={(e) => setNewFpDescription(e.target.value)} 
-                      placeholder="Enter a detailed description..." 
+                      placeholder="FP Description" 
                     />
                   </div>
                 </div>

@@ -85,7 +85,7 @@ export default function PartNumberAccordion({ partNumber, programsData, allColum
     <div className={`overflow-hidden shadow-sm border border-gray-200 bg-white ${isExpanded ? 'mb-4' : ''}`}>
       {/* Accordion Header */}
       <div 
-        className="p-4 flex items-center justify-between cursor-pointer hover:bg-gray-50 transition-colors border-b border-gray-100"
+        className="p-4 flex items-center justify-between cursor-pointer transition-colors border-b border-gray-100"
         onClick={() => setIsExpanded(!isExpanded)}
       >
         <div className="flex-1 grid grid-cols-[1.8fr_1.7fr_1.3fr] items-center">
@@ -110,7 +110,7 @@ export default function PartNumberAccordion({ partNumber, programsData, allColum
               {/* Top Header Row - Months */}
               <tr>
                 <th 
-                  className="p-3 border-r border-gray-200 bg-white align-bottom w-48 sticky left-0 z-10 cursor-pointer hover:bg-gray-50 transition-colors" 
+                  className="p-3 border-r border-gray-200 bg-white align-bottom w-48 sticky left-0 z-10 cursor-pointer transition-colors" 
                   rowSpan={2}
                   onClick={() => handleSort('program')}
                 >
@@ -120,7 +120,7 @@ export default function PartNumberAccordion({ partNumber, programsData, allColum
                   </div>
                 </th>
                 {monthColumns.map(col => (
-                  <th key={col.key} colSpan={3} className="text-center p-2 border-r border-gray-200 text-xs font-semibold text-[#306e9a] uppercase border-b border-gray-200">
+                  <th key={col.key} colSpan={3} className="text-center p-2 border-r border-gray-200 text-xs font-semibold text-[#306e9a] uppercase border-b">
                     {col.label}
                   </th>
                 ))}

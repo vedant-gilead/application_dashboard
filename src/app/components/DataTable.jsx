@@ -92,7 +92,7 @@ export default function DataTable({ columns, data, itemsPerPage = 10 }) {
                   onClick={() => handleSort(column.key, column.sortable)}
                   className={`
                     px-6 py-4 text-left text-sm font-bold text-white uppercase tracking-wider whitespace-nowrap
-                    ${column.sortable ? "cursor-pointer hover:bg-gray-200 select-none" : ""}
+                    ${column.sortable ? "cursor-pointer select-none" : ""}
                     transition-colors duration-150
                     ${index === 0 ? "sticky left-0 bg-[#306e9a] z-10" : ""}
                   `}

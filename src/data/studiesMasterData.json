@@ -19,14 +19,14 @@
       "children": [
         {
           "id": "1-1",
-          "name": "ABC Finished Product",
+          "name": "Finished Product 1",
           "description": "Single-use vial containing 250mg antibody",
           "type": "fg",
           "children": [
             {
               "id": "1-1-1",
               "name": "PC-12723",
-              "manufacturing": "Manufacturing: Aseptic Fill-Finish",
+              "manufacturing": "DP -GS-5423 Injection, 150 mg/mL, 2 mL /via",
               "type": "dp",
               "children": [
                 {
@@ -47,14 +47,14 @@
         },
         {
           "id": "1-2",
-          "name": "XYZ Finished Product",
+          "name": "Finished Product 2",
           "description": "Pre-filled syringe containing 100mg antibody",
           "type": "fg",
           "children": [
             {
               "id": "1-2-1",
               "name": "PC-13296",
-              "manufacturing": "Manufacturing: Dry Granulation",
+              "manufacturing": "DP -GS-5423 Injection, 150 mg/mL, 2 mL /via",
               "type": "dp",
               "children": [
                 {
@@ -81,14 +81,14 @@
       "children": [
          {
           "id": "2-1",
-          "name": "DOLO 1000",
+          "name": "Finished Product 3",
           "description": "Daily oral medication",
           "type": "fg",
           "children": [
             {
               "id": "2-1-1",
               "name": "PC-13296",
-              "manufacturing": "Manufacturing: Dry Granulation",
+              "manufacturing": "DP -GS-5423 Injection, 150 mg/mL, 2 mL /via",
               "type": "dp",
               "children": [
                 {
