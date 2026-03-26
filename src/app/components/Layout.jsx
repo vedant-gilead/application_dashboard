@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Outlet } from 'react-router';
 import Header from './Header';
 import Sidebar from './Sidebar';
+import { Toaster } from './ui/sonner';
 
 export default function Layout() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -16,6 +17,7 @@ export default function Layout() {
 
   return (
     <div className="min-h-screen bg-[#fafbfc]">
+      <Toaster richColors closeButton />
       {/* Header */}
       <Header onMenuToggle={toggleSidebar} />
 

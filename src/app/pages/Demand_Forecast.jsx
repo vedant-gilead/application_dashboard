@@ -7,6 +7,7 @@ import { Button } from '../components/ui/button';
 import Pagination from '../components/Pagination';
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from '../components/ui/dialog';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../components/ui/select';
+import { toast } from 'sonner';
 
 export default function Demand_Forecast() {
   const [demandData, setDemandData] = useState(initialDemandData);
@@ -49,10 +50,22 @@ export default function Demand_Forecast() {
   const [bulkSelectedProgram, setBulkSelectedProgram] = useState('');
   const csvInputRef = useRef(null);
   const [isDragActive, setIsDragActive] = useState(false);
+  const [bulkUploadError, setBulkUploadError] = useState('');
+  const [bulkUploadSuccess, setBulkUploadSuccess] = useState('');
+  const [bulkUploadFileName, setBulkUploadFileName] = useState('');
+  const [isUploadingCsv, setIsUploadingCsv] = useState(false);
 
   useEffect(() => {
     if (!bulkSelectedProgram) setIsDragActive(false);
   }, [bulkSelectedProgram]);
+
+  useEffect(() => {
+    if (!bulkDialogOpen) return;
+    setBulkUploadError('');
+    setBulkUploadSuccess('');
+    setBulkUploadFileName('');
+    setIsUploadingCsv(false);
+  }, [bulkDialogOpen]);
 
   const availablePrograms = useMemo(() => {
     const set = new Set(demandData.data.map((row) => row.program).filter(Boolean));
@@ -102,6 +115,238 @@ export default function Demand_Forecast() {
     });
 
     return [topRow.map(csvEscape).join(','), header.map(csvEscape).join(','), ...lines].join('\n');
+  };
+
+  const parseCsvText = (text) => {
+    const rows = [];
+    let row = [];
+    let field = '';
+    let i = 0;
+    let inQuotes = false;
+
+    const pushField = () => {
+      row.push(field);
+      field = '';
+    };
+    const pushRow = () => {
+      rows.push(row);
+      row = [];
+    };
+
+    while (i < text.length) {
+      const ch = text[i];
+      if (inQuotes) {
+        if (ch === '"') {
+          const next = text[i + 1];
+          if (next === '"') {
+            field += '"';
+            i += 2;
+            continue;
+          }
+          inQuotes = false;
+          i += 1;
+          continue;
+        }
+        field += ch;
+        i += 1;
+        continue;
+      }
+
+      if (ch === '"') {
+        inQuotes = true;
+        i += 1;
+        continue;
+      }
+      if (ch === ',') {
+        pushField();
+        i += 1;
+        continue;
+      }
+      if (ch === '\n' || ch === '\r') {
+        pushField();
+        pushRow();
+        if (ch === '\r' && text[i + 1] === '\n') i += 2;
+        else i += 1;
+        continue;
+      }
+      field += ch;
+      i += 1;
+    }
+
+    pushField();
+    if (row.length > 1 || (row.length === 1 && row[0] !== '') || rows.length === 0) pushRow();
+    return rows;
+  };
+
+  const parseNumberCell = (raw) => {
+    const str = raw == null ? '' : String(raw).trim();
+    if (!str) return { kind: 'empty' };
+    const normalized = str.replace(/,/g, '');
+    const num = Number(normalized);
+    if (!Number.isFinite(num)) return { kind: 'invalid', value: str };
+    return { kind: 'number', value: num };
+  };
+
+  const buildDemandForecastDataFromCsvReplace = ({ csvText, selectedProgram }) => {
+    const rows = parseCsvText(csvText)
+      .map((r) => r.map((c) => (c == null ? '' : String(c).trim())))
+      .filter((r) => r.some((c) => c !== ''));
+
+    if (!selectedProgram) return { ok: false, error: 'Please select a program before uploading.' };
+    if (rows.length < 2) return { ok: false, error: 'CSV is missing header / data rows.' };
+
+    const fileProgram = (rows[0]?.[0] || '').trim();
+    if (fileProgram && fileProgram !== selectedProgram) {
+      return { ok: false, error: `Selected program "${selectedProgram}" does not match CSV program "${fileProgram}".` };
+    }
+
+    const header = rows[1] || [];
+    const partNumberIdx = header.findIndex((h) => h.toLowerCase() === 'partnumber');
+    if (partNumberIdx === -1) return { ok: false, error: 'Header row must include "partNumber".' };
+
+    const monthKeys = forecastMonthColumns.map((c) => c.key);
+    const expectedHeaders = new Set(
+      ['partNumber', ...monthKeys.flatMap((m) => [`${m}_clinical`, `${m}_independent`])].map((h) => h.toLowerCase()),
+    );
+    const unknownHeaders = header.filter(Boolean).filter((h) => !expectedHeaders.has(h.toLowerCase()));
+    if (unknownHeaders.length) {
+      return { ok: false, error: `Unknown columns in CSV header: ${unknownHeaders.join(', ')}` };
+    }
+
+    const headerIndexByKey = new Map();
+    header.forEach((h, idx) => {
+      if (!h) return;
+      headerIndexByKey.set(h, idx);
+    });
+
+    const errors = [];
+    const out = [];
+    const seenPartNumbers = new Set();
+
+    for (let r = 2; r < rows.length; r += 1) {
+      const csvRow = rows[r];
+      const partNumber = (csvRow[partNumberIdx] || '').trim();
+      if (!partNumber) continue;
+
+      if (seenPartNumbers.has(partNumber)) {
+        errors.push(`Row ${r + 1}: duplicate partNumber "${partNumber}".`);
+        continue;
+      }
+      seenPartNumbers.add(partNumber);
+
+      const next = {
+        program: selectedProgram,
+        partNumber,
+        partDescription: '',
+        materialStage: '',
+      };
+
+      for (const monthKey of monthKeys) {
+        const clinicalHeader = `${monthKey}_clinical`;
+        const independentHeader = `${monthKey}_independent`;
+        const clinicalIdx = headerIndexByKey.get(clinicalHeader);
+        const independentIdx = headerIndexByKey.get(independentHeader);
+        if (clinicalIdx == null || independentIdx == null) continue;
+
+        const clinicalParsed = parseNumberCell(csvRow[clinicalIdx]);
+        const independentParsed = parseNumberCell(csvRow[independentIdx]);
+
+        if (clinicalParsed.kind === 'invalid') {
+          errors.push(`Row ${r + 1}: invalid value for ${clinicalHeader} ("${clinicalParsed.value}").`);
+          continue;
+        }
+        if (independentParsed.kind === 'invalid') {
+          errors.push(`Row ${r + 1}: invalid value for ${independentHeader} ("${independentParsed.value}").`);
+          continue;
+        }
+
+        const clinicalVal = clinicalParsed.kind === 'number' ? clinicalParsed.value : 0;
+        const independentVal = independentParsed.kind === 'number' ? independentParsed.value : 0;
+
+        next[clinicalHeader] = clinicalVal;
+        next[independentHeader] = independentVal;
+        next[monthKey] = clinicalVal + independentVal;
+      }
+
+      out.push(next);
+    }
+
+    if (errors.length) {
+      return {
+        ok: false,
+        error: errors.slice(0, 6).join(' ') + (errors.length > 6 ? ` (+${errors.length - 6} more)` : ''),
+      };
+    }
+
+    return { ok: true, data: out };
+  };
+
+  const handleCsvFile = async (file) => {
+    setBulkUploadError('');
+    setBulkUploadSuccess('');
+    setBulkUploadFileName(file?.name || '');
+
+    if (!bulkSelectedProgram) {
+      setBulkUploadError('Please select a program before uploading.');
+      toast.error('Select a program before uploading.', {
+        description: file?.name ? `File: ${file.name}` : undefined,
+      });
+      return;
+    }
+    if (!file) return;
+
+    const isCsv = file.type === 'text/csv' || file.name.toLowerCase().endsWith('.csv') || file.type === '';
+    if (!isCsv) {
+      setBulkUploadError('Please upload a .csv file.');
+      toast.error('Please upload a .csv file.', { description: `File: ${file.name}` });
+      return;
+    }
+
+    const toastId = toast.loading('Uploading CSV…', { description: `File: ${file.name}` });
+    setIsUploadingCsv(true);
+
+    try {
+      const csvText = await file.text();
+      const result = buildDemandForecastDataFromCsvReplace({ csvText, selectedProgram: bulkSelectedProgram });
+      if (!result.ok) {
+        setBulkUploadError(result.error);
+        toast.error('Upload failed', { id: toastId, description: result.error });
+        return;
+      }
+
+      // Replace only the selected program's rows; keep all other programs intact.
+      const preserved = demandData.data.filter((r) => r.program !== bulkSelectedProgram);
+      const nextDemand = { ...demandData, data: [...preserved, ...result.data] };
+      setDemandData(nextDemand);
+      setBulkUploadSuccess(`Uploaded. Replaced ${bulkSelectedProgram} with ${result.data.length} row(s).`);
+      toast.success('Upload complete', {
+        id: toastId,
+        description: `${file.name} • ${bulkSelectedProgram} • ${result.data.length} row(s)`,
+      });
+
+      // Persist to JSON file via dev server middleware
+      try {
+        const resp = await fetch('/api/save-demand', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(nextDemand),
+        });
+        if (!resp.ok) throw new Error(`Save failed (${resp.status})`);
+      } catch (err) {
+        console.error('Failed to persist demand forecast:', err);
+        toast.error('Saved to table, but failed to write JSON file', { description: String(err) });
+        return;
+      }
+
+      // Keep dialog open. Clear inline messages after a short delay (toast remains visible).
+      setTimeout(() => {
+        setBulkUploadError('');
+        setBulkUploadSuccess('');
+        setIsDragActive(false);
+      }, 1200);
+    } finally {
+      setIsUploadingCsv(false);
+    }
   };
 
   const currentViewData = useMemo(() => {
@@ -283,6 +528,9 @@ export default function Demand_Forecast() {
         open={bulkDialogOpen}
         onOpenChange={(open) => {
           setBulkDialogOpen(open);
+          // Reset ephemeral upload UI state whenever dialog toggles
+          setBulkUploadError('');
+          setBulkUploadSuccess('');
           if (!open) {
             setBulkSelectedProgram('');
             setIsDragActive(false);
@@ -322,6 +570,9 @@ export default function Demand_Forecast() {
               accept=".csv,text/csv"
               className="hidden"
               onChange={(e) => {
+                const file = e.target.files?.[0];
+                if (file) handleCsvFile(file);
+                // allow re-uploading same file
                 e.target.value = '';
               }}
             />
@@ -366,6 +617,8 @@ export default function Demand_Forecast() {
                 e.stopPropagation();
                 setIsDragActive(false);
                 if (!bulkSelectedProgram) return;
+                const file = e.dataTransfer.files?.[0];
+                if (file) handleCsvFile(file);
               }}
             >
               <div className="flex items-center justify-between gap-3">
@@ -389,6 +642,19 @@ export default function Demand_Forecast() {
                   Upload CSV
                 </Button>
               </div>
+
+              {bulkUploadFileName ? (
+                <div className="mt-3 text-xs text-gray-600">
+                  Selected file: <span className="font-medium">{bulkUploadFileName}</span>
+                  {isUploadingCsv ? <span className="ml-2 text-gray-500">(uploading…)</span> : null}
+                </div>
+              ) : null}
+
+              {bulkUploadError ? (
+                <div className="mt-3 text-sm text-red-600">{bulkUploadError}</div>
+              ) : bulkUploadSuccess ? (
+                <div className="mt-3 text-sm text-green-700">{bulkUploadSuccess}</div>
+              ) : null}
             </div>
           </div>
 
@@ -470,5 +736,3 @@ export default function Demand_Forecast() {
   </div>
 );
 }
-
- 
