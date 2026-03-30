@@ -1,7 +1,8 @@
-import React, { useState, useMemo, useEffect } from 'react';
+import React, { useState, useMemo, useEffect, useRef } from 'react';
 import { useParams, Link } from "react-router-dom";
 import { Home, ChevronRight, Upload } from "lucide-react";
-
+import { toast } from 'sonner';
+ 
 import DataTable from "../components/DataTable";
 import StudySelector from '../components/StudySelector';
 import ViewModeToggle from '../components/ViewModeToggle';
@@ -10,26 +11,236 @@ import initialDemandForecastData from '../../data/Demand_Forecast.json';
 import { calculateCumulativeData } from '../utils/cumulativeCalculations';
 import { Button } from '../components/ui/button';
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from '../components/ui/dialog';
-
+ 
 import summaryData from "../../data/Program_Summary.json";
 import parametersPoolData from "../../data/Parameters_Pool.json";
 import onhandInventoryData from "../../data/onhand_inventory_data.json";
-
+ 
 import ProgramSummary from './Program_Drilldown/components/ProgramSummary';
 import ProgramParameters from './Program_Drilldown/components/ProgramParameters';
 import ProgramTables from './Program_Drilldown/components/ProgramTables';
-
+ 
 export default function Program_Drilldown() {
   const { programId } = useParams();
   const [selectedStudyId, setSelectedStudyId] = useState("ALL");
   const [viewMode, setViewMode] = useState("PER_STUDY");
   const [demandForecastData, setDemandForecastData] = useState(initialDemandForecastData);
   const [onhandUploadDialogOpen, setOnhandUploadDialogOpen] = useState(false);
-
+  const [onhandData, setOnhandData] = useState(onhandInventoryData);
+  const csvInputRef = useRef(null);
+  const [isDragActive, setIsDragActive] = useState(false);
+  const [onhandUploadError, setOnhandUploadError] = useState('');
+  const [onhandUploadSuccess, setOnhandUploadSuccess] = useState('');
+  const [onhandUploadFileName, setOnhandUploadFileName] = useState('');
+  const [isUploadingCsv, setIsUploadingCsv] = useState(false);
+ 
   const programSummary = summaryData[programId];
   const programParameters = parametersPoolData[programId];
   const baseProgram = programs[programId];
-
+ 
+  const parseCsvText = (text) => {
+    const rows = [];
+    let row = [];
+    let field = '';
+    let i = 0;
+    let inQuotes = false;
+ 
+    const pushField = () => {
+      row.push(field);
+      field = '';
+    };
+    const pushRow = () => {
+      rows.push(row);
+      row = [];
+    };
+ 
+    while (i < text.length) {
+      const ch = text[i];
+      if (inQuotes) {
+        if (ch === '"') {
+          const next = text[i + 1];
+          if (next === '"') {
+            field += '"';
+            i += 2;
+            continue;
+          }
+          inQuotes = false;
+          i += 1;
+          continue;
+        }
+        field += ch;
+        i += 1;
+        continue;
+      }
+ 
+      if (ch === '"') {
+        inQuotes = true;
+        i += 1;
+        continue;
+      }
+      if (ch === ',') {
+        pushField();
+        i += 1;
+        continue;
+      }
+      if (ch === '\n' || ch === '\r') {
+        pushField();
+        pushRow();
+        if (ch === '\r' && text[i + 1] === '\n') i += 2;
+        else i += 1;
+        continue;
+      }
+      field += ch;
+      i += 1;
+    }
+ 
+    pushField();
+    if (row.length > 1 || (row.length === 1 && row[0] !== '') || rows.length === 0) pushRow();
+    return rows;
+  };
+ 
+  const normalizeHeader = (value) =>
+    String(value ?? '')
+      .trim()
+      .toLowerCase()
+      .replace(/\s+/g, ' ')
+      .replace(/[^a-z0-9_ ]+/g, '')
+      .replace(/ /g, '_');
+ 
+  const coerceCellValue = (key, raw) => {
+    const str = raw == null ? '' : String(raw).trim();
+    if (key === 'onhand_qty') {
+      if (!str) return '';
+      const normalized = str.replace(/,/g, '');
+      const num = Number(normalized);
+      return Number.isFinite(num) ? num : str;
+    }
+    return str;
+  };
+ 
+  const buildOnhandRowsFromCsvReplace = ({ csvText, columns }) => {
+    const rows = parseCsvText(csvText)
+      .map((r) => r.map((c) => (c == null ? '' : String(c).trim())))
+      .filter((r) => r.some((c) => c !== ''));
+ 
+    if (!columns?.length) return { ok: false, error: 'No columns are defined for this program.' };
+    if (rows.length < 2) return { ok: false, error: 'CSV is missing header / data rows.' };
+ 
+    const headerRow = rows[0] || [];
+    const headerNormalized = headerRow.map((h) => normalizeHeader(h));
+ 
+    const keyByHeader = new Map();
+    columns.forEach((col) => {
+      keyByHeader.set(normalizeHeader(col.key), col.key);
+      keyByHeader.set(normalizeHeader(col.label), col.key);
+    });
+ 
+    const headerIdxToKey = new Map();
+    headerNormalized.forEach((h, idx) => {
+      const key = keyByHeader.get(h);
+      if (key) headerIdxToKey.set(idx, key);
+    });
+ 
+    const expected = columns.map((c) => c.key);
+    const mappedKeys = new Set([...headerIdxToKey.values()]);
+    if (mappedKeys.size === 0) {
+      return { ok: false, error: 'CSV header does not match expected columns (keys or labels).' };
+    }
+ 
+    const missingRequired = expected.filter((k) => !mappedKeys.has(k));
+    if (missingRequired.length === expected.length) {
+      return { ok: false, error: 'CSV header does not match expected columns (keys or labels).' };
+    }
+ 
+    const out = [];
+    for (let r = 1; r < rows.length; r += 1) {
+      const csvRow = rows[r];
+      if (!csvRow?.length) continue;
+ 
+      const obj = Object.fromEntries(columns.map((c) => [c.key, '']));
+      for (const [idx, key] of headerIdxToKey.entries()) {
+        obj[key] = coerceCellValue(key, csvRow[idx]);
+      }
+ 
+      const hasAnyValue = columns.some((c) => {
+        const v = obj[c.key];
+        return v !== '' && v != null;
+      });
+      if (!hasAnyValue) continue;
+ 
+      out.push(obj);
+    }
+ 
+    return { ok: true, data: out };
+  };
+ 
+  const handleCsvFile = async (file) => {
+    setOnhandUploadError('');
+    setOnhandUploadSuccess('');
+    setOnhandUploadFileName(file?.name || '');
+ 
+    if (!file) return;
+    if (!programId) return;
+ 
+    const isCsv = file.type === 'text/csv' || file.name.toLowerCase().endsWith('.csv') || file.type === '';
+    if (!isCsv) {
+      const msg = 'Please upload a .csv file.';
+      setOnhandUploadError(msg);
+      toast.error(msg, { description: `File: ${file.name}` });
+      return;
+    }
+ 
+    const slice = onhandData?.[programId] || { columns: [], data: [] };
+    const toastId = toast.loading('Uploading CSV…', { description: `File: ${file.name}` });
+    setIsUploadingCsv(true);
+ 
+    try {
+      const csvText = await file.text();
+      const result = buildOnhandRowsFromCsvReplace({ csvText, columns: slice.columns });
+      if (!result.ok) {
+        setOnhandUploadError(result.error);
+        toast.error('Upload failed', { id: toastId, description: result.error });
+        return;
+      }
+ 
+      const nextOnhand = {
+        ...(onhandData || {}),
+        [programId]: {
+          ...slice,
+          data: result.data,
+        },
+      };
+ 
+      setOnhandData(nextOnhand);
+      setOnhandUploadSuccess(`Uploaded. Replaced ${programId} with ${result.data.length} row(s).`);
+      toast.success('Upload complete', {
+        id: toastId,
+        description: `${file.name} • ${programId} • ${result.data.length} row(s)`,
+      });
+ 
+      try {
+        const resp = await fetch('/api/save-onhand', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(nextOnhand),
+        });
+        if (!resp.ok) throw new Error(`Save failed (${resp.status})`);
+      } catch (err) {
+        console.error('Failed to persist onhand inventory:', err);
+        toast.error('Saved to table, but failed to write JSON file', { description: String(err) });
+        return;
+      }
+ 
+      setTimeout(() => {
+        setOnhandUploadError('');
+        setOnhandUploadSuccess('');
+        setIsDragActive(false);
+      }, 1200);
+    } finally {
+      setIsUploadingCsv(false);
+    }
+  };
+ 
   useEffect(() => {
     let cancelled = false;
     const loadLatestDemand = async () => {
@@ -47,10 +258,37 @@ export default function Program_Drilldown() {
       cancelled = true;
     };
   }, [programId]);
-
+ 
+  useEffect(() => {
+    let cancelled = false;
+    const loadLatestOnhand = async () => {
+      try {
+        const resp = await fetch(`/src/data/onhand_inventory_data.json?t=${Date.now()}`);
+        if (!resp.ok) return;
+        const json = await resp.json();
+        if (!cancelled) setOnhandData(json);
+      } catch {
+        // Keep using bundled fallback data if live fetch fails.
+      }
+    };
+    loadLatestOnhand();
+    return () => {
+      cancelled = true;
+    };
+  }, [programId]);
+ 
   const program = useMemo(() => {
     if (!baseProgram) return null;
-
+    const onhandSlice = onhandData?.[programId] || { data: [] };
+    const onhandByItemCode = (onhandSlice.data || []).reduce((acc, row) => {
+      const itemCode = String(row?.item_code ?? '').trim();
+      if (!itemCode) return acc;
+      const qty = Number(String(row?.onhand_qty ?? '').replace(/,/g, ''));
+      const safeQty = Number.isFinite(qty) ? qty : 0;
+      acc[itemCode] = (acc[itemCode] || 0) + safeQty;
+      return acc;
+    }, {});
+ 
     const monthLabelToDemandKey = (label) => {
       // Program table labels look like "Jul-25"; Demand_Forecast keys look like "Jul-2025".
       const [mon, yy] = String(label || '').split('-');
@@ -59,7 +297,7 @@ export default function Program_Drilldown() {
       if (!Number.isFinite(year)) return null;
       return `${mon}-20${String(year).padStart(2, '0')}`;
     };
-
+ 
     const demandMonthColumns = (demandForecastData?.columns || [])
       .filter((col) => !['program', 'partNumber', 'partDescription', 'materialStage'].includes(col.key))
       .map((col) => {
@@ -71,41 +309,45 @@ export default function Program_Drilldown() {
           label: `${mon}-${yy}`, // e.g. Mar-25
         };
       });
-
+ 
     const findForecastRow = (partNumber) =>
       (demandForecastData?.data || []).find((r) => r.program === programId && r.partNumber === partNumber);
-
+ 
     return {
       ...baseProgram,
       studies: baseProgram.studies.map((study) => ({
         ...study,
         materials: study.materials.map((material) => {
           const forecastRow = findForecastRow(material.id);
-
+ 
           const remappedColumns = [
             { key: 'metric', label: 'Metric' },
             ...demandMonthColumns.map((m) => ({ key: m.key, label: m.label })),
           ];
-
+ 
           const oldDemandKeyToColumnKey = new Map();
           (material.columns || []).forEach((col) => {
             if (!col || col.key === 'metric') return;
             const demandKey = monthLabelToDemandKey(col.label);
             if (demandKey) oldDemandKeyToColumnKey.set(demandKey, col.key);
           });
-
+ 
           const updatedRows = (material.data || []).map((row) => {
             const metric = String(row.metric || '').toLowerCase();
+            const isInventory = metric === 'inventory';
             const isClinical = metric === 'demand (clinical)';
             const isIndependent = metric === 'demand (independent)';
             const isTotal = metric === 'total demand';
-
+            const inventoryVal = onhandByItemCode[material.id] || 0;
+ 
             const next = { ...row };
             demandMonthColumns.forEach((monthCol) => {
               const oldColKey = oldDemandKeyToColumnKey.get(monthCol.demandKey);
               const oldVal = oldColKey ? row[oldColKey] : 0;
-
-              if (isClinical) {
+ 
+              if (isInventory) {
+                next[monthCol.key] = inventoryVal;
+              } else if (isClinical) {
                 next[monthCol.key] = Number(forecastRow?.[`${monthCol.demandKey}_clinical`] ?? 0);
               } else if (isIndependent) {
                 next[monthCol.key] = Number(forecastRow?.[`${monthCol.demandKey}_independent`] ?? 0);
@@ -115,21 +357,21 @@ export default function Program_Drilldown() {
                 next[monthCol.key] = oldVal ?? 0;
               }
             });
-
+ 
             return next;
           });
-
+ 
           return { ...material, columns: remappedColumns, data: updatedRows };
         }),
       })),
     };
-  }, [baseProgram, demandForecastData, programId]);
-
+  }, [baseProgram, demandForecastData, programId, onhandData]);
+ 
   const { data: cumulativeData, columns: cumulativeColumns } = useMemo(() => {
     if (!program) return { data: [], columns: [] };
     return calculateCumulativeData(program.studies);
   }, [program]);
-
+ 
   if (!programSummary || !programParameters || !program) {
     return (
       <div className="bg-white rounded-2xl border border-gray-200/80 p-12 shadow-sm text-center">
@@ -161,7 +403,7 @@ export default function Program_Drilldown() {
       </div>
     );
   }
-
+ 
   return (
     <div className="w-full">
       {/* Breadcrumbs */}
@@ -176,7 +418,7 @@ export default function Program_Drilldown() {
         <ChevronRight className="w-4 h-4 mx-1" />
         <span className="font-medium text-gray-700">{programId}</span>
       </div>
-
+ 
       {/* Page Header */}
       <div className="mb-8">
         <h1 className="text-3xl font-semibold text-gray-900 tracking-tight">
@@ -186,7 +428,7 @@ export default function Program_Drilldown() {
           Detailed planning and material information for {programId}
         </p>
       </div>
-
+ 
       <ProgramSummary programSummary={programSummary} />
       <ProgramParameters programParameters={programParameters} />
       
@@ -199,7 +441,7 @@ export default function Program_Drilldown() {
         />
         <ViewModeToggle viewMode={viewMode} onChange={setViewMode} />
       </div>
-
+ 
       <ProgramTables
         program={program}
         viewMode={viewMode}
@@ -207,7 +449,7 @@ export default function Program_Drilldown() {
         cumulativeData={cumulativeData}
         selectedStudyId={selectedStudyId}
       />
-
+ 
       {/* Onhand Inventory Table */}
       {/* <div className="mt-8">
         <h2 className="text-xl font-bold text-gray-800 mb-4">
@@ -226,7 +468,13 @@ export default function Program_Drilldown() {
       <Button
         type="button"
         className="bg-gray-200 text-gray-800 hover:bg-gray-300 px-4 py-2 rounded-lg shadow-sm transition-colors"
-        onClick={() => setOnhandUploadDialogOpen(true)}
+        onClick={() => {
+          setOnhandUploadError('');
+          setOnhandUploadSuccess('');
+          setOnhandUploadFileName('');
+          setIsDragActive(false);
+          setOnhandUploadDialogOpen(true);
+        }}
       >
         <Upload className="w-4 h-4 mr-2" />
         Upload CSV
@@ -234,22 +482,29 @@ export default function Program_Drilldown() {
     </div>
   </div>
   {(() => {
-    const slice = onhandInventoryData[programId] || { columns: [], data: [] };
+    const slice = onhandData?.[programId] || { columns: [], data: [] };
     
- // If no data, build a placeholder row with "--" in all columns
+// If no data, build a placeholder row with "--" in all columns
     const dataWithPlaceholder =
       slice.data.length === 0
         ? [Object.fromEntries(slice.columns.map(col => [col.key, "--"]))]
         : slice.data;
-
+ 
     return <DataTable columns={slice.columns} data={dataWithPlaceholder} />;
   })()}
 </div>
-
+ 
       <Dialog
         open={onhandUploadDialogOpen}
         onOpenChange={(open) => {
           setOnhandUploadDialogOpen(open);
+          if (!open) {
+            setOnhandUploadError('');
+            setOnhandUploadSuccess('');
+            setOnhandUploadFileName('');
+            setIsDragActive(false);
+            setIsUploadingCsv(false);
+          }
         }}
       >
         <DialogContent className="sm:max-w-[520px] bg-white rounded-lg shadow-xl border border-gray-200">
@@ -257,9 +512,52 @@ export default function Program_Drilldown() {
             <DialogTitle>Bulk Upload Onhand Inventory</DialogTitle>
             <DialogDescription>Upload CSV for {programId}</DialogDescription>
           </DialogHeader>
-
+ 
           <div className="space-y-4">
-            <div className="rounded-md border border-dashed border-gray-300 bg-gray-50 px-4 py-4">
+            <input
+              ref={csvInputRef}
+              type="file"
+              accept=".csv,text/csv"
+              className="hidden"
+              onChange={(e) => {
+                const file = e.target.files?.[0];
+                if (file) handleCsvFile(file);
+                e.target.value = '';
+              }}
+            />
+ 
+            <div
+              className={[
+                'rounded-md border border-dashed px-4 py-4 transition-colors',
+                isDragActive ? 'border-[#306e9a] bg-[#eef6fc]' : 'border-gray-300 bg-gray-50',
+              ]
+                .filter(Boolean)
+                .join(' ')}
+              onDragEnter={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                e.dataTransfer.dropEffect = 'copy';
+                setIsDragActive(true);
+              }}
+              onDragOver={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                e.dataTransfer.dropEffect = 'copy';
+                setIsDragActive(true);
+              }}
+              onDragLeave={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                setIsDragActive(false);
+              }}
+              onDrop={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                setIsDragActive(false);
+                const file = e.dataTransfer.files?.[0];
+                if (file) handleCsvFile(file);
+              }}
+            >
               <div className="flex items-center justify-between gap-3">
                 <div className="text-sm text-gray-700">
                   <div className="font-medium">Drag & drop your CSV here</div>
@@ -268,13 +566,27 @@ export default function Program_Drilldown() {
                 <Button
                   type="button"
                   className="bg-gray-200 text-gray-800 hover:bg-gray-300 shadow-sm"
+                  onClick={() => csvInputRef.current?.click()}
                 >
                   Upload CSV
                 </Button>
               </div>
+ 
+              {onhandUploadFileName ? (
+                <div className="mt-3 text-xs text-gray-600">
+                  Selected file: <span className="font-medium">{onhandUploadFileName}</span>
+                  {isUploadingCsv ? <span className="ml-2 text-gray-500">(uploading…)</span> : null}
+                </div>
+              ) : null}
+ 
+              {onhandUploadError ? (
+                <div className="mt-3 text-sm text-red-600">{onhandUploadError}</div>
+              ) : onhandUploadSuccess ? (
+                <div className="mt-3 text-sm text-green-700">{onhandUploadSuccess}</div>
+              ) : null}
             </div>
           </div>
-
+ 
           <DialogFooter>
             <Button
               type="button"
@@ -289,4 +601,5 @@ export default function Program_Drilldown() {
     </div>
   );
 }
+ 
  

@@ -8,11 +8,11 @@ import Pagination from '../components/Pagination';
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from '../components/ui/dialog';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../components/ui/select';
 import { toast } from 'sonner';
-
+ 
 export default function Demand_Forecast() {
   const [demandData, setDemandData] = useState(initialDemandData);
   const [viewMode, setViewMode] = useState('program'); // 'program' | 'part'
-
+ 
   // Group data by program
   const programs = useMemo(() => {
     const grouped = {};
@@ -24,7 +24,7 @@ export default function Demand_Forecast() {
     });
     return grouped;
   }, [demandData]);
-
+ 
   // Group data by part number
   const parts = useMemo(() => {
     const grouped = {};
@@ -36,16 +36,16 @@ export default function Demand_Forecast() {
     });
     return grouped;
   }, [demandData]);
-
+ 
   const [currentPage, setCurrentPage] = useState(1);
   const [sortConfig, setSortConfig] = useState({ key: null, direction: 'asc' });
   const itemsPerPage = 10;
-
+ 
   useEffect(() => {
     setCurrentPage(1);
     setSortConfig({ key: null, direction: 'asc' });
   }, [viewMode]);
-
+ 
   const [bulkDialogOpen, setBulkDialogOpen] = useState(false);
   const [bulkSelectedProgram, setBulkSelectedProgram] = useState('');
   const csvInputRef = useRef(null);
@@ -54,11 +54,11 @@ export default function Demand_Forecast() {
   const [bulkUploadSuccess, setBulkUploadSuccess] = useState('');
   const [bulkUploadFileName, setBulkUploadFileName] = useState('');
   const [isUploadingCsv, setIsUploadingCsv] = useState(false);
-
+ 
   useEffect(() => {
     if (!bulkSelectedProgram) setIsDragActive(false);
   }, [bulkSelectedProgram]);
-
+ 
   useEffect(() => {
     if (!bulkDialogOpen) return;
     setBulkUploadError('');
@@ -66,18 +66,18 @@ export default function Demand_Forecast() {
     setBulkUploadFileName('');
     setIsUploadingCsv(false);
   }, [bulkDialogOpen]);
-
+ 
   const availablePrograms = useMemo(() => {
     const set = new Set(demandData.data.map((row) => row.program).filter(Boolean));
     return [...set].sort((a, b) => a.localeCompare(b));
   }, [demandData.data]);
-
+ 
   const forecastMonthColumns = useMemo(() => {
     return demandData.columns.filter(
       (col) => !['program', 'partNumber', 'partDescription', 'materialStage'].includes(col.key),
     );
   }, [demandData.columns]);
-
+ 
   const downloadCsv = (csv, fileName) => {
     const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
     const url = URL.createObjectURL(blob);
@@ -89,41 +89,41 @@ export default function Demand_Forecast() {
     a.remove();
     URL.revokeObjectURL(url);
   };
-
+ 
   const buildDemandTemplateCsv = (programName) => {
     const monthKeys = forecastMonthColumns.map((c) => c.key);
     const header = ['partNumber', ...monthKeys.flatMap((m) => [`${m}_clinical`, `${m}_independent`])];
-
+ 
     const csvEscape = (value) => {
       const str = value == null ? '' : String(value);
       if (/[",\n]/.test(str)) return `"${str.replace(/"/g, '""')}"`;
       return str;
     };
-
+ 
     const programRows = demandData.data.filter((r) => r.program === programName);
     const partNumbers = [...new Set(programRows.map((r) => r.partNumber).filter(Boolean))].sort((a, b) =>
       (a || '').localeCompare(b || ''),
     );
-
+ 
     // First row: a single "program name" cell on top (rest blank)
     const topRow = [programName, ...Array(header.length - 1).fill('')];
-
+ 
     // Data rows: partNumber filled, all month clinical/independent cells empty
     const lines = partNumbers.map((partNumber) => {
       const emptyMonthCells = monthKeys.flatMap(() => ['', '']);
       return [partNumber, ...emptyMonthCells].map(csvEscape).join(',');
     });
-
+ 
     return [topRow.map(csvEscape).join(','), header.map(csvEscape).join(','), ...lines].join('\n');
   };
-
+ 
   const parseCsvText = (text) => {
     const rows = [];
     let row = [];
     let field = '';
     let i = 0;
     let inQuotes = false;
-
+ 
     const pushField = () => {
       row.push(field);
       field = '';
@@ -132,7 +132,7 @@ export default function Demand_Forecast() {
       rows.push(row);
       row = [];
     };
-
+ 
     while (i < text.length) {
       const ch = text[i];
       if (inQuotes) {
@@ -151,7 +151,7 @@ export default function Demand_Forecast() {
         i += 1;
         continue;
       }
-
+ 
       if (ch === '"') {
         inQuotes = true;
         i += 1;
@@ -172,12 +172,12 @@ export default function Demand_Forecast() {
       field += ch;
       i += 1;
     }
-
+ 
     pushField();
     if (row.length > 1 || (row.length === 1 && row[0] !== '') || rows.length === 0) pushRow();
     return rows;
   };
-
+ 
   const parseNumberCell = (raw) => {
     const str = raw == null ? '' : String(raw).trim();
     if (!str) return { kind: 'empty' };
@@ -186,24 +186,24 @@ export default function Demand_Forecast() {
     if (!Number.isFinite(num)) return { kind: 'invalid', value: str };
     return { kind: 'number', value: num };
   };
-
+ 
   const buildDemandForecastDataFromCsvReplace = ({ csvText, selectedProgram }) => {
     const rows = parseCsvText(csvText)
       .map((r) => r.map((c) => (c == null ? '' : String(c).trim())))
       .filter((r) => r.some((c) => c !== ''));
-
+ 
     if (!selectedProgram) return { ok: false, error: 'Please select a program before uploading.' };
     if (rows.length < 2) return { ok: false, error: 'CSV is missing header / data rows.' };
-
+ 
     const fileProgram = (rows[0]?.[0] || '').trim();
     if (fileProgram && fileProgram !== selectedProgram) {
       return { ok: false, error: `Selected program "${selectedProgram}" does not match CSV program "${fileProgram}".` };
     }
-
+ 
     const header = rows[1] || [];
     const partNumberIdx = header.findIndex((h) => h.toLowerCase() === 'partnumber');
     if (partNumberIdx === -1) return { ok: false, error: 'Header row must include "partNumber".' };
-
+ 
     const monthKeys = forecastMonthColumns.map((c) => c.key);
     const expectedHeaders = new Set(
       ['partNumber', ...monthKeys.flatMap((m) => [`${m}_clinical`, `${m}_independent`])].map((h) => h.toLowerCase()),
@@ -212,45 +212,45 @@ export default function Demand_Forecast() {
     if (unknownHeaders.length) {
       return { ok: false, error: `Unknown columns in CSV header: ${unknownHeaders.join(', ')}` };
     }
-
+ 
     const headerIndexByKey = new Map();
     header.forEach((h, idx) => {
       if (!h) return;
       headerIndexByKey.set(h, idx);
     });
-
+ 
     const errors = [];
     const out = [];
     const seenPartNumbers = new Set();
-
+ 
     for (let r = 2; r < rows.length; r += 1) {
       const csvRow = rows[r];
       const partNumber = (csvRow[partNumberIdx] || '').trim();
       if (!partNumber) continue;
-
+ 
       if (seenPartNumbers.has(partNumber)) {
         errors.push(`Row ${r + 1}: duplicate partNumber "${partNumber}".`);
         continue;
       }
       seenPartNumbers.add(partNumber);
-
+ 
       const next = {
         program: selectedProgram,
         partNumber,
         partDescription: '',
         materialStage: '',
       };
-
+ 
       for (const monthKey of monthKeys) {
         const clinicalHeader = `${monthKey}_clinical`;
         const independentHeader = `${monthKey}_independent`;
         const clinicalIdx = headerIndexByKey.get(clinicalHeader);
         const independentIdx = headerIndexByKey.get(independentHeader);
         if (clinicalIdx == null || independentIdx == null) continue;
-
+ 
         const clinicalParsed = parseNumberCell(csvRow[clinicalIdx]);
         const independentParsed = parseNumberCell(csvRow[independentIdx]);
-
+ 
         if (clinicalParsed.kind === 'invalid') {
           errors.push(`Row ${r + 1}: invalid value for ${clinicalHeader} ("${clinicalParsed.value}").`);
           continue;
@@ -259,33 +259,33 @@ export default function Demand_Forecast() {
           errors.push(`Row ${r + 1}: invalid value for ${independentHeader} ("${independentParsed.value}").`);
           continue;
         }
-
+ 
         const clinicalVal = clinicalParsed.kind === 'number' ? clinicalParsed.value : 0;
         const independentVal = independentParsed.kind === 'number' ? independentParsed.value : 0;
-
+ 
         next[clinicalHeader] = clinicalVal;
         next[independentHeader] = independentVal;
         next[monthKey] = clinicalVal + independentVal;
       }
-
+ 
       out.push(next);
     }
-
+ 
     if (errors.length) {
       return {
         ok: false,
         error: errors.slice(0, 6).join(' ') + (errors.length > 6 ? ` (+${errors.length - 6} more)` : ''),
       };
     }
-
+ 
     return { ok: true, data: out };
   };
-
+ 
   const handleCsvFile = async (file) => {
     setBulkUploadError('');
     setBulkUploadSuccess('');
     setBulkUploadFileName(file?.name || '');
-
+ 
     if (!bulkSelectedProgram) {
       setBulkUploadError('Please select a program before uploading.');
       toast.error('Select a program before uploading.', {
@@ -294,17 +294,17 @@ export default function Demand_Forecast() {
       return;
     }
     if (!file) return;
-
+ 
     const isCsv = file.type === 'text/csv' || file.name.toLowerCase().endsWith('.csv') || file.type === '';
     if (!isCsv) {
       setBulkUploadError('Please upload a .csv file.');
       toast.error('Please upload a .csv file.', { description: `File: ${file.name}` });
       return;
     }
-
+ 
     const toastId = toast.loading('Uploading CSV…', { description: `File: ${file.name}` });
     setIsUploadingCsv(true);
-
+ 
     try {
       const csvText = await file.text();
       const result = buildDemandForecastDataFromCsvReplace({ csvText, selectedProgram: bulkSelectedProgram });
@@ -313,7 +313,7 @@ export default function Demand_Forecast() {
         toast.error('Upload failed', { id: toastId, description: result.error });
         return;
       }
-
+ 
       // Replace only the selected program's rows; keep all other programs intact.
       const preserved = demandData.data.filter((r) => r.program !== bulkSelectedProgram);
       const nextDemand = { ...demandData, data: [...preserved, ...result.data] };
@@ -323,7 +323,7 @@ export default function Demand_Forecast() {
         id: toastId,
         description: `${file.name} • ${bulkSelectedProgram} • ${result.data.length} row(s)`,
       });
-
+ 
       // Persist to JSON file via dev server middleware
       try {
         const resp = await fetch('/api/save-demand', {
@@ -337,7 +337,7 @@ export default function Demand_Forecast() {
         toast.error('Saved to table, but failed to write JSON file', { description: String(err) });
         return;
       }
-
+ 
       // Keep dialog open. Clear inline messages after a short delay (toast remains visible).
       setTimeout(() => {
         setBulkUploadError('');
@@ -348,7 +348,7 @@ export default function Demand_Forecast() {
       setIsUploadingCsv(false);
     }
   };
-
+ 
   const currentViewData = useMemo(() => {
     let entries = viewMode === 'program' ? Object.entries(programs) : Object.entries(parts);
     
@@ -377,7 +377,7 @@ export default function Demand_Forecast() {
           if (typeof row[col.key] === 'number' && !isNaN(row[col.key])) totalDemand += row[col.key];
         });
       });
-
+ 
       return {
           keyName: key,
           data,
@@ -387,17 +387,17 @@ export default function Demand_Forecast() {
           status: 'Active'
       };
     });
-
+ 
     // 2. Sort
     if (sortConfig.key) {
       sortableList.sort((a, b) => {
           let aValue = a[sortConfig.key];
           let bValue = b[sortConfig.key];
-
+ 
           if (typeof aValue === 'number' && typeof bValue === 'number') {
             return sortConfig.direction === 'asc' ? aValue - bValue : bValue - aValue;
           }
-
+ 
           const aStr = String(aValue).toLowerCase();
           const bStr = String(bValue).toLowerCase();
           if (aStr < bStr) return sortConfig.direction === "asc" ? -1 : 1;
@@ -405,15 +405,15 @@ export default function Demand_Forecast() {
           return 0;
       });
     }
-
+ 
     return sortableList;
   }, [programs, parts, viewMode, demandData.columns, sortConfig]);
-
+ 
   const totalPages = Math.ceil(currentViewData.length / itemsPerPage);
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
   const paginatedData = currentViewData.slice(startIndex, endIndex);
-
+ 
   const handleSort = (key) => {
     let direction = "asc";
     if (sortConfig.key === key && sortConfig.direction === "asc") {
@@ -421,7 +421,7 @@ export default function Demand_Forecast() {
     }
     setSortConfig({ key, direction });
   };
-
+ 
   const getSortIcon = (columnKey) => {
     if (sortConfig.key === columnKey) {
       return sortConfig.direction === "asc" ? (
@@ -432,7 +432,7 @@ export default function Demand_Forecast() {
     }
     return <ChevronsUpDown className="w-4 h-4 ml-1 inline text-blue-200 hover:text-white" />;
   };
-
+ 
   const handleDataChange = (partNumber, monthKey, newValue, programName) => {
     // Find and update the row in our local state
     const newData = [...demandData.data];
@@ -447,16 +447,17 @@ export default function Demand_Forecast() {
       
       const currentClinical = newData[rowIndex][clinicalKey] || 0;
       const newTotal = currentClinical + newValue;
-
+ 
       newData[rowIndex] = {
         ...newData[rowIndex],
+        [clinicalKey]: currentClinical,
         [independentKey]: newValue,
         [monthKey]: newTotal
       };
       
       const newDemandData = { ...demandData, data: newData };
       setDemandData(newDemandData);
-
+ 
       // Save to backend (mocked or real endpoint)
       fetch('/api/save-demand', {
         method: 'POST',
@@ -470,7 +471,7 @@ export default function Demand_Forecast() {
       }).catch(err => console.error('Failed to save demand:', err));
     }
   };
-
+ 
   return (
     <div className="w-full">
       {/* Page Header */}
@@ -499,7 +500,7 @@ export default function Demand_Forecast() {
               >
                 By Part Number
               </button>
-
+ 
               {/* Absolute Sliding Pill Background */}
               <div
                 className={`absolute top-1 bottom-1 bg-[#306e9a] rounded-full transition-all duration-300 ease-in-out z-0`}
@@ -510,7 +511,7 @@ export default function Demand_Forecast() {
               />
             </div>
           </div>
-
+ 
           <Button
             className="bg-gray-200 text-gray-800 hover:bg-gray-300 px-4 py-2 rounded-lg shadow-sm transition-colors"
             onClick={() => {
@@ -523,7 +524,7 @@ export default function Demand_Forecast() {
           </Button>
         </div>
       </div>
-
+ 
       <Dialog
         open={bulkDialogOpen}
         onOpenChange={(open) => {
@@ -542,7 +543,7 @@ export default function Demand_Forecast() {
             <DialogTitle>Bulk Upload Demand Forecast</DialogTitle>
             <DialogDescription>Select a program to download its CSV template.</DialogDescription>
           </DialogHeader>
-
+ 
           <div className="space-y-4">
             <div className="space-y-2">
               <div className="text-sm font-medium text-gray-700">Program *</div>
@@ -563,7 +564,7 @@ export default function Demand_Forecast() {
                 </SelectContent>
               </Select>
             </div>
-
+ 
             <input
               ref={csvInputRef}
               type="file"
@@ -576,7 +577,7 @@ export default function Demand_Forecast() {
                 e.target.value = '';
               }}
             />
-
+ 
             <div
               aria-disabled={!bulkSelectedProgram}
               className={[
@@ -642,14 +643,14 @@ export default function Demand_Forecast() {
                   Upload CSV
                 </Button>
               </div>
-
+ 
               {bulkUploadFileName ? (
                 <div className="mt-3 text-xs text-gray-600">
                   Selected file: <span className="font-medium">{bulkUploadFileName}</span>
                   {isUploadingCsv ? <span className="ml-2 text-gray-500">(uploading…)</span> : null}
                 </div>
               ) : null}
-
+ 
               {bulkUploadError ? (
                 <div className="mt-3 text-sm text-red-600">{bulkUploadError}</div>
               ) : bulkUploadSuccess ? (
@@ -657,7 +658,7 @@ export default function Demand_Forecast() {
               ) : null}
             </div>
           </div>
-
+ 
           <DialogFooter>
             <Button
               type="button"
@@ -674,7 +675,7 @@ export default function Demand_Forecast() {
           </DialogFooter>
         </DialogContent>
       </Dialog>
-
+ 
       <div className="bg-white rounded-xl   border border-gray-200 shadow-sm">
         {/* Static column header (outside accordions) */}
         <div className="rounded-t-xl bg-[#306e9a] px-4 py-4 shadow-sm">
@@ -694,13 +695,13 @@ export default function Demand_Forecast() {
             </div>
           )}
         </div>
-
+ 
         {/* Accordion List */}
         <div className="w-full flex flex-col">
         {paginatedData.length > 0 ? (
-          viewMode === 'program' 
+          viewMode === 'program'
             ? paginatedData.map(item => (
-                <ProgramAccordion 
+                <ProgramAccordion
                   key={item.keyName}
                   program={item.keyName}
                   partsData={item.data}
@@ -709,7 +710,7 @@ export default function Demand_Forecast() {
                 />
               ))
             : paginatedData.map(item => (
-                <PartNumberAccordion 
+                <PartNumberAccordion
                   key={item.keyName}
                   partNumber={item.keyName}
                   programsData={item.data}
@@ -723,8 +724,8 @@ export default function Demand_Forecast() {
           </div>
         )}
       </div>
-
-      <Pagination 
+ 
+      <Pagination
         currentPage={currentPage}
         totalPages={totalPages}
         startIndex={startIndex}
