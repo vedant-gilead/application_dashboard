@@ -15,6 +15,7 @@ import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, D
 import summaryData from "../../data/Program_Summary.json";
 import parametersPoolData from "../../data/Parameters_Pool.json";
 import onhandInventoryData from "../../data/onhand_inventory_data.json";
+import sitesMasterData from "../../data/sitesMasterData.json";
  
 import ProgramSummary from './Program_Drilldown/components/ProgramSummary';
 import ProgramParameters from './Program_Drilldown/components/ProgramParameters';
@@ -279,15 +280,73 @@ export default function Program_Drilldown() {
  
   const program = useMemo(() => {
     if (!baseProgram) return null;
+ 
+    const normalizeText = (value) => String(value ?? '').trim().toLowerCase().replace(/[^a-z0-9]+/g, '');
+    const parseNumber = (value, fallback = 0) => {
+      const n = Number(String(value ?? '').replace(/,/g, ''));
+      return Number.isFinite(n) ? n : fallback;
+    };
+    const normalizeMetric = (value) => String(value ?? '').trim().toLowerCase().replace(/[^a-z0-9]/g, '');
+ 
     const onhandSlice = onhandData?.[programId] || { data: [] };
     const onhandByItemCode = (onhandSlice.data || []).reduce((acc, row) => {
       const itemCode = String(row?.item_code ?? '').trim();
       if (!itemCode) return acc;
-      const qty = Number(String(row?.onhand_qty ?? '').replace(/,/g, ''));
-      const safeQty = Number.isFinite(qty) ? qty : 0;
+      const safeQty = parseNumber(row?.onhand_qty, 0);
       acc[itemCode] = (acc[itemCode] || 0) + safeQty;
       return acc;
     }, {});
+ 
+    const paramsByMaterialId = new Map();
+    Object.entries(programParameters || {}).forEach(([key, value]) => {
+      if (!key.startsWith('IP') || !value || typeof value !== 'object') return;
+      const materialIdMatch = String(value.name || '').match(/\(([A-Za-z0-9-]+)\)/);
+      const materialId = materialIdMatch?.[1];
+      if (!materialId) return;
+      paramsByMaterialId.set(materialId, {
+        siteExecution: String(value.siteExecution || '').trim(),
+        executionLeadTime: parseNumber(value.executionLeadTime, NaN),
+      });
+    });
+ 
+    const siteRows = sitesMasterData?.data || [];
+    const resolveLeadTimeForMaterial = (material) => {
+      const param = paramsByMaterialId.get(material.id);
+      if (!param) return 0;
+      if (Number.isFinite(param.executionLeadTime) && param.executionLeadTime >= 0) {
+        return Math.max(0, Math.round(param.executionLeadTime));
+      }
+ 
+      const siteNorm = normalizeText(param.siteExecution);
+      if (!siteNorm) return 0;
+      const stagePrefix = String(material?.type || '').toLowerCase().includes('product')
+        ? 'dp:'
+        : String(material?.type || '').toLowerCase().includes('substance')
+          ? 'ds:'
+          : '';
+ 
+      const byStage = stagePrefix
+        ? siteRows.filter((row) => String(row.execution_site || '').toLowerCase().startsWith(stagePrefix))
+        : siteRows;
+ 
+      const tryMatch = (rows) =>
+        rows.find((row) => normalizeText(row.execution_site) === siteNorm) ||
+        rows.find((row) => normalizeText(row.execution_site).includes(siteNorm)) ||
+        rows.find((row) => siteNorm.includes(normalizeText(row.execution_site)));
+ 
+      // Prefer stage-specific rows, but if that doesn't find anything that looks like our siteExecution,
+      // fall back to searching across all sites so that generic labels like "La Verne" still match
+      // entries such as "DP: Gilead La Verne DP".
+      let matched = tryMatch(byStage);
+      if (!matched) {
+        matched = tryMatch(siteRows);
+      }
+ 
+      if (!matched) return 0;
+      const lead = parseNumber(matched.execution_lead_time, NaN);
+      if (!Number.isFinite(lead) || lead < 0) return 0;
+      return Math.round(lead);
+    };
  
     const monthLabelToDemandKey = (label) => {
       // Program table labels look like "Jul-25"; Demand_Forecast keys look like "Jul-2025".
@@ -319,6 +378,7 @@ export default function Program_Drilldown() {
         ...study,
         materials: study.materials.map((material) => {
           const forecastRow = findForecastRow(material.id);
+          const leadTimeMonths = resolveLeadTimeForMaterial(material);
  
           const remappedColumns = [
             { key: 'metric', label: 'Metric' },
@@ -361,11 +421,36 @@ export default function Program_Drilldown() {
             return next;
           });
  
+          const monthKeys = demandMonthColumns.map((m) => m.key);
+          const totalDemandRow = updatedRows.find((r) => normalizeMetric(r.metric) === 'totaldemand');
+          const supplyReleaseRow = updatedRows.find((r) => normalizeMetric(r.metric) === 'supplyrelease');
+          const supplyExecStartRow = updatedRows.find((r) => normalizeMetric(r.metric) === 'supplyexecutionstart');
+ 
+          if (supplyExecStartRow) {
+            monthKeys.forEach((key) => {
+              supplyExecStartRow[key] = 0;
+            });
+ 
+            let onhandAtStart = parseNumber(onhandByItemCode[material.id], 0);
+            monthKeys.forEach((monthKey, monthIdx) => {
+              const demand = parseNumber(totalDemandRow?.[monthKey], 0);
+              const release = parseNumber(supplyReleaseRow?.[monthKey], 0);
+              const availableOnhand = Math.max(0, onhandAtStart);
+              // Only demand months should trigger execution-start requirements.
+              const requiredRelease = demand > 0 ? Math.max(0, demand - availableOnhand) : 0;
+              const startIdx = Math.max(0, monthIdx - leadTimeMonths);
+              const startKey = monthKeys[startIdx];
+ 
+              supplyExecStartRow[startKey] = parseNumber(supplyExecStartRow[startKey], 0) + requiredRelease;
+              onhandAtStart = Math.max(0, onhandAtStart - demand + release);
+            });
+          }
+ 
           return { ...material, columns: remappedColumns, data: updatedRows };
         }),
       })),
     };
-  }, [baseProgram, demandForecastData, programId, onhandData]);
+  }, [baseProgram, demandForecastData, programId, onhandData, programParameters]);
  
   const { data: cumulativeData, columns: cumulativeColumns } = useMemo(() => {
     if (!program) return { data: [], columns: [] };
@@ -601,5 +686,4 @@ export default function Program_Drilldown() {
     </div>
   );
 }
- 
  
