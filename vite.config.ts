@@ -65,6 +65,24 @@ const saveJsonPlugin = (): Plugin => ({
             res.end(JSON.stringify({ success: false, error: err.message }));
           }
         });
+      } else if (req.url === '/api/save-sites' && req.method === 'POST') {
+        let body = '';
+        req.on('data', (chunk: any) => {
+          body += chunk.toString();
+        });
+        req.on('end', () => {
+          try {
+            const data = JSON.parse(body);
+            const filePath = path.resolve(__dirname, './src/data/sitesMasterData.json');
+            fs.writeFileSync(filePath, JSON.stringify(data, null, 2));
+            res.statusCode = 200;
+            res.end(JSON.stringify({ success: true }));
+          } catch (err: any) {
+            console.error(err);
+            res.statusCode = 500;
+            res.end(JSON.stringify({ success: false, error: err.message }));
+          }
+        });
       } else {
         next();
       }

@@ -1,9 +1,29 @@
-import DataTable from '../components/DataTable';
+import EditableDataTable from '../components/EditableDataTable';
 import sitesMasterData from '../../data/sitesMasterData.json';
 import { Plus } from 'lucide-react';
 import { Button } from '../components/ui/button';
-
+ 
 export default function Sites_Master_Data() {
+  const editableColumns = sitesMasterData.columns.map((col, index) => ({
+    ...col,
+    editable: index === 0 ? false : true,
+  }));
+ 
+  const handleSitesChange = async (newData) => {
+    try {
+      await fetch('/api/save-sites', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          columns: sitesMasterData.columns,
+          data: newData,
+        }),
+      });
+    } catch (err) {
+      console.error('Failed to save sites master data:', err);
+    }
+  };
+ 
   return (
     <div className="w-full">
       {/* Page Header */}
@@ -17,9 +37,14 @@ export default function Sites_Master_Data() {
           Add Site
         </Button>
       </div>
-
+ 
       {/* Table Card */}
-      <DataTable columns={sitesMasterData.columns} data={sitesMasterData.data} />
+      <EditableDataTable
+        columns={editableColumns}
+        data={sitesMasterData.data}
+        onDataChange={handleSitesChange}
+      />
     </div>
   );
 }
+ 
