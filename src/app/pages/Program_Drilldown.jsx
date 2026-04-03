@@ -398,7 +398,6 @@ export default function Program_Drilldown() {
             const isClinical = metric === 'demand (clinical)';
             const isIndependent = metric === 'demand (independent)';
             const isTotal = metric === 'total demand';
-            const inventoryVal = onhandByItemCode[material.id] || 0;
  
             const next = { ...row };
             demandMonthColumns.forEach((monthCol) => {
@@ -406,7 +405,8 @@ export default function Program_Drilldown() {
               const oldVal = oldColKey ? row[oldColKey] : 0;
  
               if (isInventory) {
-                next[monthCol.key] = inventoryVal;
+                // Initialize; we will override with projected onhand after we compute it.
+                next[monthCol.key] = 0;
               } else if (isClinical) {
                 next[monthCol.key] = Number(forecastRow?.[`${monthCol.demandKey}_clinical`] ?? 0);
               } else if (isIndependent) {
@@ -425,25 +425,55 @@ export default function Program_Drilldown() {
           const totalDemandRow = updatedRows.find((r) => normalizeMetric(r.metric) === 'totaldemand');
           const supplyReleaseRow = updatedRows.find((r) => normalizeMetric(r.metric) === 'supplyrelease');
           const supplyExecStartRow = updatedRows.find((r) => normalizeMetric(r.metric) === 'supplyexecutionstart');
+          const inventoryRow = updatedRows.find((r) => normalizeMetric(r.metric) === 'inventory');
  
-          if (supplyExecStartRow) {
-            monthKeys.forEach((key) => {
-              supplyExecStartRow[key] = 0;
-            });
+          if (supplyExecStartRow || supplyReleaseRow || inventoryRow) {
+            const startByMonth = Array(monthKeys.length).fill(0);
+            const releaseByMonth = Array(monthKeys.length).fill(0);
+            const requiredByDemandMonth = Array(monthKeys.length).fill(0);
  
-            let onhandAtStart = parseNumber(onhandByItemCode[material.id], 0);
+            // Pass 1: compute monthly required quantity from projected onhand before demand.
+            let onhandForDeficit = parseNumber(onhandByItemCode[material.id], 0);
             monthKeys.forEach((monthKey, monthIdx) => {
               const demand = parseNumber(totalDemandRow?.[monthKey], 0);
-              const release = parseNumber(supplyReleaseRow?.[monthKey], 0);
-              const availableOnhand = Math.max(0, onhandAtStart);
-              // Only demand months should trigger execution-start requirements.
+              const availableOnhand = Math.max(0, onhandForDeficit);
               const requiredRelease = demand > 0 ? Math.max(0, demand - availableOnhand) : 0;
-              const startIdx = Math.max(0, monthIdx - leadTimeMonths);
-              const startKey = monthKeys[startIdx];
- 
-              supplyExecStartRow[startKey] = parseNumber(supplyExecStartRow[startKey], 0) + requiredRelease;
-              onhandAtStart = Math.max(0, onhandAtStart - demand + release);
+              requiredByDemandMonth[monthIdx] = requiredRelease;
+              // Existing agreed logic computes deficit against projected onhand; release is scheduled separately.
+              onhandForDeficit = Math.max(0, onhandForDeficit - demand);
             });
+ 
+            // Pass 2: map required quantity to start and release months.
+            requiredByDemandMonth.forEach((qty, demandIdx) => {
+              if (qty <= 0) return;
+              const startIdx = Math.max(0, demandIdx - leadTimeMonths);
+              const releaseIdx = Math.max(0, demandIdx - 1);
+              startByMonth[startIdx] += qty;
+              releaseByMonth[releaseIdx] += qty;
+            });
+ 
+            if (supplyExecStartRow) {
+              monthKeys.forEach((monthKey, idx) => {
+                supplyExecStartRow[monthKey] = startByMonth[idx];
+              });
+            }
+ 
+            if (supplyReleaseRow) {
+              monthKeys.forEach((monthKey, idx) => {
+                supplyReleaseRow[monthKey] = releaseByMonth[idx];
+              });
+            }
+ 
+            // Pass 3: project inventory timeline using dynamic release values.
+            if (inventoryRow) {
+              let onhandAtStart = parseNumber(onhandByItemCode[material.id], 0);
+              monthKeys.forEach((monthKey, idx) => {
+                const demand = parseNumber(totalDemandRow?.[monthKey], 0);
+                const releaseThisMonth = releaseByMonth[idx] ?? 0;
+                inventoryRow[monthKey] = Math.max(0, onhandAtStart);
+                onhandAtStart = Math.max(0, onhandAtStart - demand + releaseThisMonth);
+              });
+            }
           }
  
           return { ...material, columns: remappedColumns, data: updatedRows };
@@ -686,4 +716,3 @@ export default function Program_Drilldown() {
     </div>
   );
 }
- 
