@@ -6,7 +6,7 @@ import { toast } from 'sonner';
 import DataTable from "../components/DataTable";
 import StudySelector from '../components/StudySelector';
 import ViewModeToggle from '../components/ViewModeToggle';
-import programs from '../../data/programData.json';
+import initialProgramsData from '../../data/programData.json';
 import initialDemandForecastData from '../../data/Demand_Forecast.json';
 import { calculateCumulativeData } from '../utils/cumulativeCalculations';
 import { Button } from '../components/ui/button';
@@ -25,6 +25,7 @@ export default function Program_Drilldown() {
   const { programId } = useParams();
   const [selectedStudyId, setSelectedStudyId] = useState("ALL");
   const [viewMode, setViewMode] = useState("PER_STUDY");
+  const [programsData, setProgramsData] = useState(initialProgramsData);
   const [demandForecastData, setDemandForecastData] = useState(initialDemandForecastData);
   const [onhandUploadDialogOpen, setOnhandUploadDialogOpen] = useState(false);
   const [onhandData, setOnhandData] = useState(onhandInventoryData);
@@ -37,7 +38,53 @@ export default function Program_Drilldown() {
  
   const programSummary = summaryData[programId];
   const programParameters = parametersPoolData[programId];
-  const baseProgram = programs[programId];
+  const baseProgram = programsData[programId];
+ 
+  const upsertExpiryOverride = async (materialId, monthKey, oldMonthKey, rawValue) => {
+    const cleaned = String(rawValue ?? '').replace(/[^0-9.-]/g, '').trim();
+    const nextVal = cleaned === '' || cleaned === '-' || cleaned === '.' ? 0 : Number(cleaned);
+    const safeValue = Number.isFinite(nextVal) ? nextVal : 0;
+    if (!programId || !oldMonthKey) return;
+ 
+    let nextProgramsSnapshot = null;
+    setProgramsData((prev) => {
+      const next = { ...prev };
+      const program = next[programId];
+      if (!program) return prev;
+ 
+      next[programId] = {
+        ...program,
+        studies: (program.studies || []).map((study) => ({
+          ...study,
+          materials: (study.materials || []).map((material) => {
+            if (material.id !== materialId) return material;
+            return {
+              ...material,
+              data: (material.data || []).map((row) => {
+                const metric = String(row?.metric || '').trim().toLowerCase().replace(/[^a-z0-9]/g, '');
+                const isExpiry = metric === 'expiry' || metric === 'expiryobsolescence';
+                if (!isExpiry) return row;
+                return { ...row, [oldMonthKey]: safeValue };
+              }),
+            };
+          }),
+        })),
+      };
+      nextProgramsSnapshot = next;
+      return next;
+    });
+ 
+    if (!nextProgramsSnapshot) return;
+    try {
+      await fetch('/api/save-programs', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(nextProgramsSnapshot),
+      });
+    } catch (err) {
+      console.error('Failed to persist programData expiry edit:', err);
+    }
+  };
  
   const parseCsvText = (text) => {
     const rows = [];
@@ -278,6 +325,24 @@ export default function Program_Drilldown() {
     };
   }, [programId]);
  
+  useEffect(() => {
+    let cancelled = false;
+    const loadLatestPrograms = async () => {
+      try {
+        const resp = await fetch(`/src/data/programData.json?t=${Date.now()}`);
+        if (!resp.ok) return;
+        const json = await resp.json();
+        if (!cancelled) setProgramsData(json);
+      } catch {
+        // Keep using bundled fallback data if live fetch fails.
+      }
+    };
+    loadLatestPrograms();
+    return () => {
+      cancelled = true;
+    };
+  }, [programId]);
+ 
   const program = useMemo(() => {
     if (!baseProgram) return null;
  
@@ -380,17 +445,45 @@ export default function Program_Drilldown() {
           const forecastRow = findForecastRow(material.id);
           const leadTimeMonths = resolveLeadTimeForMaterial(material);
  
-          const remappedColumns = [
-            { key: 'metric', label: 'Metric' },
-            ...demandMonthColumns.map((m) => ({ key: m.key, label: m.label })),
-          ];
- 
           const oldDemandKeyToColumnKey = new Map();
           (material.columns || []).forEach((col) => {
             if (!col || col.key === 'metric') return;
             const demandKey = monthLabelToDemandKey(col.label);
             if (demandKey) oldDemandKeyToColumnKey.set(demandKey, col.key);
           });
+ 
+          const remappedColumns = [
+            { key: 'metric', label: 'Metric' },
+            ...demandMonthColumns.map((m) => ({
+              key: m.key,
+              label: m.label,
+              render: (row) => {
+                const metricKey = normalizeMetric(row?.metric);
+                const isExpiryMetric = metricKey === 'expiry' || metricKey === 'expiryobsolescence';
+                const val = row?.[m.key] ?? 0;
+                if (!isExpiryMetric) return val;
+                const oldMonthKey = oldDemandKeyToColumnKey.get(m.demandKey);
+                return (
+                  <span
+                    contentEditable
+                    suppressContentEditableWarning
+                    className="inline-block min-w-[36px] outline-none rounded px-1 focus:ring-2 focus:ring-[#306e9a]/40"
+                    onBlur={(e) =>
+                      upsertExpiryOverride(material.id, m.key, oldMonthKey, e.currentTarget.innerText)
+                    }
+                    onKeyDown={(e) => {
+                      if (e.key === 'Enter') {
+                        e.preventDefault();
+                        e.currentTarget.blur();
+                      }
+                    }}
+                  >
+                    {val}
+                  </span>
+                );
+              },
+            })),
+          ];
  
           const updatedRows = (material.data || []).map((row) => {
             const metric = String(row.metric || '').toLowerCase();
@@ -425,6 +518,10 @@ export default function Program_Drilldown() {
           const totalDemandRow = updatedRows.find((r) => normalizeMetric(r.metric) === 'totaldemand');
           const supplyReleaseRow = updatedRows.find((r) => normalizeMetric(r.metric) === 'supplyrelease');
           const supplyExecStartRow = updatedRows.find((r) => normalizeMetric(r.metric) === 'supplyexecutionstart');
+          const expiryRow = updatedRows.find((r) => {
+            const metric = normalizeMetric(r.metric);
+            return metric === 'expiry' || metric === 'expiryobsolescence';
+          });
           const inventoryRow = updatedRows.find((r) => normalizeMetric(r.metric) === 'inventory');
  
           if (supplyExecStartRow || supplyReleaseRow || inventoryRow) {
@@ -436,11 +533,12 @@ export default function Program_Drilldown() {
             let onhandForDeficit = parseNumber(onhandByItemCode[material.id], 0);
             monthKeys.forEach((monthKey, monthIdx) => {
               const demand = parseNumber(totalDemandRow?.[monthKey], 0);
+              const expiry = parseNumber(expiryRow?.[monthKey], 0);
               const availableOnhand = Math.max(0, onhandForDeficit);
               const requiredRelease = demand > 0 ? Math.max(0, demand - availableOnhand) : 0;
               requiredByDemandMonth[monthIdx] = requiredRelease;
               // Existing agreed logic computes deficit against projected onhand; release is scheduled separately.
-              onhandForDeficit = Math.max(0, onhandForDeficit - demand);
+              onhandForDeficit = Math.max(0, onhandForDeficit - demand - expiry);
             });
  
             // Pass 2: map required quantity to start and release months.
@@ -469,9 +567,10 @@ export default function Program_Drilldown() {
               let onhandAtStart = parseNumber(onhandByItemCode[material.id], 0);
               monthKeys.forEach((monthKey, idx) => {
                 const demand = parseNumber(totalDemandRow?.[monthKey], 0);
+                const expiry = parseNumber(expiryRow?.[monthKey], 0);
                 const releaseThisMonth = releaseByMonth[idx] ?? 0;
                 inventoryRow[monthKey] = Math.max(0, onhandAtStart);
-                onhandAtStart = Math.max(0, onhandAtStart - demand + releaseThisMonth);
+                onhandAtStart = Math.max(0, onhandAtStart - demand - expiry + releaseThisMonth);
               });
             }
           }
@@ -716,3 +815,4 @@ export default function Program_Drilldown() {
     </div>
   );
 }
+ 
