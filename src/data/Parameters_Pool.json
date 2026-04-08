@@ -77,5 +77,31 @@
       "releaseLeadTime": "--",
       "executionLeadTime": "--"
     }
+  },
+  "GS-0415": {
+    "FP": {
+      "siteExecution": "DP: Gilead La Verne DP",
+      "moq": "--",
+      "releaseLeadTime": "--",
+      "executionLeadTime": "--"
+    },
+    "IP1": {
+      "name": "DRUG PRODUCT (PC-13248)",
+      "safetyStock": "--",
+      "consumptionRatio": "1",
+      "siteExecution": "DP: Gilead La Verne DP",
+      "moq": "--",
+      "releaseLeadTime": "--",
+      "executionLeadTime": "--"
+    },
+    "IP2": {
+      "name": "DRUG SUBSTANCE (IP-15650)",
+      "safetyStock": "--",
+      "consumptionRatio": "--",
+      "siteExecution": "DS: CDMO 2",
+      "moq": "--",
+      "releaseLeadTime": "--",
+      "executionLeadTime": "--"
+    }
   }
 }

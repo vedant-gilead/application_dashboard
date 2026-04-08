@@ -1,15 +1,42 @@
 {
   "GS-5423": {
     "columns": [
-      { "key": "organization_name", "label": "Organization Name" },
-      { "key": "item_code", "label": "Item Code" },
-      { "key": "item_description", "label": "Item Description" },
-      { "key": "lot_number", "label": "Lot Number" },
-      { "key": "creation_date", "label": "Creation Date" },
-      { "key": "lot_expiration_date", "label": "Lot Expiration Date" },
-      { "key": "lot_status_description", "label": "Lot Status" },
-      { "key": "onhand_qty", "label": "Onhand Quantity" },
-      { "key": "uom", "label": "UOM" }
+      {
+        "key": "organization_name",
+        "label": "Organization Name"
+      },
+      {
+        "key": "item_code",
+        "label": "Item Code"
+      },
+      {
+        "key": "item_description",
+        "label": "Item Description"
+      },
+      {
+        "key": "lot_number",
+        "label": "Lot Number"
+      },
+      {
+        "key": "creation_date",
+        "label": "Creation Date"
+      },
+      {
+        "key": "lot_expiration_date",
+        "label": "Lot Expiration Date"
+      },
+      {
+        "key": "lot_status_description",
+        "label": "Lot Status"
+      },
+      {
+        "key": "onhand_qty",
+        "label": "Onhand Quantity"
+      },
+      {
+        "key": "uom",
+        "label": "UOM"
+      }
     ],
     "data": [
       {
@@ -137,16 +164,107 @@
   },
   "GS-2872": {
     "columns": [
-      { "key": "organization_name", "label": "Organization Name" },
-      { "key": "item_code", "label": "Item Code" },
-      { "key": "item_description", "label": "Item Description" },
-      { "key": "lot_number", "label": "Lot Number" },
-      { "key": "creation_date", "label": "Creation Date" },
-      { "key": "lot_expiration_date", "label": "Lot Expiration Date" },
-      { "key": "lot_status_description", "label": "Lot Status" },
-      { "key": "onhand_qty", "label": "Onhand Quantity" },
-      { "key": "uom", "label": "UOM" }
+      {
+        "key": "organization_name",
+        "label": "Organization Name"
+      },
+      {
+        "key": "item_code",
+        "label": "Item Code"
+      },
+      {
+        "key": "item_description",
+        "label": "Item Description"
+      },
+      {
+        "key": "lot_number",
+        "label": "Lot Number"
+      },
+      {
+        "key": "creation_date",
+        "label": "Creation Date"
+      },
+      {
+        "key": "lot_expiration_date",
+        "label": "Lot Expiration Date"
+      },
+      {
+        "key": "lot_status_description",
+        "label": "Lot Status"
+      },
+      {
+        "key": "onhand_qty",
+        "label": "Onhand Quantity"
+      },
+      {
+        "key": "uom",
+        "label": "UOM"
+      }
     ],
     "data": []
+  },
+  "GS-0415": {
+    "columns": [
+      {
+        "key": "organization_name",
+        "label": "Organization Name"
+      },
+      {
+        "key": "item_code",
+        "label": "Item Code"
+      },
+      {
+        "key": "item_description",
+        "label": "Item Description"
+      },
+      {
+        "key": "lot_number",
+        "label": "Lot Number"
+      },
+      {
+        "key": "creation_date",
+        "label": "Creation Date"
+      },
+      {
+        "key": "lot_expiration_date",
+        "label": "Lot Expiration Date"
+      },
+      {
+        "key": "lot_status_description",
+        "label": "Lot Status"
+      },
+      {
+        "key": "onhand_qty",
+        "label": "Onhand Quantity"
+      },
+      {
+        "key": "uom",
+        "label": "UOM"
+      }
+    ],
+    "data": [
+      {
+        "organization_name": "US-001-CLIN-LAVE",
+        "item_code": "PC-13248",
+        "item_description": "GS-0151 Injection, 100 mg/mL",
+        "lot_number": "NA",
+        "creation_date": "2026-01-01 00:00:00.000",
+        "lot_expiration_date": "--",
+        "lot_status_description": "Release",
+        "onhand_qty": 765,
+        "uom": "vl"
+      },
+      {
+        "organization_name": "US-001-CLIN-LAVE",
+        "item_code": "IP-15650",
+        "item_description": "GS-0151 Drug Substance, 100 mg/mL",
+        "lot_number": "NA",
+        "creation_date": "2026-01-01 00:00:00.000",
+        "lot_expiration_date": "--",
+        "lot_status_description": "Release",
+        "onhand_qty": 160.283,
+        "uom": "kg"
+      }
+    ]
   }
 }

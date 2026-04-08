@@ -333,6 +333,7 @@ export default function Program_Drilldown() {
         const resp = await fetch(`/src/data/programData.json?t=${Date.now()}`);
         if (!resp.ok) return;
         const json = await resp.json();
+        console.log('programData is ',json)
         if (!cancelled) setProgramsData(json);
       } catch {
         // Keep using bundled fallback data if live fetch fails.

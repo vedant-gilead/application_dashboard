@@ -1,10 +1,25 @@
 {
   "columns": [
-    { "key": "studyName", "label": "STUDY NAME" },
-    { "key": "finishedGoods", "label": "FINISHED GOODS" },
-    { "key": "drugProducts", "label": "DRUG PRODUCTS" },
-    { "key": "drugSubstances", "label": "DRUG SUBSTANCES" },
-    { "key": "actions", "label": "ACTIONS" }
+    {
+      "key": "studyName",
+      "label": "STUDY NAME"
+    },
+    {
+      "key": "finishedGoods",
+      "label": "FINISHED GOODS"
+    },
+    {
+      "key": "drugProducts",
+      "label": "DRUG PRODUCTS"
+    },
+    {
+      "key": "drugSubstances",
+      "label": "DRUG SUBSTANCES"
+    },
+    {
+      "key": "actions",
+      "label": "ACTIONS"
+    }
   ],
   "data": [
     {
@@ -79,7 +94,7 @@
       "status": "Completed",
       "lastUpdated": "Sep 15, 2025",
       "children": [
-         {
+        {
           "id": "2-1",
           "name": "Finished Product 3",
           "description": "Daily oral medication",
@@ -95,6 +110,40 @@
                   "id": "2-1-1-1",
                   "name": "IP-15699",
                   "code": "(INB-Z305-2023)",
+                  "type": "ds"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "3",
+      "studyName": "GS-US-531-7345",
+      "studyDescription": "Clinical Trial",
+      "finishedGoods": "1 FG",
+      "drugProducts": "1 DP",
+      "drugSubstances": "1 DS",
+      "status": "Active",
+      "lastUpdated": "Apr 8, 2026",
+      "children": [
+        {
+          "id": "3-1",
+          "name": "Finished Product 1",
+          "description": "Injection 100 mg/mL",
+          "type": "fg",
+          "children": [
+            {
+              "id": "3-1-1",
+              "name": "PC-13248",
+              "manufacturing": "GS-0151 Injection, 100 mg/mL",
+              "type": "dp",
+              "children": [
+                {
+                  "id": "3-1-1-1",
+                  "name": "IP-15650",
+                  "code": "(GS-0151-DS)",
                   "type": "ds"
                 }
               ]

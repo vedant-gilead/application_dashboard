@@ -1,4 +1,3 @@
-
 {
   "GS-5423": {
     "program": "GS-5423",
@@ -13,6 +12,14 @@
     "therapeuticArea": "Virology",
     "study": "GS-US-XXX-XXXX",
     "materialNumber": "GS-2872 Phase 3 DP Activ 1, GS-2872 Phase 3 DP Placebo 1, GS-2872 Phase 3 DS 1",
+    "lot": "NA",
+    "siteExecution": "DP: Gilead La Verne DP, DS: CDMO 2"
+  },
+  "GS-0415": {
+    "program": "GS-0415",
+    "therapeuticArea": "Virology",
+    "study": "GS-US-531-7345",
+    "materialNumber": "PC-13248, IP-15650",
     "lot": "NA",
     "siteExecution": "DP: Gilead La Verne DP, DS: CDMO 2"
   }
