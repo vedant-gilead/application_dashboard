@@ -203,7 +203,7 @@
     ],
     "data": []
   },
-  "GS-0415": {
+  "GS-4321": {
     "columns": [
       {
         "key": "organization_name",
@@ -245,25 +245,369 @@
     "data": [
       {
         "organization_name": "US-001-CLIN-LAVE",
-        "item_code": "PC-13248",
-        "item_description": "GS-0151 Injection, 100 mg/mL",
-        "lot_number": "NA",
-        "creation_date": "2026-01-01 00:00:00.000",
+        "item_code": "PC-13163",
+        "item_description": "GS-4321 Injection, 50 mg/mL",
+        "lot_number": "10006656",
+        "creation_date": "--",
         "lot_expiration_date": "--",
         "lot_status_description": "Release",
-        "onhand_qty": 765,
+        "onhand_qty": 3398,
         "uom": "vl"
       },
       {
         "organization_name": "US-001-CLIN-LAVE",
+        "item_code": "PC-13164",
+        "item_description": "GS-4321 Placebo Injection",
+        "lot_number": "10007210",
+        "creation_date": "--",
+        "lot_expiration_date": "--",
+        "lot_status_description": "Release",
+        "onhand_qty": 4614,
+        "uom": "vl"
+      },
+      {
+        "organization_name": "US-001-CLIN-FISHVV",
+        "item_code": "IP-15236",
+        "item_description": "GS-4321 Drug Substance, 50 mg/mL",
+        "lot_number": "45949",
+        "creation_date": "--",
+        "lot_expiration_date": "--",
+        "lot_status_description": "Quarantine-Retest",
+        "onhand_qty": 61,
+        "uom": "kg"
+      }
+    ]
+  },
+  "GS-0151": {
+    "columns": [
+      {
+        "key": "organization_name",
+        "label": "Organization Name"
+      },
+      {
+        "key": "item_code",
+        "label": "Item Code"
+      },
+      {
+        "key": "item_description",
+        "label": "Item Description"
+      },
+      {
+        "key": "lot_number",
+        "label": "Lot Number"
+      },
+      {
+        "key": "creation_date",
+        "label": "Creation Date"
+      },
+      {
+        "key": "lot_expiration_date",
+        "label": "Lot Expiration Date"
+      },
+      {
+        "key": "lot_status_description",
+        "label": "Lot Status"
+      },
+      {
+        "key": "onhand_qty",
+        "label": "Onhand Quantity"
+      },
+      {
+        "key": "uom",
+        "label": "UOM"
+      }
+    ],
+    "data": [
+      {
+        "organization_name": "US-001-CLIN-OGD",
+        "item_code": "PC-13032",
+        "item_description": "GS-0151 injection, 100 mg/mL",
+        "lot_number": "42649",
+        "creation_date": "1/2/24",
+        "lot_expiration_date": "3/31/25",
+        "lot_status_description": "Quarantine-Expired",
+        "onhand_qty": 279,
+        "uom": ""
+      },
+      {
+        "organization_name": "US-001-CLIN-LAVE",
+        "item_code": "PC-13032",
+        "item_description": "GS-0151 injection, 100 mg/mL",
+        "lot_number": "10006636",
+        "creation_date": "3/3/25",
+        "lot_expiration_date": "10/31/28",
+        "lot_status_description": "Release",
+        "onhand_qty": 952,
+        "uom": ""
+      },
+      {
+        "organization_name": "US-001-CLIN-OGD",
+        "item_code": "PC-13032",
+        "item_description": "GS-0151 injection, 100 mg/mL",
+        "lot_number": "10006636",
+        "creation_date": "4/1/25",
+        "lot_expiration_date": "9/30/26",
+        "lot_status_description": "Release",
+        "onhand_qty": 10,
+        "uom": ""
+      },
+      {
+        "organization_name": "US-001-CLIN-OGD",
+        "item_code": "PC-13058",
+        "item_description": "GS-0151 placebo injection",
+        "lot_number": "42651",
+        "creation_date": "1/2/24",
+        "lot_expiration_date": "3/31/25",
+        "lot_status_description": "Quarantine-Expired",
+        "onhand_qty": 4240,
+        "uom": ""
+      }
+    ]
+  },
+  "GS-0415": {
+    "columns": [
+      {
+        "key": "organization_name",
+        "label": "Organization Name"
+      },
+      {
+        "key": "item_code",
+        "label": "Item Code"
+      },
+      {
+        "key": "item_description",
+        "label": "Item Description"
+      },
+      {
+        "key": "lot_number",
+        "label": "Lot Number"
+      },
+      {
+        "key": "creation_date",
+        "label": "Creation Date"
+      },
+      {
+        "key": "lot_expiration_date",
+        "label": "Lot Expiration Date"
+      },
+      {
+        "key": "lot_status_description",
+        "label": "Lot Status"
+      },
+      {
+        "key": "onhand_qty",
+        "label": "Onhand Quantity"
+      },
+      {
+        "key": "uom",
+        "label": "UOM"
+      }
+    ],
+    "data": [
+      {
+        "organization_name": "1485",
+        "item_code": "PC-13248",
+        "item_description": "GS-0415, Liquid, 2.3 mL fill",
+        "lot_number": "10012475",
+        "creation_date": "20250731",
+        "lot_expiration_date": "--",
+        "lot_status_description": "Release",
+        "onhand_qty": 765,
+        "uom": ""
+      },
+      {
+        "organization_name": "1485",
         "item_code": "IP-15650",
-        "item_description": "GS-0151 Drug Substance, 100 mg/mL",
-        "lot_number": "NA",
-        "creation_date": "2026-01-01 00:00:00.000",
+        "item_description": "GS-0415 DS",
+        "lot_number": "10012810",
+        "creation_date": "20250820",
+        "lot_expiration_date": "--",
+        "lot_status_description": "Release",
+        "onhand_qty": 0,
+        "uom": ""
+      },
+      {
+        "organization_name": "1485",
+        "item_code": "IP-15650",
+        "item_description": "GS-0415 DS",
+        "lot_number": "176505",
+        "creation_date": "20250815",
         "lot_expiration_date": "--",
         "lot_status_description": "Release",
         "onhand_qty": 160.283,
+        "uom": "Kgs"
+      },
+      {
+        "organization_name": "1485",
+        "item_code": "IP-15650",
+        "item_description": "GS-0415 DS",
+        "lot_number": "10012810",
+        "creation_date": "20250820",
+        "lot_expiration_date": "--",
+        "lot_status_description": "Release",
+        "onhand_qty": 0,
+        "uom": ""
+      }
+    ]
+  },
+  "GS-1384": {
+    "columns": [
+      {
+        "key": "organization_name",
+        "label": "Organization Name"
+      },
+      {
+        "key": "item_code",
+        "label": "Item Code"
+      },
+      {
+        "key": "item_description",
+        "label": "Item Description"
+      },
+      {
+        "key": "lot_number",
+        "label": "Lot Number"
+      },
+      {
+        "key": "creation_date",
+        "label": "Creation Date"
+      },
+      {
+        "key": "lot_expiration_date",
+        "label": "Lot Expiration Date"
+      },
+      {
+        "key": "lot_status_description",
+        "label": "Lot Status"
+      },
+      {
+        "key": "onhand_qty",
+        "label": "Onhand Quantity"
+      },
+      {
+        "key": "uom",
+        "label": "UOM"
+      }
+    ],
+    "data": [
+      {
+        "organization_name": "1485",
+        "item_code": "PC-13247",
+        "item_description": "GS-1384, Liquid, 2.3 mL fill",
+        "lot_number": "10012476",
+        "creation_date": "20250731",
+        "lot_expiration_date": "--",
+        "lot_status_description": "Unrestricted Use",
+        "onhand_qty": 2795,
+        "uom": ""
+      },
+      {
+        "organization_name": "1485",
+        "item_code": "IP-15677",
+        "item_description": "GS-1384 DS, 50mg/mL",
+        "lot_number": "193271",
+        "creation_date": "20250917",
+        "lot_expiration_date": "--",
+        "lot_status_description": "Unrestricted Use",
+        "onhand_qty": 202.169,
+        "uom": ""
+      },
+      {
+        "organization_name": "1485",
+        "item_code": "IP-15677",
+        "item_description": "GS-1384 DS, 50mg/mL",
+        "lot_number": "10013291",
+        "creation_date": "20250918",
+        "lot_expiration_date": "--",
+        "lot_status_description": "Unrestricted Use",
+        "onhand_qty": 0,
+        "uom": ""
+      }
+    ]
+  },
+  "GS-1811": {
+    "columns": [
+      {
+        "key": "organization_name",
+        "label": "Organization Name"
+      },
+      {
+        "key": "item_code",
+        "label": "Item Code"
+      },
+      {
+        "key": "item_description",
+        "label": "Item Description"
+      },
+      {
+        "key": "lot_number",
+        "label": "Lot Number"
+      },
+      {
+        "key": "creation_date",
+        "label": "Creation Date"
+      },
+      {
+        "key": "lot_expiration_date",
+        "label": "Lot Expiration Date"
+      },
+      {
+        "key": "lot_status_description",
+        "label": "Lot Status"
+      },
+      {
+        "key": "onhand_qty",
+        "label": "Onhand Quantity"
+      },
+      {
+        "key": "uom",
+        "label": "UOM"
+      }
+    ],
+    "data": [
+      {
+        "organization_name": "US-001-CLIN-LOVI",
+        "item_code": "IP-15550",
+        "item_description": "GS-1811 Drug Substance, 25 mg/mL (Lonza, Visp)",
+        "lot_number": "GD-029-24-1-1",
+        "creation_date": "2/4/25",
+        "lot_expiration_date": "4/30/26",
+        "lot_status_description": "Release for Limited Use",
+        "onhand_qty": 120,
         "uom": "kg"
+      },
+      {
+        "organization_name": "US-001-CLIN-AMCPA",
+        "item_code": "PC-13251",
+        "item_description": "GS-1811 Injection, For IV Use, 10 mg, 1.0 mL/vial (nominal) 10 mg/mL",
+        "lot_number": "1398075",
+        "creation_date": "12/16/25",
+        "lot_expiration_date": "1/31/27",
+        "lot_status_description": "Release",
+        "onhand_qty": 14809,
+        "uom": "vl"
+      },
+      {
+        "organization_name": "US-001-CLIN-AMCPA",
+        "item_code": "PC-13023",
+        "item_description": "GS-1811 injection, 150 mg / 6 mL (25 mg/mL), for intravenous use",
+        "lot_number": "1184268",
+        "creation_date": "9/10/24",
+        "lot_expiration_date": "12/31/27",
+        "lot_status_description": "Release",
+        "onhand_qty": 150,
+        "uom": "vl"
+      },
+      {
+        "organization_name": "US-001-CLIN-AMCUK",
+        "item_code": "PC-13023",
+        "item_description": "GS-1811 injection, 150 mg / 6 mL (25 mg/mL), for intravenous use",
+        "lot_number": "1184268",
+        "creation_date": "5/3/23",
+        "lot_expiration_date": "12/31/27",
+        "lot_status_description": "Release",
+        "onhand_qty": 2568,
+        "uom": "vl"
       }
     ]
   }

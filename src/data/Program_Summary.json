@@ -15,11 +15,43 @@
     "lot": "NA",
     "siteExecution": "DP: Gilead La Verne DP, DS: CDMO 2"
   },
+  "GS-4321": {
+    "program": "GS-4321",
+    "therapeuticArea": "Virology",
+    "study": "GS-US-567-6968",
+    "materialNumber": "PC-13163, PC-13164, IP-15236",
+    "lot": "--",
+    "siteExecution": "DP: Gilead La Verne DP"
+  },
+  "GS-0151": {
+    "program": "GS-0151",
+    "therapeuticArea": "Virology",
+    "study": "GS-US-667-6882",
+    "materialNumber": "PC-13032, PC-13058, IP-15168",
+    "lot": "NA",
+    "siteExecution": "DP: Gilead La Verne DP, DS: CDMO 2"
+  },
   "GS-0415": {
     "program": "GS-0415",
     "therapeuticArea": "Virology",
     "study": "GS-US-531-7345",
     "materialNumber": "PC-13248, IP-15650",
+    "lot": "NA",
+    "siteExecution": "DP: Gilead La Verne DP, DS: CDMO 2"
+  },
+  "GS-1384": {
+    "program": "GS-1384",
+    "therapeuticArea": "Virology",
+    "study": "BP-US-676-40021, BP-US-676-40022",
+    "materialNumber": "PC-13247, IP-15677",
+    "lot": "NA",
+    "siteExecution": "DP: Gilead La Verne DP, DS: CDMO 2"
+  },
+  "GS-1811": {
+    "program": "GS-1811",
+    "therapeuticArea": "Virology",
+    "study": "GS-US-570-6015, GS-US-741-7756, GS-US-742-7757",
+    "materialNumber": "PC-13023, PC-13251, IP-15550",
     "lot": "NA",
     "siteExecution": "DP: Gilead La Verne DP, DS: CDMO 2"
   }

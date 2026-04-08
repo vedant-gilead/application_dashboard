@@ -78,9 +78,79 @@
       "executionLeadTime": "--"
     }
   },
+  "GS-4321": {
+    "FP": {
+      "siteExecution": "La Verne",
+      "moq": "--",
+      "releaseLeadTime": "--",
+      "executionLeadTime": "--"
+    },
+    "IP1": {
+      "name": "DRUG PRODUCT (PC-13163)",
+      "safetyStock": "--",
+      "consumptionRatio": "--",
+      "siteExecution": "DP: Gilead La Verne DP",
+      "moq": "--",
+      "releaseLeadTime": "--",
+      "executionLeadTime": "--"
+    },
+    "IP2": {
+      "name": "DRUG PRODUCT (PC-13164)",
+      "safetyStock": "--",
+      "consumptionRatio": "--",
+      "siteExecution": "DP: Gilead La Verne DP",
+      "moq": "--",
+      "releaseLeadTime": "--",
+      "executionLeadTime": "--"
+    },
+    "IP3": {
+      "name": "DRUG SUBSTANCE (IP-15236)",
+      "safetyStock": "--",
+      "consumptionRatio": "--",
+      "siteExecution": "DP: Gilead La Verne DP",
+      "moq": "--",
+      "releaseLeadTime": "--",
+      "executionLeadTime": "--"
+    }
+  },
+  "GS-0151": {
+    "FP": {
+      "siteExecution": "La Verne",
+      "moq": "--",
+      "releaseLeadTime": "--",
+      "executionLeadTime": "--"
+    },
+    "IP1": {
+      "name": "DRUG PRODUCT (PC-13032)",
+      "safetyStock": "--",
+      "consumptionRatio": "--",
+      "siteExecution": "DP: Gilead La Verne DP",
+      "moq": "--",
+      "releaseLeadTime": "--",
+      "executionLeadTime": "--"
+    },
+    "IP2": {
+      "name": "DRUG PRODUCT (PC-13058)",
+      "safetyStock": "--",
+      "consumptionRatio": "--",
+      "siteExecution": "DP: Gilead La Verne DP",
+      "moq": "--",
+      "releaseLeadTime": "--",
+      "executionLeadTime": "--"
+    },
+    "IP3": {
+      "name": "DRUG SUBSTANCE (IP-15168)",
+      "safetyStock": "--",
+      "consumptionRatio": "--",
+      "siteExecution": "DS: CDMO 2",
+      "moq": "--",
+      "releaseLeadTime": "--",
+      "executionLeadTime": "--"
+    }
+  },
   "GS-0415": {
     "FP": {
-      "siteExecution": "DP: Gilead La Verne DP",
+      "siteExecution": "La Verne",
       "moq": "--",
       "releaseLeadTime": "--",
       "executionLeadTime": "--"
@@ -88,7 +158,7 @@
     "IP1": {
       "name": "DRUG PRODUCT (PC-13248)",
       "safetyStock": "--",
-      "consumptionRatio": "1",
+      "consumptionRatio": "--",
       "siteExecution": "DP: Gilead La Verne DP",
       "moq": "--",
       "releaseLeadTime": "--",
@@ -96,6 +166,67 @@
     },
     "IP2": {
       "name": "DRUG SUBSTANCE (IP-15650)",
+      "safetyStock": "--",
+      "consumptionRatio": "--",
+      "siteExecution": "DS: CDMO 2",
+      "moq": "--",
+      "releaseLeadTime": "--",
+      "executionLeadTime": "--"
+    }
+  },
+  "GS-1384": {
+    "FP": {
+      "siteExecution": "La Verne",
+      "moq": "--",
+      "releaseLeadTime": "--",
+      "executionLeadTime": "--"
+    },
+    "IP1": {
+      "name": "DRUG PRODUCT (PC-13247)",
+      "safetyStock": "--",
+      "consumptionRatio": "--",
+      "siteExecution": "DP: Gilead La Verne DP",
+      "moq": "--",
+      "releaseLeadTime": "--",
+      "executionLeadTime": "--"
+    },
+    "IP2": {
+      "name": "DRUG SUBSTANCE (IP-15677)",
+      "safetyStock": "--",
+      "consumptionRatio": "--",
+      "siteExecution": "DS: CDMO 2",
+      "moq": "--",
+      "releaseLeadTime": "--",
+      "executionLeadTime": "--"
+    }
+  },
+  "GS-1811": {
+    "FP": {
+      "siteExecution": "La Verne",
+      "moq": "--",
+      "releaseLeadTime": "--",
+      "executionLeadTime": "--"
+    },
+    "IP1": {
+      "name": "DRUG PRODUCT (PC-13023)",
+      "safetyStock": "--",
+      "consumptionRatio": "--",
+      "siteExecution": "DP: Gilead La Verne DP",
+      "moq": "--",
+      "releaseLeadTime": "--",
+      "executionLeadTime": "--"
+    },
+    "IP2": {
+      "name": "DRUG PRODUCT (PC-13251)",
+      "safetyStock": "--",
+      "consumptionRatio": "--",
+      "siteExecution": "DP: Gilead La Verne DP",
+      "moq": "--",
+      "releaseLeadTime": "--",
+      "executionLeadTime": "--"
+    },
+    "IP3": {
+      "name": "DRUG SUBSTANCE (IP-15550)",
       "safetyStock": "--",
       "consumptionRatio": "--",
       "siteExecution": "DS: CDMO 2",
