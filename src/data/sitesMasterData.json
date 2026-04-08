@@ -22,7 +22,7 @@
     },
     {
       "key": "execution_lead_time",
-      "label": "Execution Lead Time Test",
+      "label": "Execution Lead Time",
       "sortable": true
     }
   ],
