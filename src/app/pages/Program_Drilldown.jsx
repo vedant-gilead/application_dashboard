@@ -9,6 +9,7 @@ import ViewModeToggle from '../components/ViewModeToggle';
 import initialProgramsData from '../../data/programData.json';
 import initialDemandForecastData from '../../data/Demand_Forecast.json';
 import { calculateCumulativeData } from '../utils/cumulativeCalculations';
+import { formatCreationDate, formatLotExpirationDate } from '../utils/inventoryDateDisplay';
 import { Button } from '../components/ui/button';
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from '../components/ui/dialog';
  
@@ -697,14 +698,22 @@ export default function Program_Drilldown() {
   </div>
   {(() => {
     const slice = onhandData?.[programId] || { columns: [], data: [] };
-    
-// If no data, build a placeholder row with "--" in all columns
+    const columns = slice.columns.map((col) => {
+      if (col.key === 'creation_date') {
+        return { ...col, render: (row) => formatCreationDate(row[col.key]) };
+      }
+      if (col.key === 'lot_expiration_date') {
+        return { ...col, render: (row) => formatLotExpirationDate(row[col.key]) };
+      }
+      return col;
+    });
+ 
     const dataWithPlaceholder =
       slice.data.length === 0
-        ? [Object.fromEntries(slice.columns.map(col => [col.key, "--"]))]
+        ? [Object.fromEntries(slice.columns.map((col) => [col.key, '--']))]
         : slice.data;
  
-    return <DataTable columns={slice.columns} data={dataWithPlaceholder} />;
+    return <DataTable columns={columns} data={dataWithPlaceholder} />;
   })()}
 </div>
  
@@ -815,4 +824,3 @@ export default function Program_Drilldown() {
     </div>
   );
 }
- 
