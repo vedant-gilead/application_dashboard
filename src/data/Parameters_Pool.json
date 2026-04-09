@@ -51,29 +51,47 @@
       "executionLeadTime": "--"
     },
     "IP1": {
-      "name": "DRUG PRODUCT (GS-2872 Phase 3 DP Activ 1)",
+      "name": "DRUG PRODUCT (PC-12742)",
       "safetyStock": "--",
       "consumptionRatio": "--",
-      "siteExecution": "Gilead La Verne DP",
-      "moq": "2500 vials, 1800 vials",
-      "releaseLeadTime": "--",
-      "executionLeadTime": "--"
-    },
-    "IP3": {
-      "name": "DRUG PRODUCT (GS-2872 Phase 3 DP Placebo 1)",
-      "safetyStock": "--",
-      "consumptionRatio": "--",
-      "siteExecution": "Gilead La Verne DP",
-      "moq": "1800 vials",
+      "siteExecution": "La Verne",
+      "moq": "--",
       "releaseLeadTime": "--",
       "executionLeadTime": "--"
     },
     "IP2": {
-      "name": "DRUG SUBSTANCE (GS-2872 Phase 3 DS 1)",
+      "name": "DRUG PRODUCT (PC-12777)",
       "safetyStock": "--",
       "consumptionRatio": "--",
-      "siteExecution": "CDMO 2",
-      "moq": "9.6 Kg",
+      "siteExecution": "La Verne",
+      "moq": "--",
+      "releaseLeadTime": "--",
+      "executionLeadTime": "--"
+    },
+    "IP3": {
+      "name": "DRUG PRODUCT (PC-13294)",
+      "safetyStock": "--",
+      "consumptionRatio": "--",
+      "siteExecution": "La Verne",
+      "moq": "--",
+      "releaseLeadTime": "--",
+      "executionLeadTime": "--"
+    },
+    "IP4": {
+      "name": "DRUG SUBSTANCE (IP-14479)",
+      "safetyStock": "--",
+      "consumptionRatio": "--",
+      "siteExecution": "DP: Gilead La Verne DP",
+      "moq": "--",
+      "releaseLeadTime": "--",
+      "executionLeadTime": "--"
+    },
+    "IP5": {
+      "name": "DRUG SUBSTANCE (IP-15732)",
+      "safetyStock": "--",
+      "consumptionRatio": "--",
+      "siteExecution": "DP: Gilead La Verne DP",
+      "moq": "--",
       "releaseLeadTime": "--",
       "executionLeadTime": "--"
     }

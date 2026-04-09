@@ -824,45 +824,22 @@
     "id": "GS-2872",
     "studies": [
       {
-        "id": "GS-2872 Phase 3",
-        "name": "GS-2872 Phase 3",
+        "id": "3826129_7249_5939",
+        "name": "CO-US-382-6129, CO-US-673-7249, GS-US-536-5939",
         "materials": [
           {
-            "id": "GS-2872 Phase 3 DP Activ 1",
+            "id": "PC-12742",
             "type": "Drug Product",
-            "description": "DP -GS-5423 Injection, 150 mg/mL,  2 mL /via",
+            "description": "GS-2872 Injection, 150 mg/mL, 2 mL/vial",
             "parentMaterialIds": [
-              "IP-15699"
+              "IP-14479",
+              "IP-15732"
             ],
-            "consumptionRatio": 1.2,
+            "consumptionRatio": 1,
             "columns": [
               {
                 "key": "metric",
                 "label": "Metric"
-              },
-              {
-                "key": "jul25",
-                "label": "Jul-25"
-              },
-              {
-                "key": "aug25",
-                "label": "Aug-25"
-              },
-              {
-                "key": "sep25",
-                "label": "Sep-25"
-              },
-              {
-                "key": "oct25",
-                "label": "Oct-25"
-              },
-              {
-                "key": "nov25",
-                "label": "Nov-25"
-              },
-              {
-                "key": "dec25",
-                "label": "Dec-25"
               },
               {
                 "key": "jan26",
@@ -899,54 +876,126 @@
               {
                 "key": "sep26",
                 "label": "Sep-26"
+              },
+              {
+                "key": "oct26",
+                "label": "Oct-26"
+              },
+              {
+                "key": "nov26",
+                "label": "Nov-26"
+              },
+              {
+                "key": "dec26",
+                "label": "Dec-26"
+              },
+              {
+                "key": "jan27",
+                "label": "Jan-27"
+              },
+              {
+                "key": "feb27",
+                "label": "Feb-27"
+              },
+              {
+                "key": "mar27",
+                "label": "Mar-27"
+              },
+              {
+                "key": "apr27",
+                "label": "Apr-27"
+              },
+              {
+                "key": "may27",
+                "label": "May-27"
+              },
+              {
+                "key": "jun27",
+                "label": "Jun-27"
+              },
+              {
+                "key": "jul27",
+                "label": "Jul-27"
+              },
+              {
+                "key": "aug27",
+                "label": "Aug-27"
+              },
+              {
+                "key": "sep27",
+                "label": "Sep-27"
+              },
+              {
+                "key": "oct27",
+                "label": "Oct-27"
+              },
+              {
+                "key": "nov27",
+                "label": "Nov-27"
+              },
+              {
+                "key": "dec27",
+                "label": "Dec-27"
               }
             ],
             "data": [
               {
                 "metric": "Inventory",
-                "jul25": 0,
-                "aug25": 0,
-                "sep25": 0,
-                "oct25": 0,
-                "nov25": 0,
-                "dec25": 0,
-                "jan26": 0,
-                "feb26": 0,
-                "mar26": 0,
-                "apr26": 0,
-                "may26": 0,
-                "jun26": 0,
-                "jul26": 0,
-                "aug26": 2500,
-                "sep26": 0
+                "jan26": 179,
+                "feb26": 295,
+                "mar26": 295,
+                "apr26": 295,
+                "may26": 295,
+                "jun26": 295,
+                "jul26": 167,
+                "aug26": 167,
+                "sep26": 167,
+                "oct26": 167,
+                "nov26": 167,
+                "dec26": 167,
+                "jan27": 167,
+                "feb27": 167,
+                "mar27": 167,
+                "apr27": 167,
+                "may27": 167,
+                "jun27": 167,
+                "jul27": 167,
+                "aug27": 167,
+                "sep27": 167,
+                "oct27": 167,
+                "nov27": 167,
+                "dec27": 167
               },
               {
                 "metric": "Expiry/Obsolescence",
-                "jul25": 0,
-                "aug25": 0,
-                "sep25": 0,
-                "oct25": 0,
-                "nov25": 0,
-                "dec25": 0,
                 "jan26": 0,
                 "feb26": 0,
                 "mar26": 0,
                 "apr26": 0,
                 "may26": 0,
-                "jun26": 0,
+                "jun26": 128,
                 "jul26": 0,
                 "aug26": 0,
-                "sep26": 0
+                "sep26": 0,
+                "oct26": 0,
+                "nov26": 0,
+                "dec26": 0,
+                "jan27": 0,
+                "feb27": 0,
+                "mar27": 0,
+                "apr27": 0,
+                "may27": 0,
+                "jun27": 0,
+                "jul27": 0,
+                "aug27": 0,
+                "sep27": 0,
+                "oct27": 0,
+                "nov27": 0,
+                "dec27": 0
               },
               {
                 "metric": "Demand (Clinical)",
-                "jul25": 0,
-                "aug25": 0,
-                "sep25": 0,
-                "oct25": 0,
-                "nov25": 0,
-                "dec25": 0,
-                "jan26": 0,
+                "jan26": 1402,
                 "feb26": 0,
                 "mar26": 0,
                 "apr26": 0,
@@ -954,16 +1003,25 @@
                 "jun26": 0,
                 "jul26": 0,
                 "aug26": 0,
-                "sep26": 0
+                "sep26": 0,
+                "oct26": 0,
+                "nov26": 0,
+                "dec26": 0,
+                "jan27": 0,
+                "feb27": 0,
+                "mar27": 0,
+                "apr27": 0,
+                "may27": 0,
+                "jun27": 0,
+                "jul27": 0,
+                "aug27": 0,
+                "sep27": 0,
+                "oct27": 0,
+                "nov27": 0,
+                "dec27": 0
               },
               {
                 "metric": "Demand (Independent)",
-                "jul25": 0,
-                "aug25": 0,
-                "sep25": 0,
-                "oct25": 0,
-                "nov25": 0,
-                "dec25": 0,
                 "jan26": 0,
                 "feb26": 0,
                 "mar26": 0,
@@ -971,53 +1029,80 @@
                 "may26": 0,
                 "jun26": 0,
                 "jul26": 0,
-                "aug26": 2500,
-                "sep26": 0
+                "aug26": 0,
+                "sep26": 0,
+                "oct26": 0,
+                "nov26": 0,
+                "dec26": 0,
+                "jan27": 0,
+                "feb27": 0,
+                "mar27": 0,
+                "apr27": 0,
+                "may27": 0,
+                "jun27": 0,
+                "jul27": 0,
+                "aug27": 0,
+                "sep27": 0,
+                "oct27": 0,
+                "nov27": 0,
+                "dec27": 0
               },
               {
                 "metric": "Total Demand",
-                "jul25": 0,
-                "aug25": 0,
-                "sep25": 0,
-                "oct25": 0,
-                "nov25": 0,
-                "dec25": 0,
-                "jan26": 0,
+                "jan26": 1402,
                 "feb26": 0,
                 "mar26": 0,
                 "apr26": 0,
                 "may26": 0,
                 "jun26": 0,
                 "jul26": 0,
-                "aug26": 2500,
-                "sep26": 0
+                "aug26": 0,
+                "sep26": 0,
+                "oct26": 0,
+                "nov26": 0,
+                "dec26": 0,
+                "jan27": 0,
+                "feb27": 0,
+                "mar27": 0,
+                "apr27": 0,
+                "may27": 0,
+                "jun27": 0,
+                "jul27": 0,
+                "aug27": 0,
+                "sep27": 0,
+                "oct27": 0,
+                "nov27": 0,
+                "dec27": 0
               },
               {
                 "metric": "Supply/Release",
-                "jul25": 0,
-                "aug25": 0,
-                "sep25": 0,
-                "oct25": 0,
-                "nov25": 0,
-                "dec25": 0,
-                "jan26": 0,
+                "jan26": 1518,
                 "feb26": 0,
                 "mar26": 0,
                 "apr26": 0,
                 "may26": 0,
                 "jun26": 0,
-                "jul26": 2500,
+                "jul26": 0,
                 "aug26": 0,
-                "sep26": 0
+                "sep26": 0,
+                "oct26": 0,
+                "nov26": 0,
+                "dec26": 0,
+                "jan27": 0,
+                "feb27": 0,
+                "mar27": 0,
+                "apr27": 0,
+                "may27": 0,
+                "jun27": 0,
+                "jul27": 0,
+                "aug27": 0,
+                "sep27": 0,
+                "oct27": 0,
+                "nov27": 0,
+                "dec27": 0
               },
               {
                 "metric": "Supply(Execution Start)",
-                "jul25": 0,
-                "aug25": 0,
-                "sep25": 0,
-                "oct25": 0,
-                "nov25": 0,
-                "dec25": 2500,
                 "jan26": 0,
                 "feb26": 0,
                 "mar26": 0,
@@ -1026,46 +1111,38 @@
                 "jun26": 0,
                 "jul26": 0,
                 "aug26": 0,
-                "sep26": 0
+                "sep26": 0,
+                "oct26": 0,
+                "nov26": 0,
+                "dec26": 0,
+                "jan27": 0,
+                "feb27": 0,
+                "mar27": 0,
+                "apr27": 0,
+                "may27": 0,
+                "jun27": 0,
+                "jul27": 0,
+                "aug27": 0,
+                "sep27": 0,
+                "oct27": 0,
+                "nov27": 0,
+                "dec27": 0
               }
             ]
           },
           {
-            "id": "GS-2872 Phase 3 DP Placebo 1",
+            "id": "PC-12777",
             "type": "Drug Product",
-            "description": "DP -GS-5423 Injection, 150 mg/mL,  2 mL /via",
+            "description": "Placebo for GS-2872 Injection, 2 mL/vial",
             "parentMaterialIds": [
-              "IP-15699"
+              "IP-14479",
+              "IP-15732"
             ],
-            "consumptionRatio": 1.2,
+            "consumptionRatio": 1,
             "columns": [
               {
                 "key": "metric",
                 "label": "Metric"
-              },
-              {
-                "key": "jul25",
-                "label": "Jul-25"
-              },
-              {
-                "key": "aug25",
-                "label": "Aug-25"
-              },
-              {
-                "key": "sep25",
-                "label": "Sep-25"
-              },
-              {
-                "key": "oct25",
-                "label": "Oct-25"
-              },
-              {
-                "key": "nov25",
-                "label": "Nov-25"
-              },
-              {
-                "key": "dec25",
-                "label": "Dec-25"
               },
               {
                 "key": "jan26",
@@ -1102,35 +1179,98 @@
               {
                 "key": "sep26",
                 "label": "Sep-26"
+              },
+              {
+                "key": "oct26",
+                "label": "Oct-26"
+              },
+              {
+                "key": "nov26",
+                "label": "Nov-26"
+              },
+              {
+                "key": "dec26",
+                "label": "Dec-26"
+              },
+              {
+                "key": "jan27",
+                "label": "Jan-27"
+              },
+              {
+                "key": "feb27",
+                "label": "Feb-27"
+              },
+              {
+                "key": "mar27",
+                "label": "Mar-27"
+              },
+              {
+                "key": "apr27",
+                "label": "Apr-27"
+              },
+              {
+                "key": "may27",
+                "label": "May-27"
+              },
+              {
+                "key": "jun27",
+                "label": "Jun-27"
+              },
+              {
+                "key": "jul27",
+                "label": "Jul-27"
+              },
+              {
+                "key": "aug27",
+                "label": "Aug-27"
+              },
+              {
+                "key": "sep27",
+                "label": "Sep-27"
+              },
+              {
+                "key": "oct27",
+                "label": "Oct-27"
+              },
+              {
+                "key": "nov27",
+                "label": "Nov-27"
+              },
+              {
+                "key": "dec27",
+                "label": "Dec-27"
               }
             ],
             "data": [
               {
                 "metric": "Inventory",
-                "jul25": 0,
-                "aug25": 0,
-                "sep25": 0,
-                "oct25": 0,
-                "nov25": 0,
-                "dec25": 0,
-                "jan26": 0,
-                "feb26": 0,
-                "mar26": 0,
-                "apr26": 0,
-                "may26": 0,
-                "jun26": 0,
-                "jul26": 0,
-                "aug26": 0,
-                "sep26": 1800
+                "jan26": 3654,
+                "feb26": 3654,
+                "mar26": 3654,
+                "apr26": 3654,
+                "may26": 3654,
+                "jun26": 3654,
+                "jul26": 3654,
+                "aug26": 3654,
+                "sep26": 3654,
+                "oct26": 3654,
+                "nov26": 3654,
+                "dec26": 3654,
+                "jan27": 0,
+                "feb27": 0,
+                "mar27": 0,
+                "apr27": 0,
+                "may27": 0,
+                "jun27": 0,
+                "jul27": 0,
+                "aug27": 0,
+                "sep27": 0,
+                "oct27": 0,
+                "nov27": 0,
+                "dec27": 0
               },
               {
                 "metric": "Expiry/Obsolescence",
-                "jul25": 0,
-                "aug25": 0,
-                "sep25": 0,
-                "oct25": 0,
-                "nov25": 0,
-                "dec25": 0,
                 "jan26": 0,
                 "feb26": 0,
                 "mar26": 0,
@@ -1139,16 +1279,25 @@
                 "jun26": 0,
                 "jul26": 0,
                 "aug26": 0,
-                "sep26": 0
+                "sep26": 0,
+                "oct26": 0,
+                "nov26": 0,
+                "dec26": 3654,
+                "jan27": 0,
+                "feb27": 0,
+                "mar27": 0,
+                "apr27": 0,
+                "may27": 0,
+                "jun27": 0,
+                "jul27": 0,
+                "aug27": 0,
+                "sep27": 0,
+                "oct27": 0,
+                "nov27": 0,
+                "dec27": 0
               },
               {
                 "metric": "Demand (Clinical)",
-                "jul25": 0,
-                "aug25": 0,
-                "sep25": 0,
-                "oct25": 0,
-                "nov25": 0,
-                "dec25": 0,
                 "jan26": 0,
                 "feb26": 0,
                 "mar26": 0,
@@ -1157,16 +1306,25 @@
                 "jun26": 0,
                 "jul26": 0,
                 "aug26": 0,
-                "sep26": 0
+                "sep26": 0,
+                "oct26": 0,
+                "nov26": 0,
+                "dec26": 0,
+                "jan27": 0,
+                "feb27": 0,
+                "mar27": 0,
+                "apr27": 0,
+                "may27": 0,
+                "jun27": 0,
+                "jul27": 0,
+                "aug27": 0,
+                "sep27": 0,
+                "oct27": 0,
+                "nov27": 0,
+                "dec27": 0
               },
               {
                 "metric": "Demand (Independent)",
-                "jul25": 0,
-                "aug25": 0,
-                "sep25": 0,
-                "oct25": 0,
-                "nov25": 0,
-                "dec25": 0,
                 "jan26": 0,
                 "feb26": 0,
                 "mar26": 0,
@@ -1175,16 +1333,25 @@
                 "jun26": 0,
                 "jul26": 0,
                 "aug26": 0,
-                "sep26": 1800
+                "sep26": 0,
+                "oct26": 0,
+                "nov26": 0,
+                "dec26": 0,
+                "jan27": 0,
+                "feb27": 0,
+                "mar27": 0,
+                "apr27": 0,
+                "may27": 0,
+                "jun27": 0,
+                "jul27": 0,
+                "aug27": 0,
+                "sep27": 0,
+                "oct27": 0,
+                "nov27": 0,
+                "dec27": 0
               },
               {
                 "metric": "Total Demand",
-                "jul25": 0,
-                "aug25": 0,
-                "sep25": 0,
-                "oct25": 0,
-                "nov25": 0,
-                "dec25": 0,
                 "jan26": 0,
                 "feb26": 0,
                 "mar26": 0,
@@ -1193,16 +1360,25 @@
                 "jun26": 0,
                 "jul26": 0,
                 "aug26": 0,
-                "sep26": 1800
+                "sep26": 0,
+                "oct26": 0,
+                "nov26": 0,
+                "dec26": 0,
+                "jan27": 0,
+                "feb27": 0,
+                "mar27": 0,
+                "apr27": 0,
+                "may27": 0,
+                "jun27": 0,
+                "jul27": 0,
+                "aug27": 0,
+                "sep27": 0,
+                "oct27": 0,
+                "nov27": 0,
+                "dec27": 0
               },
               {
                 "metric": "Supply/Release",
-                "jul25": 0,
-                "aug25": 0,
-                "sep25": 0,
-                "oct25": 0,
-                "nov25": 0,
-                "dec25": 0,
                 "jan26": 0,
                 "feb26": 0,
                 "mar26": 0,
@@ -1210,18 +1386,27 @@
                 "may26": 0,
                 "jun26": 0,
                 "jul26": 0,
-                "aug26": 1800,
-                "sep26": 0
+                "aug26": 0,
+                "sep26": 0,
+                "oct26": 0,
+                "nov26": 0,
+                "dec26": 0,
+                "jan27": 0,
+                "feb27": 0,
+                "mar27": 0,
+                "apr27": 0,
+                "may27": 0,
+                "jun27": 0,
+                "jul27": 0,
+                "aug27": 0,
+                "sep27": 0,
+                "oct27": 0,
+                "nov27": 0,
+                "dec27": 0
               },
               {
                 "metric": "Supply(Execution Start)",
-                "jul25": 0,
-                "aug25": 0,
-                "sep25": 0,
-                "oct25": 0,
-                "nov25": 0,
-                "dec25": 0,
-                "jan26": 1800,
+                "jan26": 0,
                 "feb26": 0,
                 "mar26": 0,
                 "apr26": 0,
@@ -1229,42 +1414,335 @@
                 "jun26": 0,
                 "jul26": 0,
                 "aug26": 0,
-                "sep26": 0
+                "sep26": 0,
+                "oct26": 0,
+                "nov26": 0,
+                "dec26": 0,
+                "jan27": 0,
+                "feb27": 0,
+                "mar27": 0,
+                "apr27": 0,
+                "may27": 0,
+                "jun27": 0,
+                "jul27": 0,
+                "aug27": 0,
+                "sep27": 0,
+                "oct27": 0,
+                "nov27": 0,
+                "dec27": 0
               }
             ]
           },
           {
-            "id": "GS-2872 Phase 3 DS 1",
+            "id": "PC-13294",
+            "type": "Drug Product",
+            "description": "Zinlirvimab Injection, 85 mg/mL",
+            "parentMaterialIds": [
+              "IP-15732"
+            ],
+            "consumptionRatio": 1,
+            "columns": [
+              {
+                "key": "metric",
+                "label": "Metric"
+              },
+              {
+                "key": "jan26",
+                "label": "Jan-26"
+              },
+              {
+                "key": "feb26",
+                "label": "Feb-26"
+              },
+              {
+                "key": "mar26",
+                "label": "Mar-26"
+              },
+              {
+                "key": "apr26",
+                "label": "Apr-26"
+              },
+              {
+                "key": "may26",
+                "label": "May-26"
+              },
+              {
+                "key": "jun26",
+                "label": "Jun-26"
+              },
+              {
+                "key": "jul26",
+                "label": "Jul-26"
+              },
+              {
+                "key": "aug26",
+                "label": "Aug-26"
+              },
+              {
+                "key": "sep26",
+                "label": "Sep-26"
+              },
+              {
+                "key": "oct26",
+                "label": "Oct-26"
+              },
+              {
+                "key": "nov26",
+                "label": "Nov-26"
+              },
+              {
+                "key": "dec26",
+                "label": "Dec-26"
+              },
+              {
+                "key": "jan27",
+                "label": "Jan-27"
+              },
+              {
+                "key": "feb27",
+                "label": "Feb-27"
+              },
+              {
+                "key": "mar27",
+                "label": "Mar-27"
+              },
+              {
+                "key": "apr27",
+                "label": "Apr-27"
+              },
+              {
+                "key": "may27",
+                "label": "May-27"
+              },
+              {
+                "key": "jun27",
+                "label": "Jun-27"
+              },
+              {
+                "key": "jul27",
+                "label": "Jul-27"
+              },
+              {
+                "key": "aug27",
+                "label": "Aug-27"
+              },
+              {
+                "key": "sep27",
+                "label": "Sep-27"
+              },
+              {
+                "key": "oct27",
+                "label": "Oct-27"
+              },
+              {
+                "key": "nov27",
+                "label": "Nov-27"
+              },
+              {
+                "key": "dec27",
+                "label": "Dec-27"
+              }
+            ],
+            "data": [
+              {
+                "metric": "Inventory",
+                "jan26": 0,
+                "feb26": 0,
+                "mar26": 0,
+                "apr26": 0,
+                "may26": 0,
+                "jun26": 0,
+                "jul26": 0,
+                "aug26": 0,
+                "sep26": 0,
+                "oct26": 0,
+                "nov26": 0,
+                "dec26": 0,
+                "jan27": 0,
+                "feb27": 0,
+                "mar27": 0,
+                "apr27": 0,
+                "may27": 0,
+                "jun27": 0,
+                "jul27": 0,
+                "aug27": 0,
+                "sep27": 0,
+                "oct27": 0,
+                "nov27": 0,
+                "dec27": 0
+              },
+              {
+                "metric": "Expiry/Obsolescence",
+                "jan26": 0,
+                "feb26": 0,
+                "mar26": 0,
+                "apr26": 0,
+                "may26": 0,
+                "jun26": 0,
+                "jul26": 0,
+                "aug26": 0,
+                "sep26": 0,
+                "oct26": 0,
+                "nov26": 0,
+                "dec26": 0,
+                "jan27": 0,
+                "feb27": 0,
+                "mar27": 0,
+                "apr27": 0,
+                "may27": 0,
+                "jun27": 0,
+                "jul27": 0,
+                "aug27": 0,
+                "sep27": 0,
+                "oct27": 0,
+                "nov27": 0,
+                "dec27": 0
+              },
+              {
+                "metric": "Demand (Clinical)",
+                "jan26": 0,
+                "feb26": 0,
+                "mar26": 0,
+                "apr26": 0,
+                "may26": 0,
+                "jun26": 0,
+                "jul26": 0,
+                "aug26": 0,
+                "sep26": 0,
+                "oct26": 0,
+                "nov26": 0,
+                "dec26": 0,
+                "jan27": 0,
+                "feb27": 0,
+                "mar27": 0,
+                "apr27": 0,
+                "may27": 0,
+                "jun27": 0,
+                "jul27": 0,
+                "aug27": 0,
+                "sep27": 0,
+                "oct27": 0,
+                "nov27": 0,
+                "dec27": 0
+              },
+              {
+                "metric": "Demand (Independent)",
+                "jan26": 0,
+                "feb26": 0,
+                "mar26": 0,
+                "apr26": 0,
+                "may26": 0,
+                "jun26": 0,
+                "jul26": 0,
+                "aug26": 0,
+                "sep26": 0,
+                "oct26": 0,
+                "nov26": 0,
+                "dec26": 0,
+                "jan27": 0,
+                "feb27": 0,
+                "mar27": 0,
+                "apr27": 0,
+                "may27": 0,
+                "jun27": 0,
+                "jul27": 0,
+                "aug27": 0,
+                "sep27": 0,
+                "oct27": 0,
+                "nov27": 0,
+                "dec27": 0
+              },
+              {
+                "metric": "Total Demand",
+                "jan26": 0,
+                "feb26": 0,
+                "mar26": 0,
+                "apr26": 0,
+                "may26": 0,
+                "jun26": 0,
+                "jul26": 0,
+                "aug26": 0,
+                "sep26": 0,
+                "oct26": 0,
+                "nov26": 0,
+                "dec26": 0,
+                "jan27": 0,
+                "feb27": 0,
+                "mar27": 0,
+                "apr27": 0,
+                "may27": 0,
+                "jun27": 0,
+                "jul27": 0,
+                "aug27": 0,
+                "sep27": 0,
+                "oct27": 0,
+                "nov27": 0,
+                "dec27": 0
+              },
+              {
+                "metric": "Supply/Release",
+                "jan26": 0,
+                "feb26": 0,
+                "mar26": 0,
+                "apr26": 0,
+                "may26": 0,
+                "jun26": 0,
+                "jul26": 0,
+                "aug26": 0,
+                "sep26": 0,
+                "oct26": 0,
+                "nov26": 0,
+                "dec26": 0,
+                "jan27": 0,
+                "feb27": 0,
+                "mar27": 0,
+                "apr27": 0,
+                "may27": 0,
+                "jun27": 0,
+                "jul27": 0,
+                "aug27": 0,
+                "sep27": 0,
+                "oct27": 0,
+                "nov27": 0,
+                "dec27": 0
+              },
+              {
+                "metric": "Supply(Execution Start)",
+                "jan26": 0,
+                "feb26": 0,
+                "mar26": 0,
+                "apr26": 0,
+                "may26": 0,
+                "jun26": 0,
+                "jul26": 0,
+                "aug26": 0,
+                "sep26": 0,
+                "oct26": 0,
+                "nov26": 0,
+                "dec26": 0,
+                "jan27": 0,
+                "feb27": 0,
+                "mar27": 0,
+                "apr27": 0,
+                "may27": 0,
+                "jun27": 0,
+                "jul27": 0,
+                "aug27": 0,
+                "sep27": 0,
+                "oct27": 0,
+                "nov27": 0,
+                "dec27": 0
+              }
+            ]
+          },
+          {
+            "id": "IP-14479",
             "type": "Drug Substance",
-            "description": "DP -GS-5423 Injection, 150 mg/mL,  2 mL /via",
+            "description": "GS-2872, Drug Substance, 150 mg/mL",
             "columns": [
               {
                 "key": "metric",
                 "label": "Metric"
-              },
-              {
-                "key": "jul25",
-                "label": "Jul-25"
-              },
-              {
-                "key": "aug25",
-                "label": "Aug-25"
-              },
-              {
-                "key": "sep25",
-                "label": "Sep-25"
-              },
-              {
-                "key": "oct25",
-                "label": "Oct-25"
-              },
-              {
-                "key": "nov25",
-                "label": "Nov-25"
-              },
-              {
-                "key": "dec25",
-                "label": "Dec-25"
               },
               {
                 "key": "jan26",
@@ -1301,35 +1779,98 @@
               {
                 "key": "sep26",
                 "label": "Sep-26"
+              },
+              {
+                "key": "oct26",
+                "label": "Oct-26"
+              },
+              {
+                "key": "nov26",
+                "label": "Nov-26"
+              },
+              {
+                "key": "dec26",
+                "label": "Dec-26"
+              },
+              {
+                "key": "jan27",
+                "label": "Jan-27"
+              },
+              {
+                "key": "feb27",
+                "label": "Feb-27"
+              },
+              {
+                "key": "mar27",
+                "label": "Mar-27"
+              },
+              {
+                "key": "apr27",
+                "label": "Apr-27"
+              },
+              {
+                "key": "may27",
+                "label": "May-27"
+              },
+              {
+                "key": "jun27",
+                "label": "Jun-27"
+              },
+              {
+                "key": "jul27",
+                "label": "Jul-27"
+              },
+              {
+                "key": "aug27",
+                "label": "Aug-27"
+              },
+              {
+                "key": "sep27",
+                "label": "Sep-27"
+              },
+              {
+                "key": "oct27",
+                "label": "Oct-27"
+              },
+              {
+                "key": "nov27",
+                "label": "Nov-27"
+              },
+              {
+                "key": "dec27",
+                "label": "Dec-27"
               }
             ],
             "data": [
               {
                 "metric": "Inventory",
-                "jul25": 0,
-                "aug25": 0,
-                "sep25": 0,
-                "oct25": 0,
-                "nov25": 0,
-                "dec25": 0,
-                "jan26": 0,
-                "feb26": 0,
-                "mar26": 0,
-                "apr26": 0,
-                "may26": 9.6,
-                "jun26": 0,
-                "jul26": 0,
-                "aug26": 0,
-                "sep26": 0
+                "jan26": 13,
+                "feb26": 13,
+                "mar26": 13,
+                "apr26": 13,
+                "may26": 13,
+                "jun26": 13,
+                "jul26": 13,
+                "aug26": 13,
+                "sep26": 13,
+                "oct26": 13,
+                "nov26": 5,
+                "dec26": 5,
+                "jan27": 5,
+                "feb27": 5,
+                "mar27": 5,
+                "apr27": 5,
+                "may27": 5,
+                "jun27": 5,
+                "jul27": 5,
+                "aug27": 5,
+                "sep27": 5,
+                "oct27": 5,
+                "nov27": 5,
+                "dec27": 5
               },
               {
                 "metric": "Expiry/Obsolescence",
-                "jul25": 0,
-                "aug25": 0,
-                "sep25": 0,
-                "oct25": 0,
-                "nov25": 0,
-                "dec25": 0,
                 "jan26": 0,
                 "feb26": 0,
                 "mar26": 0,
@@ -1338,16 +1879,25 @@
                 "jun26": 0,
                 "jul26": 0,
                 "aug26": 0,
-                "sep26": 0
+                "sep26": 0,
+                "oct26": 8,
+                "nov26": 0,
+                "dec26": 0,
+                "jan27": 0,
+                "feb27": 0,
+                "mar27": 0,
+                "apr27": 0,
+                "may27": 0,
+                "jun27": 0,
+                "jul27": 0,
+                "aug27": 0,
+                "sep27": 0,
+                "oct27": 0,
+                "nov27": 0,
+                "dec27": 0
               },
               {
                 "metric": "Demand (Clinical)",
-                "jul25": 0,
-                "aug25": 0,
-                "sep25": 0,
-                "oct25": 0,
-                "nov25": 0,
-                "dec25": 0,
                 "jan26": 0,
                 "feb26": 0,
                 "mar26": 0,
@@ -1356,70 +1906,79 @@
                 "jun26": 0,
                 "jul26": 0,
                 "aug26": 0,
-                "sep26": 0
+                "sep26": 0,
+                "oct26": 0,
+                "nov26": 0,
+                "dec26": 0,
+                "jan27": 0,
+                "feb27": 0,
+                "mar27": 0,
+                "apr27": 0,
+                "may27": 0,
+                "jun27": 0,
+                "jul27": 0,
+                "aug27": 0,
+                "sep27": 0,
+                "oct27": 0,
+                "nov27": 0,
+                "dec27": 0
               },
               {
                 "metric": "Demand (Independent)",
-                "jul25": 0,
-                "aug25": 0,
-                "sep25": 0,
-                "oct25": 0,
-                "nov25": 0,
-                "dec25": 0,
                 "jan26": 0,
                 "feb26": 0,
                 "mar26": 0,
                 "apr26": 0,
-                "may26": 9.6,
+                "may26": 0,
                 "jun26": 0,
                 "jul26": 0,
                 "aug26": 0,
-                "sep26": 0
+                "sep26": 0,
+                "oct26": 0,
+                "nov26": 0,
+                "dec26": 0,
+                "jan27": 0,
+                "feb27": 0,
+                "mar27": 0,
+                "apr27": 0,
+                "may27": 0,
+                "jun27": 0,
+                "jul27": 0,
+                "aug27": 0,
+                "sep27": 0,
+                "oct27": 0,
+                "nov27": 0,
+                "dec27": 0
               },
               {
                 "metric": "Total Demand",
-                "jul25": 0,
-                "aug25": 0,
-                "sep25": 0,
-                "oct25": 0,
-                "nov25": 0,
-                "dec25": 0,
                 "jan26": 0,
                 "feb26": 0,
                 "mar26": 0,
                 "apr26": 0,
-                "may26": 9.6,
+                "may26": 0,
                 "jun26": 0,
                 "jul26": 0,
                 "aug26": 0,
-                "sep26": 0
+                "sep26": 0,
+                "oct26": 0,
+                "nov26": 0,
+                "dec26": 0,
+                "jan27": 0,
+                "feb27": 0,
+                "mar27": 0,
+                "apr27": 0,
+                "may27": 0,
+                "jun27": 0,
+                "jul27": 0,
+                "aug27": 0,
+                "sep27": 0,
+                "oct27": 0,
+                "nov27": 0,
+                "dec27": 0
               },
               {
                 "metric": "Supply/Release",
-                "jul25": 0,
-                "aug25": 0,
-                "sep25": 0,
-                "oct25": 0,
-                "nov25": 0,
-                "dec25": 0,
-                "jan26": 0,
-                "feb26": 0,
-                "mar26": 0,
-                "apr26": 9.6,
-                "may26": 0,
-                "jun26": 0,
-                "jul26": 0,
-                "aug26": 0,
-                "sep26": 0
-              },
-              {
-                "metric": "Supply(Execution Start)",
-                "jul25": 9.6,
-                "aug25": 0,
-                "sep25": 0,
-                "oct25": 0,
-                "nov25": 0,
-                "dec25": 0,
                 "jan26": 0,
                 "feb26": 0,
                 "mar26": 0,
@@ -1428,7 +1987,347 @@
                 "jun26": 0,
                 "jul26": 0,
                 "aug26": 0,
-                "sep26": 0
+                "sep26": 0,
+                "oct26": 0,
+                "nov26": 0,
+                "dec26": 0,
+                "jan27": 0,
+                "feb27": 0,
+                "mar27": 0,
+                "apr27": 0,
+                "may27": 0,
+                "jun27": 0,
+                "jul27": 0,
+                "aug27": 0,
+                "sep27": 0,
+                "oct27": 0,
+                "nov27": 0,
+                "dec27": 0
+              },
+              {
+                "metric": "Supply(Execution Start)",
+                "jan26": 0,
+                "feb26": 0,
+                "mar26": 0,
+                "apr26": 0,
+                "may26": 0,
+                "jun26": 0,
+                "jul26": 0,
+                "aug26": 0,
+                "sep26": 0,
+                "oct26": 0,
+                "nov26": 0,
+                "dec26": 0,
+                "jan27": 0,
+                "feb27": 0,
+                "mar27": 0,
+                "apr27": 0,
+                "may27": 0,
+                "jun27": 0,
+                "jul27": 0,
+                "aug27": 0,
+                "sep27": 0,
+                "oct27": 0,
+                "nov27": 0,
+                "dec27": 0
+              }
+            ]
+          },
+          {
+            "id": "IP-15732",
+            "type": "Drug Substance",
+            "description": "GS-2872 (Zinlirvimab) Drug Substance, 85mg/mL, Lonza Biologics Tuas 2K, Clinical",
+            "columns": [
+              {
+                "key": "metric",
+                "label": "Metric"
+              },
+              {
+                "key": "jan26",
+                "label": "Jan-26"
+              },
+              {
+                "key": "feb26",
+                "label": "Feb-26"
+              },
+              {
+                "key": "mar26",
+                "label": "Mar-26"
+              },
+              {
+                "key": "apr26",
+                "label": "Apr-26"
+              },
+              {
+                "key": "may26",
+                "label": "May-26"
+              },
+              {
+                "key": "jun26",
+                "label": "Jun-26"
+              },
+              {
+                "key": "jul26",
+                "label": "Jul-26"
+              },
+              {
+                "key": "aug26",
+                "label": "Aug-26"
+              },
+              {
+                "key": "sep26",
+                "label": "Sep-26"
+              },
+              {
+                "key": "oct26",
+                "label": "Oct-26"
+              },
+              {
+                "key": "nov26",
+                "label": "Nov-26"
+              },
+              {
+                "key": "dec26",
+                "label": "Dec-26"
+              },
+              {
+                "key": "jan27",
+                "label": "Jan-27"
+              },
+              {
+                "key": "feb27",
+                "label": "Feb-27"
+              },
+              {
+                "key": "mar27",
+                "label": "Mar-27"
+              },
+              {
+                "key": "apr27",
+                "label": "Apr-27"
+              },
+              {
+                "key": "may27",
+                "label": "May-27"
+              },
+              {
+                "key": "jun27",
+                "label": "Jun-27"
+              },
+              {
+                "key": "jul27",
+                "label": "Jul-27"
+              },
+              {
+                "key": "aug27",
+                "label": "Aug-27"
+              },
+              {
+                "key": "sep27",
+                "label": "Sep-27"
+              },
+              {
+                "key": "oct27",
+                "label": "Oct-27"
+              },
+              {
+                "key": "nov27",
+                "label": "Nov-27"
+              },
+              {
+                "key": "dec27",
+                "label": "Dec-27"
+              }
+            ],
+            "data": [
+              {
+                "metric": "Inventory",
+                "jan26": 0,
+                "feb26": 0,
+                "mar26": 0,
+                "apr26": 0,
+                "may26": 0,
+                "jun26": 0,
+                "jul26": 0,
+                "aug26": 0,
+                "sep26": 0,
+                "oct26": 0,
+                "nov26": 0,
+                "dec26": 0,
+                "jan27": 0,
+                "feb27": 0,
+                "mar27": 0,
+                "apr27": 0,
+                "may27": 0,
+                "jun27": 0,
+                "jul27": 0,
+                "aug27": 0,
+                "sep27": 0,
+                "oct27": 0,
+                "nov27": 0,
+                "dec27": 0
+              },
+              {
+                "metric": "Expiry/Obsolescence",
+                "jan26": 0,
+                "feb26": 0,
+                "mar26": 0,
+                "apr26": 0,
+                "may26": 0,
+                "jun26": 0,
+                "jul26": 0,
+                "aug26": 0,
+                "sep26": 0,
+                "oct26": 0,
+                "nov26": 0,
+                "dec26": 0,
+                "jan27": 0,
+                "feb27": 0,
+                "mar27": 0,
+                "apr27": 0,
+                "may27": 0,
+                "jun27": 0,
+                "jul27": 0,
+                "aug27": 0,
+                "sep27": 0,
+                "oct27": 0,
+                "nov27": 0,
+                "dec27": 0
+              },
+              {
+                "metric": "Demand (Clinical)",
+                "jan26": 0,
+                "feb26": 0,
+                "mar26": 0,
+                "apr26": 0,
+                "may26": 0,
+                "jun26": 0,
+                "jul26": 0,
+                "aug26": 0,
+                "sep26": 0,
+                "oct26": 0,
+                "nov26": 0,
+                "dec26": 0,
+                "jan27": 0,
+                "feb27": 0,
+                "mar27": 0,
+                "apr27": 0,
+                "may27": 0,
+                "jun27": 0,
+                "jul27": 0,
+                "aug27": 0,
+                "sep27": 0,
+                "oct27": 0,
+                "nov27": 0,
+                "dec27": 0
+              },
+              {
+                "metric": "Demand (Independent)",
+                "jan26": 0,
+                "feb26": 0,
+                "mar26": 0,
+                "apr26": 0,
+                "may26": 0,
+                "jun26": 0,
+                "jul26": 0,
+                "aug26": 0,
+                "sep26": 0,
+                "oct26": 0,
+                "nov26": 0,
+                "dec26": 0,
+                "jan27": 0,
+                "feb27": 0,
+                "mar27": 0,
+                "apr27": 0,
+                "may27": 0,
+                "jun27": 0,
+                "jul27": 0,
+                "aug27": 0,
+                "sep27": 0,
+                "oct27": 0,
+                "nov27": 0,
+                "dec27": 0
+              },
+              {
+                "metric": "Total Demand",
+                "jan26": 0,
+                "feb26": 0,
+                "mar26": 0,
+                "apr26": 0,
+                "may26": 0,
+                "jun26": 0,
+                "jul26": 0,
+                "aug26": 0,
+                "sep26": 0,
+                "oct26": 0,
+                "nov26": 0,
+                "dec26": 0,
+                "jan27": 0,
+                "feb27": 0,
+                "mar27": 0,
+                "apr27": 0,
+                "may27": 0,
+                "jun27": 0,
+                "jul27": 0,
+                "aug27": 0,
+                "sep27": 0,
+                "oct27": 0,
+                "nov27": 0,
+                "dec27": 0
+              },
+              {
+                "metric": "Supply/Release",
+                "jan26": 0,
+                "feb26": 0,
+                "mar26": 0,
+                "apr26": 0,
+                "may26": 0,
+                "jun26": 0,
+                "jul26": 0,
+                "aug26": 0,
+                "sep26": 0,
+                "oct26": 0,
+                "nov26": 0,
+                "dec26": 0,
+                "jan27": 0,
+                "feb27": 0,
+                "mar27": 0,
+                "apr27": 0,
+                "may27": 0,
+                "jun27": 0,
+                "jul27": 0,
+                "aug27": 0,
+                "sep27": 0,
+                "oct27": 0,
+                "nov27": 0,
+                "dec27": 0
+              },
+              {
+                "metric": "Supply(Execution Start)",
+                "jan26": 0,
+                "feb26": 0,
+                "mar26": 0,
+                "apr26": 0,
+                "may26": 0,
+                "jun26": 0,
+                "jul26": 0,
+                "aug26": 0,
+                "sep26": 0,
+                "oct26": 0,
+                "nov26": 0,
+                "dec26": 0,
+                "jan27": 0,
+                "feb27": 0,
+                "mar27": 0,
+                "apr27": 0,
+                "may27": 0,
+                "jun27": 0,
+                "jul27": 0,
+                "aug27": 0,
+                "sep27": 0,
+                "oct27": 0,
+                "nov27": 0,
+                "dec27": 0
               }
             ]
           }
@@ -3272,7 +4171,7 @@
           {
             "id": "PC-13248",
             "type": "Drug Product",
-            "description": "GS-0415 Injection, 100mg/ml",
+            "description": "GS-0151 Injection, 100mg/ml",
             "parentMaterialIds": [
               "IP-15650"
             ],
@@ -3394,7 +4293,7 @@
                 "oct26": 765,
                 "nov26": 765,
                 "dec26": 765,
-                "jan27": 265,
+                "jan27": 765,
                 "feb27": 265,
                 "mar27": 265,
                 "apr27": 265,
@@ -3574,7 +4473,7 @@
           {
             "id": "IP-15650",
             "type": "Drug Substance",
-            "description": "GS-0415 DS, 100 mg/mL",
+            "description": "GS-0151 DS, 100 mg/mL",
             "columns": [
               {
                 "key": "metric",

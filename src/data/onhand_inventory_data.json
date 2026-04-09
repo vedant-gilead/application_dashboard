@@ -319,48 +319,37 @@
     ],
     "data": [
       {
-        "organization_name": "US-001-CLIN-OGD",
+        "organization_name": "US-001-CLIN-LAVE",
         "item_code": "PC-13032",
-        "item_description": "GS-0151 injection, 100 mg/mL",
-        "lot_number": "42649",
-        "creation_date": "1/2/24",
-        "lot_expiration_date": "3/31/25",
-        "lot_status_description": "Quarantine-Expired",
-        "onhand_qty": 279,
-        "uom": ""
+        "item_description": "GS-0151 Injection, 100mg/ml",
+        "lot_number": "0151-DP-BASE",
+        "creation_date": "2025-12-01 00:00:00.000",
+        "lot_expiration_date": "2028-10-31 23:59:59.000",
+        "lot_status_description": "Release",
+        "onhand_qty": 962,
+        "uom": "vl"
       },
       {
         "organization_name": "US-001-CLIN-LAVE",
-        "item_code": "PC-13032",
-        "item_description": "GS-0151 injection, 100 mg/mL",
-        "lot_number": "10006636",
-        "creation_date": "3/3/25",
-        "lot_expiration_date": "10/31/28",
-        "lot_status_description": "Release",
-        "onhand_qty": 952,
-        "uom": ""
-      },
-      {
-        "organization_name": "US-001-CLIN-OGD",
-        "item_code": "PC-13032",
-        "item_description": "GS-0151 injection, 100 mg/mL",
-        "lot_number": "10006636",
-        "creation_date": "4/1/25",
-        "lot_expiration_date": "9/30/26",
-        "lot_status_description": "Release",
-        "onhand_qty": 10,
-        "uom": ""
-      },
-      {
-        "organization_name": "US-001-CLIN-OGD",
         "item_code": "PC-13058",
-        "item_description": "GS-0151 placebo injection",
-        "lot_number": "42651",
-        "creation_date": "1/2/24",
-        "lot_expiration_date": "3/31/25",
-        "lot_status_description": "Quarantine-Expired",
-        "onhand_qty": 4240,
-        "uom": ""
+        "item_description": "GS-0151 Placebo Injection",
+        "lot_number": "0151-PBO-BASE",
+        "creation_date": "--",
+        "lot_expiration_date": "--",
+        "lot_status_description": "Quarantine-Routine",
+        "onhand_qty": 0,
+        "uom": "vl"
+      },
+      {
+        "organization_name": "US-001-MAIN-LAVE",
+        "item_code": "IP-15168",
+        "item_description": "GS-0151 DS, 100 mg/mL",
+        "lot_number": "0151-DS-BASE",
+        "creation_date": "2025-12-01 00:00:00.000",
+        "lot_expiration_date": "2028-12-31 23:59:59.000",
+        "lot_status_description": "Release",
+        "onhand_qty": 47.88,
+        "uom": "kg"
       }
     ]
   },
@@ -405,48 +394,26 @@
     ],
     "data": [
       {
-        "organization_name": "1485",
+        "organization_name": "US-001-CLIN-LAVE",
         "item_code": "PC-13248",
-        "item_description": "GS-0415, Liquid, 2.3 mL fill",
-        "lot_number": "10012475",
-        "creation_date": "20250731",
-        "lot_expiration_date": "--",
+        "item_description": "GS-0151 Injection, 100mg/ml",
+        "lot_number": "0415-DP-BASE",
+        "creation_date": "2025-12-01 00:00:00.000",
+        "lot_expiration_date": "2028-10-31 23:59:59.000",
         "lot_status_description": "Release",
         "onhand_qty": 765,
-        "uom": ""
+        "uom": "vl"
       },
       {
-        "organization_name": "1485",
+        "organization_name": "US-001-MAIN-LAVE",
         "item_code": "IP-15650",
-        "item_description": "GS-0415 DS",
-        "lot_number": "10012810",
-        "creation_date": "20250820",
-        "lot_expiration_date": "--",
-        "lot_status_description": "Release",
-        "onhand_qty": 0,
-        "uom": ""
-      },
-      {
-        "organization_name": "1485",
-        "item_code": "IP-15650",
-        "item_description": "GS-0415 DS",
-        "lot_number": "176505",
-        "creation_date": "20250815",
-        "lot_expiration_date": "--",
+        "item_description": "GS-0151 DS, 100 mg/mL",
+        "lot_number": "0415-DS-BASE",
+        "creation_date": "2025-12-01 00:00:00.000",
+        "lot_expiration_date": "2028-12-31 23:59:59.000",
         "lot_status_description": "Release",
         "onhand_qty": 160.283,
-        "uom": "Kgs"
-      },
-      {
-        "organization_name": "1485",
-        "item_code": "IP-15650",
-        "item_description": "GS-0415 DS",
-        "lot_number": "10012810",
-        "creation_date": "20250820",
-        "lot_expiration_date": "--",
-        "lot_status_description": "Release",
-        "onhand_qty": 0,
-        "uom": ""
+        "uom": "kg"
       }
     ]
   },

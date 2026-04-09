@@ -10,8 +10,8 @@
   "GS-2872": {
     "program": "GS-2872",
     "therapeuticArea": "Virology",
-    "study": "GS-US-XXX-XXXX",
-    "materialNumber": "GS-2872 Phase 3 DP Activ 1, GS-2872 Phase 3 DP Placebo 1, GS-2872 Phase 3 DS 1",
+    "study": "CO-US-382-6129, CO-US-673-7249, GS-US-536-5939",
+    "materialNumber": "PC-12742, PC-12777, PC-13294, IP-14479, IP-15732",
     "lot": "NA",
     "siteExecution": "DP: Gilead La Verne DP, DS: CDMO 2"
   },
