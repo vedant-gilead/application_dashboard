@@ -475,6 +475,29 @@ export default function Program_Drilldown() {
       return `${mon}-20${String(year).padStart(2, '0')}`;
     };
 
+    const demandKeyToSortKey = (demandKey) => {
+      const parts = String(demandKey || '').split('-');
+      if (parts.length !== 2) return null;
+      const [monStr, yearStr] = parts;
+      const year = Number(yearStr);
+      const monthIdx = {
+        Jan: 1,
+        Feb: 2,
+        Mar: 3,
+        Apr: 4,
+        May: 5,
+        Jun: 6,
+        Jul: 7,
+        Aug: 8,
+        Sep: 9,
+        Oct: 10,
+        Nov: 11,
+        Dec: 12,
+      }[monStr];
+      if (!Number.isFinite(year) || monthIdx == null) return null;
+      return year * 12 + monthIdx;
+    };
+
     const demandMonthColumns = (demandForecastData?.columns || [])
       .filter((col) => !['program', 'partNumber', 'partDescription', 'materialStage'].includes(col.key))
       .map((col) => {
@@ -497,6 +520,14 @@ export default function Program_Drilldown() {
         materials: study.materials.map((material) => {
           const forecastRow = findForecastRow(material.id);
           const leadTimeMonths = resolveLeadTimeForMaterial(material);
+
+          const materialMonthSortKeys = (material.columns || [])
+            .map((c) => monthLabelToDemandKey(c.label))
+            .filter(Boolean)
+            .map(demandKeyToSortKey)
+            .filter((n) => n != null);
+          const minMaterialMonthSort =
+            materialMonthSortKeys.length > 0 ? Math.min(...materialMonthSortKeys) : null;
 
           const oldDemandKeyToColumnKey = new Map();
           (material.columns || []).forEach((col) => {
@@ -547,6 +578,7 @@ export default function Program_Drilldown() {
           const updatedRows = (material.data || []).map((row) => {
             const metric = String(row.metric || '').toLowerCase();
             const isInventory = metric === 'inventory';
+            const isInventoryLockedRow = isInventory && Boolean(row?.__lockInventory);
             const isClinical = metric === 'demand (clinical)';
             const isIndependent = metric === 'demand (independent)';
             const isTotal = metric === 'total demand';
@@ -558,8 +590,18 @@ export default function Program_Drilldown() {
               const oldVal = row[sourceColKey] ?? 0;
 
               if (isInventory) {
-                // Initialize; we will override with projected onhand after we compute it.
-                next[monthCol.key] = 0;
+                if (isInventoryLockedRow) {
+                  const colSort = demandKeyToSortKey(monthCol.demandKey);
+                  const beforeFirstProgramMonth =
+                    colSort != null && minMaterialMonthSort != null && colSort < minMaterialMonthSort;
+                  if (beforeFirstProgramMonth) {
+                    next[monthCol.key] = parseNumber(onhandByItemCode[material.id], 0);
+                  } else {
+                    next[monthCol.key] = oldVal ?? 0;
+                  }
+                } else {
+                  next[monthCol.key] = 0;
+                }
               } else if (isClinical) {
                 next[monthCol.key] = Number(forecastRow?.[`${monthCol.demandKey}_clinical`] ?? 0);
               } else if (isIndependent) {
@@ -592,7 +634,11 @@ export default function Program_Drilldown() {
             // Pass 1: compute monthly required quantity from projected onhand before demand.
             let onhandForDeficit = parseNumber(onhandByItemCode[material.id], 0);
             monthKeys.forEach((monthKey, monthIdx) => {
-              const demand = parseNumber(totalDemandRow?.[monthKey], 0);
+              const demandKey = demandMonthColumns[monthIdx]?.demandKey;
+              const total = parseNumber(totalDemandRow?.[monthKey], 0);
+              const clin = demandKey ? parseNumber(forecastRow?.[`${demandKey}_clinical`], 0) : 0;
+              const indep = demandKey ? parseNumber(forecastRow?.[`${demandKey}_independent`], 0) : 0;
+              const demand = total > 0 ? total : clin + indep;
               const expiry = parseNumber(expiryRow?.[monthKey], 0);
               const availableOnhand = Math.max(0, onhandForDeficit);
               const requiredRelease = demand > 0 ? Math.max(0, demand - availableOnhand) : 0;
@@ -609,14 +655,19 @@ export default function Program_Drilldown() {
             });
 
             if (supplyExecStartRow) {
+              const manualFlags = supplyExecStartRow?.__manualSupplyExecutionStart || {};
+              const hasAnyManualSupplyExec = Object.values(manualFlags).some(Boolean);
+              const execStartSnapshot = monthKeys.map((mk) => parseNumber(supplyExecStartRow[mk], 0));
               monthKeys.forEach((monthKey, idx) => {
                 const demandKey = demandMonthColumns[idx]?.demandKey;
                 const oldMonthKey = demandKey ? oldDemandKeyToColumnKey.get(demandKey) : null;
                 const storageMonthKey = oldMonthKey || monthKey;
-                const manualFlags = supplyExecStartRow?.__manualSupplyExecutionStart || {};
                 const hasManualOverride = Boolean(manualFlags[storageMonthKey]);
                 if (hasManualOverride) {
                   supplyExecStartRow[monthKey] = parseNumber(supplyExecStartRow[monthKey], 0);
+                } else if (hasAnyManualSupplyExec) {
+                  // Row has at least one planner-pinned month; do not blend in deficit-based starts elsewhere.
+                  supplyExecStartRow[monthKey] = execStartSnapshot[idx];
                 } else {
                   supplyExecStartRow[monthKey] = startByMonth[idx];
                 }
@@ -642,10 +693,15 @@ export default function Program_Drilldown() {
             }
 
             // Pass 4: project inventory timeline using dynamic release values.
-            if (inventoryRow) {
+            const isInventoryLocked = Boolean(inventoryRow?.__lockInventory);
+            if (inventoryRow && !isInventoryLocked) {
               let onhandAtStart = parseNumber(onhandByItemCode[material.id], 0);
               monthKeys.forEach((monthKey, idx) => {
-                const demand = parseNumber(totalDemandRow?.[monthKey], 0);
+                const demandKey = demandMonthColumns[idx]?.demandKey;
+                const total = parseNumber(totalDemandRow?.[monthKey], 0);
+                const clin = demandKey ? parseNumber(forecastRow?.[`${demandKey}_clinical`], 0) : 0;
+                const indep = demandKey ? parseNumber(forecastRow?.[`${demandKey}_independent`], 0) : 0;
+                const demand = total > 0 ? total : clin + indep;
                 const expiry = parseNumber(expiryRow?.[monthKey], 0);
                 const releaseThisMonth = releaseByMonth[idx] ?? 0;
                 inventoryRow[monthKey] = Math.max(0, onhandAtStart);

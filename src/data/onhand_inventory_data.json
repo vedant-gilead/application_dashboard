@@ -273,7 +273,7 @@
         "creation_date": "--",
         "lot_expiration_date": "--",
         "lot_status_description": "Quarantine-Retest",
-        "onhand_qty": 61,
+        "onhand_qty": 0,
         "uom": "kg"
       }
     ]
@@ -348,7 +348,7 @@
         "creation_date": "2025-12-01 00:00:00.000",
         "lot_expiration_date": "2028-12-31 23:59:59.000",
         "lot_status_description": "Release",
-        "onhand_qty": 47.88,
+        "onhand_qty": 0,
         "uom": "kg"
       }
     ]

@@ -110,7 +110,7 @@
       "siteExecution": "DP: Gilead La Verne DP",
       "moq": "--",
       "releaseLeadTime": "--",
-      "executionLeadTime": "--"
+      "executionLeadTime": 2
     },
     "IP2": {
       "name": "DRUG PRODUCT (PC-13164)",
@@ -119,7 +119,7 @@
       "siteExecution": "DP: Gilead La Verne DP",
       "moq": "--",
       "releaseLeadTime": "--",
-      "executionLeadTime": "--"
+      "executionLeadTime": 2
     },
     "IP3": {
       "name": "DRUG SUBSTANCE (IP-15236)",
@@ -128,7 +128,7 @@
       "siteExecution": "DP: Gilead La Verne DP",
       "moq": "--",
       "releaseLeadTime": "--",
-      "executionLeadTime": "--"
+      "executionLeadTime": 2
     }
   },
   "GS-0151": {
