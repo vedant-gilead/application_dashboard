@@ -406,15 +406,6 @@ export default function Program_Drilldown() {
     };
     const normalizeMetric = (value) => String(value ?? '').trim().toLowerCase().replace(/[^a-z0-9]/g, '');
 
-    const onhandSlice = onhandData?.[programId] || { data: [] };
-    const onhandByItemCode = (onhandSlice.data || []).reduce((acc, row) => {
-      const itemCode = String(row?.item_code ?? '').trim();
-      if (!itemCode) return acc;
-      const safeQty = parseNumber(row?.onhand_qty, 0);
-      acc[itemCode] = (acc[itemCode] || 0) + safeQty;
-      return acc;
-    }, {});
-
     const paramsByMaterialId = new Map();
     Object.entries(programParameters || {}).forEach(([key, value]) => {
       if (!key.startsWith('IP') || !value || typeof value !== 'object') return;
@@ -497,6 +488,15 @@ export default function Program_Drilldown() {
         materials: study.materials.map((material) => {
           const forecastRow = findForecastRow(material.id);
           const leadTimeMonths = resolveLeadTimeForMaterial(material);
+          const firstMaterialMonthColumnKey =
+            (material.columns || []).find((col) => col && col.key !== 'metric')?.key || null;
+          const inventorySourceRow = (material.data || []).find(
+            (row) => normalizeMetric(row?.metric) === 'inventory',
+          );
+          const seededOnhand =
+            firstMaterialMonthColumnKey && inventorySourceRow
+              ? parseNumber(inventorySourceRow[firstMaterialMonthColumnKey], 0)
+              : 0;
 
           const oldDemandKeyToColumnKey = new Map();
           (material.columns || []).forEach((col) => {
@@ -600,7 +600,7 @@ export default function Program_Drilldown() {
             const requiredByDemandMonth = Array(monthKeys.length).fill(0);
 
             // Pass 1: compute monthly required quantity from projected onhand before demand.
-            let onhandForDeficit = parseNumber(onhandByItemCode[material.id], 0);
+            let onhandForDeficit = seededOnhand;
             monthKeys.forEach((monthKey, monthIdx) => {
               const demand = getEffectiveDemand(monthKey);
               const expiry = parseNumber(expiryRow?.[monthKey], 0);
@@ -653,7 +653,7 @@ export default function Program_Drilldown() {
 
             // Pass 4: project inventory timeline using dynamic release values.
             if (inventoryRow) {
-              let onhandAtStart = parseNumber(onhandByItemCode[material.id], 0);
+              let onhandAtStart = seededOnhand;
               monthKeys.forEach((monthKey, idx) => {
                 const demand = getEffectiveDemand(monthKey);
                 const expiry = parseNumber(expiryRow?.[monthKey], 0);
@@ -668,7 +668,7 @@ export default function Program_Drilldown() {
         }),
       })),
     };
-  }, [baseProgram, demandForecastData, programId, onhandData, programParameters]);
+  }, [baseProgram, demandForecastData, programId, programParameters]);
 
   const { data: cumulativeData, columns: cumulativeColumns } = useMemo(() => {
     if (!program) return { data: [], columns: [] };
