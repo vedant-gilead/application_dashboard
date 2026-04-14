@@ -510,6 +510,8 @@ export default function Program_Drilldown() {
             ...demandMonthColumns.map((m) => ({
               key: m.key,
               label: m.label,
+              headerClassName: 'text-right',
+              cellClassName: 'text-right tabular-nums',
               render: (row) => {
                 const metricKey = normalizeMetric(row?.metric);
                 const isExpiryMetric = metricKey === 'expiry' || metricKey === 'expiryobsolescence';
@@ -518,16 +520,15 @@ export default function Program_Drilldown() {
                 if (!isExpiryMetric && !isSupplyExecStartMetric) return val;
                 const oldMonthKey = oldDemandKeyToColumnKey.get(m.demandKey);
                 const storageMonthKey = oldMonthKey || m.key;
+                if (isExpiryMetric) {
+                  return <span className="block w-full text-right">{val}</span>;
+                }
                 return (
                   <span
                     contentEditable
                     suppressContentEditableWarning
-                    className="inline-block min-w-[36px] outline-none rounded px-1 focus:ring-2 focus:ring-[#306e9a]/40"
+                    className="block w-full text-right outline-none rounded focus:ring-2 focus:ring-[#306e9a]/40"
                     onBlur={(e) => {
-                      if (isExpiryMetric) {
-                        upsertExpiryOverride(material.id, storageMonthKey, e.currentTarget.innerText);
-                        return;
-                      }
                       upsertSupplyExecStartOverride(material.id, storageMonthKey, e.currentTarget.innerText);
                     }}
                     onKeyDown={(e) => {
@@ -576,6 +577,8 @@ export default function Program_Drilldown() {
 
           const monthKeys = demandMonthColumns.map((m) => m.key);
           const totalDemandRow = updatedRows.find((r) => normalizeMetric(r.metric) === 'totaldemand');
+          const clinicalDemandRow = updatedRows.find((r) => normalizeMetric(r.metric) === 'demandclinical');
+          const independentDemandRow = updatedRows.find((r) => normalizeMetric(r.metric) === 'demandindependent');
           const supplyReleaseRow = updatedRows.find((r) => normalizeMetric(r.metric) === 'supplyrelease');
           const supplyExecStartRow = updatedRows.find((r) => normalizeMetric(r.metric) === 'supplyexecutionstart');
           const expiryRow = updatedRows.find((r) => {
@@ -583,6 +586,13 @@ export default function Program_Drilldown() {
             return metric === 'expiry' || metric === 'expiryobsolescence';
           });
           const inventoryRow = updatedRows.find((r) => normalizeMetric(r.metric) === 'inventory');
+          const getEffectiveDemand = (monthKey) => {
+            const total = parseNumber(totalDemandRow?.[monthKey], 0);
+            if (total > 0) return total;
+            const clinical = parseNumber(clinicalDemandRow?.[monthKey], 0);
+            const independent = parseNumber(independentDemandRow?.[monthKey], 0);
+            return clinical + independent;
+          };
 
           if (supplyExecStartRow || supplyReleaseRow || inventoryRow) {
             const startByMonth = Array(monthKeys.length).fill(0);
@@ -592,7 +602,7 @@ export default function Program_Drilldown() {
             // Pass 1: compute monthly required quantity from projected onhand before demand.
             let onhandForDeficit = parseNumber(onhandByItemCode[material.id], 0);
             monthKeys.forEach((monthKey, monthIdx) => {
-              const demand = parseNumber(totalDemandRow?.[monthKey], 0);
+              const demand = getEffectiveDemand(monthKey);
               const expiry = parseNumber(expiryRow?.[monthKey], 0);
               const availableOnhand = Math.max(0, onhandForDeficit);
               const requiredRelease = demand > 0 ? Math.max(0, demand - availableOnhand) : 0;
@@ -645,7 +655,7 @@ export default function Program_Drilldown() {
             if (inventoryRow) {
               let onhandAtStart = parseNumber(onhandByItemCode[material.id], 0);
               monthKeys.forEach((monthKey, idx) => {
-                const demand = parseNumber(totalDemandRow?.[monthKey], 0);
+                const demand = getEffectiveDemand(monthKey);
                 const expiry = parseNumber(expiryRow?.[monthKey], 0);
                 const releaseThisMonth = releaseByMonth[idx] ?? 0;
                 inventoryRow[monthKey] = Math.max(0, onhandAtStart);

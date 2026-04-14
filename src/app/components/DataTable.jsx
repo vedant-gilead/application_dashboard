@@ -95,6 +95,7 @@ export default function DataTable({ columns, data, itemsPerPage = 10 }) {
                     ${column.sortable ? "cursor-pointer select-none" : ""}
                     transition-colors duration-150
                     ${index === 0 ? "sticky left-0 bg-[#306e9a] z-10" : ""}
+                    ${column.headerClassName || ""}
                   `}
                 >
                   <div className="flex items-center gap-2">
@@ -116,7 +117,7 @@ export default function DataTable({ columns, data, itemsPerPage = 10 }) {
                     key={column.key}
                     className={`px-6 py-4 whitespace-nowrap text-sm text-gray-800 ${
                       index === 0 ? "sticky left-0 odd:bg-white even:bg-gray-50 z-10" : ""
-                    }`}
+                    } ${column.cellClassName || ""}`}
                   >
                     {column.render ? column.render(row) : row[column.key]}
                   </td>
