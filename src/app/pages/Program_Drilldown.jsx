@@ -426,6 +426,8 @@ export default function Program_Drilldown() {
       return Number.isFinite(n) ? n : fallback;
     };
     const normalizeMetric = (value) => String(value ?? '').trim().toLowerCase().replace(/[^a-z0-9]/g, '');
+    const eligibleOnhandByItemCode = aggregateEligibleOnhandByItemCode(onhandData?.[programId]?.data || []).byItemCode;
+    const currentMonthDemandKey = `${new Date().toLocaleString('en-US', { month: 'short' })}-${new Date().getFullYear()}`;
 
     const paramsByMaterialId = new Map();
     Object.entries(programParameters || {}).forEach(([key, value]) => {
@@ -535,9 +537,33 @@ export default function Program_Drilldown() {
               cellClassName: 'text-right tabular-nums',
               render: (row) => {
                 const metricKey = normalizeMetric(row?.metric);
+                const isInventoryMetric = metricKey === 'inventory';
                 const isExpiryMetric = metricKey === 'expiry' || metricKey === 'expiryobsolescence';
                 const isSupplyExecStartMetric = metricKey === 'supplyexecutionstart';
                 const val = row?.[m.key] ?? 0;
+                if (isInventoryMetric && m.demandKey === currentMonthDemandKey) {
+                  const displayedInventory = parseNumber(val, 0);
+                  const eligibleOnhand = parseNumber(eligibleOnhandByItemCode[material.id], 0);
+                  const delta = displayedInventory - eligibleOnhand;
+                  if (delta < 0) {
+                    const deficit = Math.abs(delta);
+                    return (
+                      <span className="block w-full text-right text-red-600">
+                        {displayedInventory}
+                        <span className="ml-2 font-bold">(-{deficit})</span>
+                      </span>
+                    );
+                  }
+                  if (delta > 0) {
+                    return (
+                      <span className="block w-full text-right text-green-600">
+                        {displayedInventory}
+                        <span className="ml-2 font-bold">(+{delta})</span>
+                      </span>
+                    );
+                  }
+                  return <span className="block w-full text-right text-green-600">{displayedInventory}</span>;
+                }
                 if (!isExpiryMetric && !isSupplyExecStartMetric) return val;
                 const oldMonthKey = oldDemandKeyToColumnKey.get(m.demandKey);
                 const storageMonthKey = oldMonthKey || m.key;
@@ -689,7 +715,7 @@ export default function Program_Drilldown() {
         }),
       })),
     };
-  }, [baseProgram, demandForecastData, programId, programParameters]);
+  }, [baseProgram, demandForecastData, onhandData, programId, programParameters]);
 
   const { data: cumulativeData, columns: cumulativeColumns } = useMemo(() => {
     if (!program) return { data: [], columns: [] };
