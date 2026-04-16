@@ -114,9 +114,9 @@
     {
       "execution_site": "DP: Gilead La Verne DP",
       "receiving_lead_time": 1,
-      "manufacturing_lead_time": 7,
+      "manufacturing_lead_time": "2",
       "release_lead_time": 1,
-      "execution_lead_time": 8
+      "execution_lead_time": "3"
     },
     {
       "execution_site": "Label: Gilead La Verne L/P",

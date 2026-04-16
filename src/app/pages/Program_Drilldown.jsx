@@ -541,28 +541,33 @@ export default function Program_Drilldown() {
                 const isExpiryMetric = metricKey === 'expiry' || metricKey === 'expiryobsolescence';
                 const isSupplyExecStartMetric = metricKey === 'supplyexecutionstart';
                 const val = row?.[m.key] ?? 0;
-                if (isInventoryMetric && m.demandKey === currentMonthDemandKey) {
-                  const displayedInventory = parseNumber(val, 0);
-                  const eligibleOnhand = parseNumber(eligibleOnhandByItemCode[material.id], 0);
-                  const delta = displayedInventory - eligibleOnhand;
-                  if (delta < 0) {
-                    const deficit = Math.abs(delta);
-                    return (
-                      <span className="block w-full text-right text-red-600">
-                        {displayedInventory}
-                        <span className="ml-2 font-bold">(-{deficit})</span>
-                      </span>
-                    );
+                if (isInventoryMetric) {
+                  const inventoryValue = parseNumber(val, 0);
+                  if (m.demandKey === currentMonthDemandKey) {
+                    const eligibleOnhand = parseNumber(eligibleOnhandByItemCode[material.id], 0);
+                    const delta = inventoryValue - eligibleOnhand;
+                    if (delta < 0) {
+                      const deficit = Math.abs(delta);
+                      return (
+                        <span className="block w-full text-right text-red-600 font-bold">
+                          {inventoryValue}
+                          <span className="ml-2">(-{deficit})</span>
+                        </span>
+                      );
+                    }
+                    if (delta > 0) {
+                      return (
+                        <span className="block w-full text-right text-green-600">
+                          {inventoryValue}
+                          <span className="ml-2 font-bold">(+{delta})</span>
+                        </span>
+                      );
+                    }
+                    return <span className="block w-full text-right text-green-600">{inventoryValue}</span>;
                   }
-                  if (delta > 0) {
-                    return (
-                      <span className="block w-full text-right text-green-600">
-                        {displayedInventory}
-                        <span className="ml-2 font-bold">(+{delta})</span>
-                      </span>
-                    );
+                  if (inventoryValue < 0) {
+                    return <span className="block w-full text-right text-red-600 font-bold">{inventoryValue}</span>;
                   }
-                  return <span className="block w-full text-right text-green-600">{displayedInventory}</span>;
                 }
                 if (!isExpiryMetric && !isSupplyExecStartMetric) return val;
                 const oldMonthKey = oldDemandKeyToColumnKey.get(m.demandKey);
@@ -705,8 +710,8 @@ export default function Program_Drilldown() {
                 const demand = getEffectiveDemand(monthKey);
                 const expiry = parseNumber(expiryRow?.[monthKey], 0);
                 const releaseThisMonth = releaseByMonth[idx] ?? 0;
-                inventoryRow[monthKey] = Math.max(0, onhandAtStart);
-                onhandAtStart = Math.max(0, onhandAtStart - demand - expiry + releaseThisMonth);
+                inventoryRow[monthKey] = onhandAtStart;
+                onhandAtStart = onhandAtStart - demand - expiry + releaseThisMonth;
               });
             }
           }
