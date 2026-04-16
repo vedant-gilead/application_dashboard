@@ -412,7 +412,7 @@
         "creation_date": "2025-12-01 00:00:00.000",
         "lot_expiration_date": "2028-12-31 23:59:59.000",
         "lot_status_description": "Release",
-        "onhand_qty": 160.283,
+        "onhand_qty":0,
         "uom": "kg"
       }
     ]
