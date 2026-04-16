@@ -10,6 +10,7 @@ import initialProgramsData from '../../data/programData.json';
 import initialDemandForecastData from '../../data/Demand_Forecast.json';
 import { calculateCumulativeData } from '../utils/cumulativeCalculations';
 import { formatCreationDate, formatLotExpirationDate } from '../utils/inventoryDateDisplay';
+import { aggregateEligibleOnhandByItemCode } from '../utils/onhandEligibleLotStatuses';
 import { Button } from '../components/ui/button';
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from '../components/ui/dialog';
 
@@ -377,6 +378,26 @@ export default function Program_Drilldown() {
       cancelled = true;
     };
   }, [programId]);
+
+  useEffect(() => {
+    const rows = onhandData?.[programId]?.data;
+    if (!Array.isArray(rows) || rows.length === 0) {
+      console.log('[On-hand eligible by item_code]', {
+        programId,
+        message: 'No on-hand rows for this program',
+        byItemCode: {},
+      });
+      return;
+    }
+    const { byItemCode, skippedRows } = aggregateEligibleOnhandByItemCode(rows);
+    console.log('[On-hand eligible by item_code]', {
+      programId,
+      byItemCode,
+      skippedRows,
+      rowCount: rows.length,
+      note: 'Only lot_status_description in Unrestricted (Yes) list; SAP sub-type not in JSON.',
+    });
+  }, [programId, onhandData]);
 
   useEffect(() => {
     let cancelled = false;
