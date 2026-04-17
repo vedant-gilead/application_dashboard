@@ -19,6 +19,7 @@ const INCLUDED_RAW = [
   'QP Release',
   'Release for QP Review',
   'Released for Clinical Use Only',
+  'Unrestricted Use'
 ];
 
 export function normalizeLotStatus(value) {
