@@ -80,6 +80,7 @@ export default function Program_Drilldown() {
     try {
       await fetch('/api/save-programs', {
         method: 'POST',
+        keepalive: true,
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(nextProgramsSnapshot),
       });
@@ -132,6 +133,7 @@ export default function Program_Drilldown() {
     try {
       await fetch('/api/save-programs', {
         method: 'POST',
+        keepalive: true,
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(nextProgramsSnapshot),
       });
