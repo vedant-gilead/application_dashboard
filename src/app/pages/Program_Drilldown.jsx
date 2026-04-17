@@ -1,4 +1,4 @@
-import React, { useState, useMemo, useEffect, useRef } from 'react';
+​import React, { useState, useMemo, useEffect, useRef } from 'react';
 import { useParams, Link } from "react-router-dom";
 import { Home, ChevronRight, Upload } from "lucide-react";
 import { toast } from 'sonner';
@@ -37,10 +37,27 @@ export default function Program_Drilldown() {
   const [onhandUploadSuccess, setOnhandUploadSuccess] = useState('');
   const [onhandUploadFileName, setOnhandUploadFileName] = useState('');
   const [isUploadingCsv, setIsUploadingCsv] = useState(false);
+  const programsDataRef = useRef(initialProgramsData);
 
   const programSummary = summaryData[programId];
   const programParameters = parametersPoolData[programId];
   const baseProgram = programsData[programId];
+
+  useEffect(() => {
+    programsDataRef.current = programsData;
+  }, [programsData]);
+
+  const saveProgramsSnapshot = async (snapshot, errorMessage) => {
+    try {
+      await fetch('/api/save-programs', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(snapshot),
+      });
+    } catch (err) {
+      console.error(errorMessage, err);
+    }
+  };
 
   const upsertMetricOverride = async (materialId, storageMonthKey, rawValue, metricTypes) => {
     const cleaned = String(rawValue ?? '').replace(/[^0-9.-]/g, '').trim();
@@ -49,13 +66,12 @@ export default function Program_Drilldown() {
     if (!programId || !storageMonthKey) return;
     const allowedMetrics = new Set(metricTypes);
 
-    let nextProgramsSnapshot = null;
-    setProgramsData((prev) => {
-      const next = { ...prev };
-      const program = next[programId];
-      if (!program) return prev;
-
-      next[programId] = {
+    const current = programsDataRef.current;
+    const program = current?.[programId];
+    if (!program) return;
+    const nextProgramsSnapshot = {
+      ...current,
+      [programId]: {
         ...program,
         studies: (program.studies || []).map((study) => ({
           ...study,
@@ -71,22 +87,11 @@ export default function Program_Drilldown() {
             };
           }),
         })),
-      };
-      nextProgramsSnapshot = next;
-      return next;
-    });
-
-    if (!nextProgramsSnapshot) return;
-    try {
-      await fetch('/api/save-programs', {
-        method: 'POST',
-        keepalive: true,
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(nextProgramsSnapshot),
-      });
-    } catch (err) {
-      console.error('Failed to persist programData metric edit:', err);
-    }
+      },
+    };
+    programsDataRef.current = nextProgramsSnapshot;
+    setProgramsData(nextProgramsSnapshot);
+    await saveProgramsSnapshot(nextProgramsSnapshot, 'Failed to persist programData metric edit:');
   };
 
   const upsertExpiryOverride = async (materialId, storageMonthKey, rawValue) =>
@@ -98,13 +103,12 @@ export default function Program_Drilldown() {
     const safeValue = Number.isFinite(nextVal) ? nextVal : 0;
     if (!programId || !storageMonthKey) return;
 
-    let nextProgramsSnapshot = null;
-    setProgramsData((prev) => {
-      const next = { ...prev };
-      const program = next[programId];
-      if (!program) return prev;
-
-      next[programId] = {
+    const current = programsDataRef.current;
+    const program = current?.[programId];
+    if (!program) return;
+    const nextProgramsSnapshot = {
+      ...current,
+      [programId]: {
         ...program,
         studies: (program.studies || []).map((study) => ({
           ...study,
@@ -124,22 +128,11 @@ export default function Program_Drilldown() {
             };
           }),
         })),
-      };
-      nextProgramsSnapshot = next;
-      return next;
-    });
-
-    if (!nextProgramsSnapshot) return;
-    try {
-      await fetch('/api/save-programs', {
-        method: 'POST',
-        keepalive: true,
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(nextProgramsSnapshot),
-      });
-    } catch (err) {
-      console.error('Failed to persist programData supply execution start edit:', err);
-    }
+      },
+    };
+    programsDataRef.current = nextProgramsSnapshot;
+    setProgramsData(nextProgramsSnapshot);
+    await saveProgramsSnapshot(nextProgramsSnapshot, 'Failed to persist programData supply execution start edit:');
   };
 
   const parseCsvText = (text) => {
@@ -578,22 +571,23 @@ export default function Program_Drilldown() {
                   return <span className="block w-full text-right">{val}</span>;
                 }
                 return (
-                  <span
-                    contentEditable
-                    suppressContentEditableWarning
-                    className="block w-full text-right outline-none rounded focus:ring-2 focus:ring-[#306e9a]/40"
+                  <input
+                    type="text"
+                    inputMode="decimal"
+                    defaultValue={val}
+                    className="block w-full text-right outline-none rounded focus:ring-2 focus:ring-[#306e9a]/40 bg-transparent"
+                    onChange={(e) => {
+                      upsertSupplyExecStartOverride(material.id, storageMonthKey, e.currentTarget.value);
+                    }}
                     onBlur={(e) => {
-                      upsertSupplyExecStartOverride(material.id, storageMonthKey, e.currentTarget.innerText);
+                      upsertSupplyExecStartOverride(material.id, storageMonthKey, e.currentTarget.value);
                     }}
                     onKeyDown={(e) => {
-                      if (e.key === 'Enter') {
-                        e.preventDefault();
-                        e.currentTarget.blur();
+                      if (e.key === 'Enter' || e.key === 'Tab') {
+                        upsertSupplyExecStartOverride(material.id, storageMonthKey, e.currentTarget.value);
                       }
                     }}
-                  >
-                    {val}
-                  </span>
+                  />
                 );
               },
             })),
