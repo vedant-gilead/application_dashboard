@@ -1,4 +1,4 @@
-import React, { useState, useMemo, useEffect, useRef } from 'react';
+​import React, { useState, useMemo, useEffect, useRef } from 'react';
 import { useParams, Link } from "react-router-dom";
 import { Home, ChevronRight, Upload } from "lucide-react";
 import { toast } from 'sonner';
@@ -651,24 +651,25 @@ export default function Program_Drilldown() {
             const releaseByMonth = Array(monthKeys.length).fill(0);
             const requiredByDemandMonth = Array(monthKeys.length).fill(0);
 
-            // Pass 1: compute monthly required quantity from projected onhand before demand.
-            let onhandForDeficit = seededOnhand;
-            monthKeys.forEach((monthKey, monthIdx) => {
-              const demand = getEffectiveDemand(monthKey);
-              const expiry = parseNumber(expiryRow?.[monthKey], 0);
-              const availableOnhand = Math.max(0, onhandForDeficit);
-              const requiredRelease = demand > 0 ? Math.max(0, demand - availableOnhand) : 0;
-              requiredByDemandMonth[monthIdx] = requiredRelease;
-              // Existing agreed logic computes deficit against projected onhand; release is scheduled separately.
-              onhandForDeficit = Math.max(0, onhandForDeficit - demand - expiry);
-            });
-
-            // Pass 2: map required quantity to start months from demand deficits.
-            requiredByDemandMonth.forEach((qty, demandIdx) => {
-              if (qty <= 0) return;
-              const startIdx = Math.max(0, demandIdx - leadTimeMonths);
-              startByMonth[startIdx] += qty;
-            });
+            // Auto-generation of Supply(Execution Start) from demand deficits is intentionally disabled.
+            // // Pass 1: compute monthly required quantity from projected onhand before demand.
+            // let onhandForDeficit = seededOnhand;
+            // monthKeys.forEach((monthKey, monthIdx) => {
+            //   const demand = getEffectiveDemand(monthKey);
+            //   const expiry = parseNumber(expiryRow?.[monthKey], 0);
+            //   const availableOnhand = Math.max(0, onhandForDeficit);
+            //   const requiredRelease = demand > 0 ? Math.max(0, demand - availableOnhand) : 0;
+            //   requiredByDemandMonth[monthIdx] = requiredRelease;
+            //   // Existing agreed logic computes deficit against projected onhand; release is scheduled separately.
+            //   onhandForDeficit = Math.max(0, onhandForDeficit - demand - expiry);
+            // });
+            //
+            // // Pass 2: map required quantity to start months from demand deficits.
+            // requiredByDemandMonth.forEach((qty, demandIdx) => {
+            //   if (qty <= 0) return;
+            //   const startIdx = Math.max(0, demandIdx - leadTimeMonths);
+            //   startByMonth[startIdx] += qty;
+            // });
 
             if (supplyExecStartRow) {
               monthKeys.forEach((monthKey, idx) => {
@@ -680,7 +681,9 @@ export default function Program_Drilldown() {
                 if (hasManualOverride) {
                   supplyExecStartRow[monthKey] = parseNumber(supplyExecStartRow[monthKey], 0);
                 } else {
-                  supplyExecStartRow[monthKey] = startByMonth[idx];
+                  // supplyExecStartRow[monthKey] = startByMonth[idx];
+                  // Keep existing value from data unless explicitly edited.
+                  supplyExecStartRow[monthKey] = parseNumber(supplyExecStartRow[monthKey], 0);
                 }
               });
             }
