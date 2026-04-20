@@ -607,8 +607,9 @@ export default function Program_Drilldown() {
               const oldVal = row[sourceColKey] ?? 0;
 
               if (isInventory) {
-                // Initialize; we will override with projected onhand after we compute it.
-                next[monthCol.key] = 0;
+                const isManualInventory = Boolean(row?.__manualInventory || row?.__lockInventory);
+                // Preserve source values when inventory is manually curated; otherwise projected later.
+                next[monthCol.key] = isManualInventory ? oldVal : 0;
               } else if (isClinical) {
                 next[monthCol.key] = Number(forecastRow?.[`${monthCol.demandKey}_clinical`] ?? 0);
               } else if (isIndependent) {
@@ -703,7 +704,7 @@ export default function Program_Drilldown() {
             }
 
             // Pass 4: project inventory timeline using dynamic release values.
-            if (inventoryRow) {
+            if (inventoryRow && !Boolean(inventoryRow?.__manualInventory || inventoryRow?.__lockInventory)) {
               let onhandAtStart = seededOnhand;
               monthKeys.forEach((monthKey, idx) => {
                 const demand = getEffectiveDemand(monthKey);
