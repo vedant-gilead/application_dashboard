@@ -112,7 +112,7 @@
                 "mar26": 0,
                 "apr26": 0,
                 "may26": 0,
-                "jun26": 0,
+                "jun26": 6757,
                 "jul26": 0,
                 "aug26": 0,
                 "sep26": 0
@@ -690,21 +690,21 @@
             "data": [
               {
                 "metric": "Inventory",
-                "jul25": 0,
-                "aug25":  0,
-                "sep25": 0,
-                "oct25": 0,
-                "nov25": 0,
-                "dec25": 0,
-                "jan26": 0,
-                "feb26":  0,
-                "mar26": 0,
-                "apr26":  0,
-                "may26":  0,
-                "jun26":  0,
-                "jul26":  0,
-                "aug26":  0,
-                "sep26":  0
+                "jul25": 42.46,
+                "aug25": 42.46,
+                "sep25": 42.46,
+                "oct25": 42.46,
+                "nov25": 42.46,
+                "dec25": 42.46,
+                "jan26": 42.46,
+                "feb26": 42.46,
+                "mar26": 42.46,
+                "apr26": 42.46,
+                "may26": 42.46,
+                "jun26": 42.46,
+                "jul26": 42.46,
+                "aug26": 42.46,
+                "sep26": 42.46
               },
               {
                 "metric": "Expiry/Obsolescence",
@@ -974,8 +974,7 @@
                 "sep25": -1157,
                 "oct25": -1157,
                 "nov25": -1157,
-                "dec25": -1157,
-                "__manualInventory": true
+                "dec25": -1157
               },
               {
                 "metric": "Expiry/Obsolescence",
@@ -1348,8 +1347,7 @@
                 "sep25": 3654,
                 "oct25": 3654,
                 "nov25": 3654,
-                "dec25": 3654,
-                "__manualInventory": true
+                "dec25": 3654
               },
               {
                 "metric": "Expiry/Obsolescence",
@@ -1721,8 +1719,7 @@
                 "sep25": 0,
                 "oct25": 0,
                 "nov25": 0,
-                "dec25": 0,
-                "__manualInventory": true
+                "dec25": 0
               },
               {
                 "metric": "Expiry/Obsolescence",
@@ -2091,8 +2088,7 @@
                 "sep25": 13,
                 "oct25": 13,
                 "nov25": 13,
-                "dec25": 13,
-                "__manualInventory": true
+                "dec25": 13
               },
               {
                 "metric": "Expiry/Obsolescence",
@@ -2460,8 +2456,7 @@
                 "sep25": 0,
                 "oct25": 0,
                 "nov25": 0,
-                "dec25": 0,
-                "__manualInventory": true
+                "dec25": 0
               },
               {
                 "metric": "Expiry/Obsolescence",
